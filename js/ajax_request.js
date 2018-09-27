@@ -2,10 +2,6 @@ document.getElementById("btn").addEventListener("click", function() {
   $.ajax({
     url: "https://jsonplaceholder.typicode.com/users"
   }).done(function(data) {
-    // console.log(data[0].name);
-    // console.log(data[0].username);
-    // console.log(data[0].email);
-    // console.log(data[0].company.name);
 
         //Este for hace que empiece por la posición 0. Luego dice que el número de elementos tiene que ser menor que la longitud del string - 1. Después, una vez que se halla hecho la función, añadir otra tarjeta
     for (let i = 0; i < data.length - 1; i ++){
