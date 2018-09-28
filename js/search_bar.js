@@ -1,7 +1,7 @@
 var a = document.getElementById('search');
-a.addEventListener('submit',function(e) {
+
+a.addEventListener('submit', function (e) {
     e.preventDefault();
     var b = document.getElementById('search_input').value;
-    window.location.href = '../index.html'+b;
-
+    console.log(b);
 });
