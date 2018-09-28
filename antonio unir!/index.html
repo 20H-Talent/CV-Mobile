@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up Form</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+        <link rel="stylesheet" href="https://fonts.google.com/specimen/Merriweather">
+        <link rel="stylesheet" href="css/stile.css">
+        <script src="js/js.js"></script>
+    </head>
+    <body>
+      <header>
+      <div class="fix sticky-top rect">
+        <div class="prim rect">
+            <i class="material-icons"  id="linerplay" onclick="play()">menu</i>
+            <i class="material-icons est" id="lineroff" onclick="off()">menu</i>
+            <h1>CVMobil</h1>
+        </div>
+        
+        <div class="segu rect">
+           
+            <a href="#">
+                <i class="material-icons">search</i>
+            </a>
+        </div>
+    </div>
+  </header>
+  <main>
+      <div class="desplegable sticky-top " id="play">
+          <ul>
+                <li><a>  <h2 >Logearse</h2></a></li>
+                <li><a>  <h2 >Cerrar sesion</h2></a></li>
+                <li> <a> <h2 >Buscar</h2></a></li>
+                <li> <a>  <h2 >Invitar</h2></a></li>
+                <li><a> <h2 >Mi perfil</h2></a></li>
+      </ul>
+      </div>
+      <form action="index.html" method="post">
+
+          <div class="wrapper">
+            <fieldset>
+            <div class="center-p">
+            </div>
+                    <hr class="style1">
+                    
+                    <div class="col">
+                    <div class="justified">
+
+          <label for="name">Nombre</label>
+          <input type="text" name="name" value="" id="name" pattern="^[^0-9]+$" autocomplete="off" placeholder="Required" required>
+        </div>
+        <div class="justified">
+          <label for="state">Ciudad</label>
+          <select type="state" id="state" name="user_state">
+          </div>
+            <div class="justified">
+            <option value="">Elegir</option>
+            <option value="new york">Las Palmas de Gran Canaria</option>
+            <option value="new york">San Bartolomé de Tirajana</option>
+            <option value="new york">Telde</option>
+            <option value="new york">Santa María de Guía de Gran Canaria</option>
+            <option value="new york">Santa Lucía de Tirajana</option>
+            <option value="new york">Arucas</option>
+            <option value="alabama">Agaete</option>
+            <option value="california">Agüimes</option>
+          </select>
+
+        <div class="justified">
+          <label for="experience">Experiencia</label>
+          <select type="experience" id="experience" name="user_experience">
+          </div>
+            <div class="justified">
+            <option value="">Elegir</option>
+            <option value="new york">- de 1 año</option>
+            <option value="alabama">1 año</option>
+            <option value="alabama">2 año</option>
+            <option value="alabama">3 año</option>
+            <option value="alabama">4 año</option>
+            <option value="alabama">5 año</option>
+            <option value="alabama">6 año</option>
+            <option value="california">+ de 7 año</option>
+          </select>
+        </div>
+
+        <hr class="hr">
+
+        <h2 class="subtitle sub-form">Idiomas</h2>
+        <label class="container">Inglés
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+        <label class="container"> Chino Mandarín
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Alemán
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Francés
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Portugués
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+
+
+        <hr class="hr">
+
+
+
+
+        <h2 class="subtitle sub-form">Skill</h2>
+        <label class="container">Desarrollo de ideas y capacidad para innovar
+          <input type="checkbox" checked="checked" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Productividad y capacidad para trabajar con rigor
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Capacidad analítica, pensamiento crítico
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Dominios de las nuevas Tecnologías (TIC)
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Capacidad de comunicación
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Identificación y compromiso con la compañía
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Trabajo en equipo
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Capacidad para gestionar el estrés
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Adaptación o flexibilidad
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Orientación al logro
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Identificación de oportunidades y resolución de problemas
+          <input type="checkbox" >
+          <span class="checkmark"></span>
+        </label>
+
+
+
+</div>
+</div>
+      <div class="sign">
+        <button>Ver resultados</button>
+      </form>
+
+    </div>
+  </div>
+</main>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+

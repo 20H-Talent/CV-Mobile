@@ -1,15 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+    <head>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+     <link href="css.css" rel="stylesheet" type="text/css">
+        <script src="javascript.js"></script>
+    </head>
+    <body>
+        <div class="Goob" id="Goob">
+            <img class="imgintro" src="intro.jpg" >
+            <h1>Bienvenido a linkwork</h1>
+            <button class="button" onclick="intro()">Comenzar a explorar</button>
+        </div>
+        <header id="desper"> 
+    <div class="fix sticky-top rect">
+        <div class="prim rect">
+            <i class="material-icons"  id="linerplay" onclick="play()">menu</i>
+            <i class="material-icons est" id="lineroff" onclick="off()">menu</i>
+            <h1>CVMobil</h1>
+        </div>
+        <div class="segu rect">
+            <a href="#">
+                <i class="material-icons">search</i>
+            </a>
+        </div>
+    </div>
+</header>
+<main id="despe">
+    <div class="desplegable sticky-top " id="play">
+        <ul>
+              <li><a>  <h2 >Logearse</h2></a></li>
+              <li><a>  <h2 >Cerrar sesion</h2></a></li>
+              <li> <a href="">  <h2 >Buscar</h2></a></li>
+              <li> <a>  <h2 >Invitar</h2></a></li>
+              <li><a> <h2 >Mi perfil</h2></a></li>
+    </ul>
+    </div>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-
-<body>
-
-</body>
-
+    <div id="sust"></div>
+    <!--<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>-->
+</main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
+    </body>
 </html>

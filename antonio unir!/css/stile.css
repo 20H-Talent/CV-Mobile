@@ -1,0 +1,157 @@
+header{
+    height: 50px;
+    width: 100%;
+}
+.fix{
+   position: fixed;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: 100%;
+    height: 50px;
+   border: solid;
+   border-top-width: 1px;
+   border-left-width: 1px;
+   border-right-width: 1px;
+   border-bottom-width: 1px;
+   background-color: white
+}
+
+.fix h1{
+    align-items: center;
+    display: flex;
+}
+.liner{
+    width: 18%;
+    margin-right: 15%;
+}
+
+a{
+    width: 32%;
+}
+.logo{
+    width: 10%;
+    padding-bottom: 0.5%;
+    padding-top: 0.5%;
+    align-items: center;
+    display: flex;
+}
+.lupa{
+    height: 100%;
+    width: 100%;
+}
+.prim{
+    width:50%;
+    padding-bottom: 0.5%;
+    padding-top: 0.5%;
+    justify-content: space-between
+}
+h1:nth-of-type(1){
+    background-color:white;
+    color: black;
+  }
+.segu{
+    width: 50%;
+    justify-content: flex-end;
+    padding-bottom: 0.5%;
+    padding-top: 0.5%;
+}
+.desplegable{
+    margin-top: 9%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    border: solid;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    margin-left: -85%;
+    height: 97%;
+    transition: margin 0.6s ease;
+    background-color: white;
+    float: left;
+    background-color:white;
+}
+ li{
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+a{
+    color: black
+}
+ul{
+    list-style: none;
+    padding-left: 0;
+}
+.est{
+    display: none;
+}
+.material-icons{
+    font-size: 3rem;
+    margin-right: 5%
+}
+li h2{
+padding-left: 5%;
+font-size: 3rem;
+}
+li:nth-child(1){
+margin-top: 0
+}
+h2:hover{
+    background-color: aqua
+}
+.card{
+    width: 50%;
+    margin-top: 5%;
+    border-radius: 5px;
+}
+.card img{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+    height: 15%;
+}
+.tarjetas{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.rect{
+    display: flex;
+    flex-direction: row;
+}
+.comple{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto
+}
+.card-title{
+    margin:  0 auto;
+}
+
+.Goob{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+.button{
+    margin-top: 2.5%;
+    width: 55%;
+    font-size: 2rem
+}
+.Goob img{
+    width: 75%;
+}
+.Goob h1{
+    margin-top: 2.5%;
+    font-size: 4rem
+}
+p{
+    font-size: 1.3rem
+}
