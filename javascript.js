@@ -232,13 +232,13 @@ var json = [
   }
 ]
 //Mueve el menu para la dereche y quita el buton de esta funcion y pone el otro 
-function play(){
+function Desplegar(){
 document.getElementById("play").style.marginLeft = "0";
 document.getElementById("linerplay").style.display= "none";
 document.getElementById("lineroff").style.display= "block";
 };
 //Mueve el menu a su inicio y quita el buton de esta funcion y pone el otro 
-  function off(){
+  function Quitar(){
     document.getElementById("play").style.marginLeft = "-85%"
     document.getElementById("linerplay").style.display= "block"
     document.getElementById("lineroff").style.display= "none"
@@ -248,19 +248,17 @@ document.getElementById("lineroff").style.display= "block";
 };
 
 function intro(){
-  document.getElementById("desper").style.display = "block";
-  document.getElementById("despe").style.display = "block";
-  document.getElementById("Goob").style.display = "none"
+  document.getElementById("headerblock").style.display = "block";
+  document.getElementById("Mainblock").style.display = "block";
+  document.getElementById("intro").style.display = "none"
   var text = "";
   var i;
   for (i = 0; i < json.length; i++) {
       text += "<div class=" + "tarjetas"+">"+
       "<div class=" + "card" + ">"+
-          "<div class="+"comple"+">"+
                "<img class="+"card-img-top"+" src="+"Cara.jpg"+" alt="+"Card image cap"+">"+
-               "<h5 class="+"card-title"+">"+  json[i].name + " "+json[i].id+" </h5>"+
-          "</div>"+
           "<div class="+"card-body"+">"+
+          "<h5 class="+"card-title"+">"+  json[i].name + "</h5>"+
           "<p>Company</p>"+
             "<p class="+"card-text"+">"+ json[i].company.name+","+json[i].company.catchPhrase+"," +json[i].company.bs +"." +"</p>"+
             "<a href="+"#"+" "+ "class="+"btn"+" >Go somewhere</a>"+
