@@ -68,10 +68,7 @@ a{
     float: left;
     background-color:white;
 }
- li{
-    margin-bottom: 3%;
-    margin-top: 3%;
-}
+
 a{
     color: black
 }
@@ -90,12 +87,8 @@ li h2{
 padding-left: 5%;
 font-size: 3rem;
 }
-li:nth-child(1){
-margin-top: 0
-}
-h2:hover{
-    background-color: aqua
-}
+
+
 .card{
     width: 50%;
     margin-top: 5%;
@@ -154,3 +147,10 @@ p{
 }
 main{
   }
+
+li{
+    font-size: 3rem;
+}
+.list-group-item{
+    border: 0
+}
