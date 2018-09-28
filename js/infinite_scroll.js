@@ -15,7 +15,6 @@ function sleep(milliseconds, callback) {
 }
 
 const createBox = function() {
-  console.log('create box')
   boxContainer.innerHTML += '<div class="box blue">' + loadingCount + '</div>';
   hideLoader();
 }
@@ -37,7 +36,8 @@ boxContainer.addEventListener('scroll', () => {
 
     showLoader();
     // console.log('wait for content.');
-    sleep(3000 , createBox);
+    sleep(3000);
+    createBox();
     // console.log();
     // createBox();
     // load more content
