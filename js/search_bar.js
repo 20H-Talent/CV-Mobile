@@ -31,18 +31,36 @@ a.addEventListener("submit", function(e) {
         // data.filter()
         // dentro del filtro va como una function anonima que lleva dentro otro parametro que corresponde con el objeto que estas analizando
         // como la funcion te devuelve los valores que cumplen con el filtro los puedes almacenar en una variable
-        var filteredUsers = data.filter( function (usuario) {
-            if (usuario != data) {
-                document.getElementById('cards_container').innerHTML = '<i class="far fa-frown fa-2x"></i>' + "<br>" + "User not found";
-            }
-          return usuario.name === b;
-        })       
-        filteredUsers.forEach(function(user) {
-            var userCard = renderCard (user.name, user.username, user.email, user.company.name);
+        var filteredUsers = data;
+
+        if (b) {
+          var filteredUsers = data.filter( function (usuario) {
+            return usuario.name === b;
+          });
+          console.log(filteredUsers.length);
+          
+          if (filteredUsers.length < 1) {
             document.getElementById('cards_container').innerHTML = " ";
+            document.getElementById('cards_container').innerHTML += '<i class="far fa-frown fa-2x"></i>' + "<br>" + "User not found";
+          } else {
+            document.getElementById('cards_container').innerHTML = " ";
+            filteredUsers.forEach(function(user) {
+              var userCard = renderCard (user.name, user.username, user.email, user.company.name);
+              document.getElementById('cards_container').innerHTML += userCard;
+            });
+
+          }
+        } else {
+          document.getElementById('cards_container').innerHTML = " ";
+           filteredUsers.forEach(function(user) {
+            var userCard = renderCard (user.name, user.username, user.email, user.company.name);
             document.getElementById('cards_container').innerHTML += userCard;
-            
-        });
+          });
+        }
+         
+
+        
+
         // console.log(filteredUsers);
 
         // una vez almacenados en la variable ya puedes hacer el loop en la nueva variable para renderizar las tarjetas como hacias antes
