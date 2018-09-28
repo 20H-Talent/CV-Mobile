@@ -1,4 +1,3 @@
-document.getElementById("btn").addEventListener("click", function() {
   $.ajax({
     url: "https://jsonplaceholder.typicode.com/users"
   }).done(function(data) {
@@ -15,7 +14,6 @@ document.getElementById("btn").addEventListener("click", function() {
        currentCardContainer +=  cards; //Se suma currentCardContainer más cards (el que estaba más los nuevos)
         document.getElementById('cards_container').innerHTML = currentCardContainer;
     }
-});
 });
 
 function renderCard(name, userName, email, company) {

@@ -5,6 +5,8 @@
 
 // });
 // });
+
+
 function renderCard(name, userName, email, company) {
                 var template_cards =
                   '<div class="card" style="width: 18rem;">' +
@@ -30,11 +32,15 @@ a.addEventListener("submit", function(e) {
         // dentro del filtro va como una function anonima que lleva dentro otro parametro que corresponde con el objeto que estas analizando
         // como la funcion te devuelve los valores que cumplen con el filtro los puedes almacenar en una variable
         var filteredUsers = data.filter( function (usuario) {
+            if (usuario != data) {
+                document.getElementById('cards_container').innerHTML = '<i class="far fa-frown fa-2x"></i>' + "<br>" + "User not found";
+            }
           return usuario.name === b;
         })       
         filteredUsers.forEach(function(user) {
             var userCard = renderCard (user.name, user.username, user.email, user.company.name);
-        document.getElementById('cards_container').innerHTML += userCard;
+            document.getElementById('cards_container').innerHTML = " ";
+            document.getElementById('cards_container').innerHTML += userCard;
             
         });
         // console.log(filteredUsers);
