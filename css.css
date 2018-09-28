@@ -82,3 +82,6 @@ li{
 .list-group-item{
     border: 0
 }
+.card-body a{
+    font-size: 1.5rem
+}
