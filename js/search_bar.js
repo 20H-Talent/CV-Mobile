@@ -6,9 +6,10 @@
 // });
 // });
 var a = document.getElementById('search');
-var b = document.getElementById('search_input').value;
-var myElement = document.getElementById("cards_container");
-//     }
+a.addEventListener('submit',function(e) {
+// var b = document.getElementById('search_input').value;
+// var myElement = document.getElementById("cards_container");
+});
 
 // function searchUsers (data, input) {
 //     if (b = myElement) {
