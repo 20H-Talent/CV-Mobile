@@ -28,9 +28,9 @@ html {
 
 #loader {
 	position: fixed;
-	top: 50%;
+	top: 100%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, 0);
 	height: 150px;
 	width: 150px;
 	border-radius: 5px;
@@ -40,7 +40,6 @@ html {
 	justify-content: center;
 	background-color: #fff;
 	z-index: 9;
-	opacity: 0;
 }
 
 .loading {

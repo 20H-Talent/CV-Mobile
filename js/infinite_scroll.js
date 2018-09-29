@@ -3,12 +3,10 @@ const loader = document.querySelector('#loader');
 
 let loadingCount = 0;
 
-function sleep(milliseconds, callback) {
+function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
     if ((new Date().getTime() - start) > milliseconds){
-      console.log('hola')
-      callback();
       break;
     }
   }
@@ -16,16 +14,15 @@ function sleep(milliseconds, callback) {
 
 const createBox = function() {
   boxContainer.innerHTML += '<div class="box blue">' + loadingCount + '</div>';
-  hideLoader();
 }
 
 function showLoader() {
-  loader.classList.add('loading');
+  loader.style.transform = 'translate(-50%, -250%)'
   // loader.style.opacity = 0.7;
 }
 
 function hideLoader() {
-  loader.classList.remove('loading');
+  loader.style.transform = 'translate(-50%, 0)'
   // loader.style.opacity = 0;
 }
 
@@ -34,13 +31,14 @@ boxContainer.addEventListener('scroll', () => {
 
   if ((boxContainer.scrollTop + windowHeight === boxContainer.scrollHeight) && loadingCount < 10) {
 
+    console.log('loader.');
     showLoader();
-    // console.log('wait for content.');
+    console.log('wait for content.');
     sleep(3000);
+    console.log('adding content.');
     createBox();
-    // console.log();
-    // createBox();
-    // load more content
+    console.log('removing loader.');
+    // hideLoader();
 
 
     // update the loading count
