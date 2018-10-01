@@ -11,10 +11,7 @@ html {
 	height: 100vh;
 	padding-top: 8vh;
 	padding-bottom: 5vh;
-	display: flex;
-	flex-wrap: wrap;
 	overflow-y: scroll;
-	background-color: yellow;
 }
 
 #loader {

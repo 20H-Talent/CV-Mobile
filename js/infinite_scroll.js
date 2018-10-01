@@ -18,17 +18,18 @@ fetchUsersData();
 
 // Create an html card template with the user data
 function renderCard(name, userName, email, company) {
-  var template_cards =
-    '<div class="card ml-auto mr-auto mt-2 mb-2" style="width: 18rem;">' +
-      '<img class="card-img-top" src="./assets/images/user-profile.svg" alt="Card image cap">' +
-      '<div class="card-body">' +
-        '<h5 class="card-title">' + name + '</h5>' +
-        '<p class="card-text">' + userName + '</p>' +
-        '<p class="card-text">' + email + '</p>' +
-        '<p class="card-text">' + company + '</p>' +
-        '<a href="./profile.html" class="btn btn-primary">View Profile</a>'
-      '</div>' +
-    '</div>';
+  var template_cards = (
+    '<div class="card shadow m-3" style="width: 90%;">' +
+    '<img class="card-img-top" src="https://source.unsplash.com/random/500x300" alt="Card image cap">' +
+    '<div class="card-body">' +
+    '<h5 class="card-title"><b>' + name + '</b></h5>' +
+    '<p class="card-text">Username: <b>' + userName + '</b></p>' +
+    '<p class="card-text">Email: <b>' + email + '</b></p>' +
+    '<p class="card-text">Company: <b>' + company + '</b></p>' +
+    '<a href="./html/profile.html" class="btn btn-primary">View Profile</a>' +
+    '</div>' +
+    '</div>'
+  );
   return template_cards;
 }
 
