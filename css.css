@@ -35,3 +35,9 @@ li{
 .card-body a{
     font-size: 1.5rem
 } 
+.h3{
+    font-size: 2rem;
+}
+.mt-5{
+    margin-top: 3.1rem!important;
+}
