@@ -19,21 +19,13 @@
 function renderCard(name, userName, email, company) {
     var template_cards =
       '<div class="card" style="width: 18rem;">' +
-      '<div class="card-body">' +
-      '<h5 class="card-title">' + name + '</h5>' +
-      '<p class="card-text">' + userName + '</p>' +
-      '<p class="card-text">' + email + '</p>' +
-      '<p class="card-text">' + company + '</p>' +
-      '</div>' +
+        '<div class="card-body">' +
+          '<h5 class="card-title">' + name + '</h5>' +
+          '<p class="card-text">' + userName + '</p>' +
+          '<p class="card-text">' + email + '</p>' +
+          '<p class="card-text">' + company + '</p>' +
+        '</div>' +
       '</div>';
     return template_cards;
   }
 
-// var html = "";
-// json.forEach(function(val) {
-//   html += "<div class = 'user_card'>";
-//   keys.forEach(function(key) {
-//     html += "<strong>" + key + "</strong>: " + val[key] + "<br>";
-//   });
-//   html += "</div><br>";
-// });
