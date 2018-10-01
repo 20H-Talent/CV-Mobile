@@ -52,7 +52,7 @@ function sleep(milliseconds) {
 cardsContainer.addEventListener('scroll', () => {
   const containerHeight = cardsContainer.offsetHeight;
 
-  if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight) && !loading) {
+  if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight)) {
     // showLoader();
     console.log('You reached the bottom of the container.');
     // Print more users after two seconds
