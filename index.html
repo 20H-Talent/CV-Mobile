@@ -15,14 +15,14 @@
 
 <body>
   <main>
-    <div class="nav-bar">
+    <div class="nav-bar" style="height: 5vh;">
       <form id="search" action="/index.html" method="post" class="searchbar">
         <input name="q" type="text" placeholder="Search…" value="" class="search-field" id="search_input">
         <button type="submit" aria-label="Search..." id="submit-btn">Search</button>
       </form>
     </div>
-    <div id="cards-container"></div>
   </main>
+  <div id="loader">Loading...</div>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script src="js/infinite_scroll.js"></script>

@@ -5,9 +5,11 @@ html {
 	box-sizing: border-box;
 }
 
-.box-container {
+#cards-container {
 	width: 100vw;
-	height: 100vh;
+	height: 95vh;
+	display: flex;
+	flex-wrap: wrap;
 	overflow-y: scroll;
 	background-color: yellow;
 }
@@ -28,21 +30,18 @@ html {
 
 #loader {
 	position: fixed;
-	top: 100%;
+	top: 50%;
 	left: 50%;
-	transform: translate(-50%, 0);
+	transform: translate(-50%, -50%);
 	height: 150px;
 	width: 150px;
 	border-radius: 5px;
-	display: flex;
+	display: none;
 	font-size: 1.25rem;
 	align-items: center;
 	justify-content: center;
 	background-color: #fff;
 	z-index: 9;
-}
-
-.loading {
 	animation: loading 1s linear infinite;
 }
 
