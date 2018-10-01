@@ -27,17 +27,16 @@ ul{
 }
 .material-icons{
     font-size: 5rem;
-    margin-right: 5%;
 }
 li{
     font-size: 3rem;
-}
-.card-body a{
-    font-size: 1.5rem
 } 
 .h3{
     font-size: 2rem;
 }
 .mt-5{
     margin-top: 3.1rem!important;
+}
+.tamañoL{
+    font-size: 1.5rem
 }

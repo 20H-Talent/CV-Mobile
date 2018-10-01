@@ -1,19 +1,18 @@
 
 //Mueve el menu para la dereche y quita el buton de esta funcion y pone el otro 
-function Desplegar(){
-document.getElementById("play").style.marginLeft = "0";
-document.getElementById("linerplay").style.display= "none";
-document.getElementById("lineroff").style.display= "block";
-};
-//Mueve el menu a su inicio y quita el buton de esta funcion y pone el otro 
-  function Quitar(){
+function Desplegar() {
+  if(  document.getElementById("play").style.marginLeft =="" || document.getElementById("play").style.marginLeft == "-85%"  ){
+    document.getElementById("play").style.marginLeft = "0";
+  }else{
     document.getElementById("play").style.marginLeft = "-85%"
-    document.getElementById("linerplay").style.display= "block"
-    document.getElementById("lineroff").style.display= "none"
-
-
-
+  }
 };
+function Busqueda() {
+  if(document.getElementById("search").style.display== ""){
+    document.getElementById("search").style.display= "block"}else{
+      
+    }
+}
 
 
 

@@ -15,18 +15,19 @@
 
 <body>
     <!------ Include the above in your HEAD tag ---------->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light pb-1">
-
-        <i class=" h3 material-icons mb-0" id="linerplay" onclick="Desplegar()">menu</i>
-        <i class=" h3 material-icons none mb-0" id="lineroff" onclick="Quitar()">menu</i>
-        <a class="navbar-brand pb-1" href="#">
-            <h1 class="mb-0 h4">CVMobil</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light  flex-row flex-nowrap">
+            <div style="width:40%">
+                    <i class="material-icons h3 " id="linerplay" onclick="Desplegar()" style="font-size: 1.75rem">menu</i>
+                </div>
+        <a class="navbar-brand pb-1 mr-auto"style="width:20%;padding: 0;" href="#">
+            <h1 class="mb-0 h4 " style="font-size: 1rem">CVMobil</h1>
         </a>
-
-        <a href="#" class="d-flex justify-content-center ">
-            <i class="material-icons h3 mb-0">search</i>
-        </a>
+        <div class="d-flex  align-items-center justify-content-end" style="width:40%">
+                <input type="text" class="none tamañoL font-weight-bold w-75" id="search" style="font-size: 0.5rem">
+                <i class="material-icons h3 mb-0" onclick="Busqueda()" style="font-size: 1.75rem">search</i>
+            </div>
     </nav>
+    
     <div class="desplegable sticky-top mt-5" id="play">
         <div class=" navbar-collapse  navbar-collapse  justify-content-center d-flex   align-items-start  " id="slide-navbar-collapse">
             <ul class="list-group list-group-flush w-75 rounded">
