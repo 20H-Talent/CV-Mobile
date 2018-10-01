@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link href="css.css" rel="stylesheet" type="text/css">
@@ -17,36 +15,37 @@
 
 <body>
     <!------ Include the above in your HEAD tag ---------->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-        <i class="material-icons " id="linerplay" onclick="Desplegar()">menu</i>
-        <i class="material-icons none" id="lineroff" onclick="Quitar()">menu</i>
-        <a class="navbar-brand" href="#">
-            <h1>CVMobil</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light  flex-row flex-nowrap">
+        <div style="width:40%">
+            <i class="material-icons h3 " id="linerplay" onclick="Desplegar()" style="font-size: 1.75rem">menu</i>
+        </div>
+        <a class="navbar-brand pb-1 mr-auto" style="width:20%;padding: 0;" href="#">
+            <h1 class="mb-0 h4 " style="font-size: 1rem">CVMobil</h1>
         </a>
-
-        <a href="#">
-            <i class="material-icons">search</i>
-        </a>
+        <div class="d-flex  align-items-center justify-content-end" style="width:40%">
+            <input type="text" class="none tamañoL font-weight-bold w-75" id="search" style="font-size: 0.5rem">
+            <i class="material-icons h3 mb-0" onclick="Busqueda()" style="font-size: 1.75rem">search</i>
+        </div>
     </nav>
-    <div class="desplegable sticky-top " id="play">
+
+    <div class="desplegable sticky-top mt-5" id="play">
         <div class=" navbar-collapse  navbar-collapse  justify-content-center d-flex   align-items-start  " id="slide-navbar-collapse">
             <ul class="list-group list-group-flush w-75 rounded">
 
-                <span class="border border-dark rounded ">
-                    <li class="list-group-item btn-sm">Logearse</li>
+                <span class="border rounded ">
+                    <li class="list-group-item btn-lg p-1 pl-2">Logearse</li>
                 </span>
-                <span class="border border-dark rounded ">
-                    <li class="list-group-item btn-sm">Cerrar sesion</li>
+                <span class="border rounded ">
+                    <li class="list-group-item btn-lg p-1 pl-2">Cerrar sesion</li>
                 </span>
-                <span class="border border-dark rounded ">
-                    <li class="list-group-item btn-sm"><a href="search.html">Buscar</a></li>
+                <span class="border  rounded ">
+                    <li class="list-group-item btn-lg p-1 pl-2"><a href="search.html">Buscar</a></li>
                 </span>
-                <span class="border border-dark rounded ">
-                    <li class="list-group-item btn-sm">Invitar</li>
+                <span class="border rounded ">
+                    <li class="list-group-item btn-lg p-1 pl-2">Invitar</li>
                 </span>
-                <span class="border border-dark rounded ">
-                        <li class="list-group-item btn-sm"><a href="profile.html"> Mi perfil</a></li>
+                <span class="border  rounded ">
+                    <li class="list-group-item btn-lg p-1 pl-2"><a href="profile.html"> Mi perfil</a></li>
                 </span>
             </ul>
         </div>
@@ -103,25 +102,25 @@
                         <label class="col-md-4 control-label" for="checkboxes">Idiomas</label>
                         <div class="col-md-4">
                             <div class="checkbox">
-                                <label for="checkboxes-0">
-                                    <input name="checkboxes" id="checkboxes-0" type="checkbox" value="1">
+                                <label for="ingles">
+                                    <input name="checkboxes" id="ingles" type="checkbox" value="1">
                                     Inglés </label>
                             </div>
                             <div class="checkbox">
-                                <label for="checkboxes-1">
-                                    <input name="checkboxes" id="checkboxes-1" type="checkbox" value="2">
+                                <label for="chino">
+                                    <input name="checkboxes" id="chino" type="checkbox" value="2">
                                     Chino Mandarín
                                 </label>
                             </div>
                             <div class="checkbox">
-                                <label for="checkboxes-2">
-                                    <input name="checkboxes" id="checkboxes-2" type="checkbox" value="3">
+                                <label for="aleman">
+                                    <input name="checkboxes" id="aleman" type="checkbox" value="3">
                                     Alemán
                                 </label>
                             </div>
                             <div class="checkbox">
-                                <label for="checkboxes-3">
-                                    <input name="checkboxes" id="checkboxes-3" type="checkbox" value="4">
+                                <label for="frances">
+                                    <input name="checkboxes" id="frances" type="checkbox" value="4">
                                     Francés
                                 </label>
                             </div>
@@ -173,7 +172,7 @@
                 </div>
     </main>
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
