@@ -1,82 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <link href="css.css" rel="stylesheet" type="text/css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CV App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Custom CSS styles -->
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
+
 <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-                <div style="width:40%">
-                    <i class="material-icons" id="linerplay" onclick="Desplegar()">menu</i>
-                </div>
-                <div>
-                    <a class="navbar-brand" href="#" style="width:20%">
-                        <h1>CVMobil</h1>
-                    </a>
-                </div>
-                <div class="d-flex  align-items-center justify-content-end" style="width:40%">
-                    <input type="text" class="none tamañoL font-weight-bold w-75" id="search">
-                    <i class="material-icons" onclick="Busqueda()">search</i>
-                </div>
-            </nav>
-    <div class="desplegable sticky-top " id="play">
-            <div class=" navbar-collapse  navbar-collapse  justify-content-center d-flex   align-items-start  " id="slide-navbar-collapse">
-                <ul class="list-group list-group-flush w-75 rounded">
+  <nav class="navbar navbar-expand-lg header-top fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">CV App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./search.html">Advanced Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Log out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-                    <span class="border border-dark rounded ">
-                        <li class="list-group-item">Logearse</li>
-                    </span>
-                    <span class="border border-dark rounded ">
-                        <li class="list-group-item">Cerrar sesion</li>
-                    </span>
-                    <span class="border border-dark rounded ">
-                        <li class="list-group-item"><a href="search.html">Buscar</a></li>
-                    </span>
-                    <span class="border border-dark rounded ">
-                        <li class="list-group-item">Invitar</li>
-                    </span>
-                    <span class="border border-dark rounded ">
-                        <li class="list-group-item"><a href="profile.html"> Mi perfil</a></li>
-                    </span>
-                </ul>
-            </div>
+  <!------ Include the above in your HEAD tag ---------->
+  <main class="container" id="cards-container">
+    <div class="w-100">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="container d-flex justify-content-center">
+            <img src="https://source.unsplash.com/random/350x200" alt="stack photo" class="img">
+          </div>
         </div>
-
-<!------ Include the above in your HEAD tag ---------->
-<main>
-            <div class="w-100">    
-                <div class="jumbotron">
-                  <div class="row">
-                      <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
-                          <img src="https://www.svgimages.com/svg-image/s5/man-passportsize-silhouette-icon-256x256.png" alt="stack photo" class="img">
-                      </div>
-                      <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
-                          <div class="container" style="border-bottom:1px solid black">
-                            <h2>John Doe</h2>
-                          </div>
-                            <hr>
-                          <ul class="container details">
-                            <li><p><span class="glyphicon glyphicon-earphone one" style="width:50px;"></span>+91 90000 00000</p></li>
-                            <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>somerandom@email.com</p></li>
-                            <li><p><span class="glyphicon glyphicon-map-marker one" style="width:50px;"></span>Hyderabad</p></li>
-                            <li><p><span class="glyphicon glyphicon-new-window one" style="width:50px;"></span><a href="#">www.example.com</p></a>
-                          </ul>
-                      </div>
-                  </div>
-                </div>
-              </main>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-crossorigin="anonymous"></script>
-<script src="javascript.js"></script>
+        <div class="row mt-3">
+          <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
+            <h2>Leanne Graham</h2>
+            <p class="mt-5">Personal information</p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex">
+                <i class="material-icons mr-3">person</i>
+                <p class="m-0">Bret</p>
+              </li>
+              <li class="list-group-item d-flex">
+                <i class="material-icons mr-3">email</i>
+                <p class="m-0">Sincere@april.biz</p>
+              </li>
+              <li class="list-group-item d-flex">
+                <i class="material-icons mr-3">work</i>
+                <p class="m-0">Romaguera-Crona</p>
+              </li>
+              <li class="list-group-item d-flex">
+                <i class="material-icons mr-3">location_city</i>
+                <p class="m-0">Dublin, UK</p>
+            </ul>
+          </div>
+        </div>
+      </div>
+  </main>
+  <!-- Bootstrap scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
 </body>
 
+</html>
