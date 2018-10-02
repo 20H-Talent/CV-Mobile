@@ -20,169 +20,150 @@
 
 <body>
   <!------ Include the above in your HEAD tag ---------->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light  flex-row flex-nowrap">
-    <div style="width:40%">
-      <i class="material-icons h3 " id="linerplay" onclick="Desplegar()" style="font-size: 1.75rem">menu</i>
-    </div>
-    <a class="navbar-brand pb-1 mr-auto" style="width:20%;padding: 0;" href="#">
-      <h1 class="mb-0 h4 " style="font-size: 1rem">CVMobil</h1>
-    </a>
-    <div class="d-flex  align-items-center justify-content-end" style="width:40%">
-      <input type="text" class="none tamañoL font-weight-bold w-75" id="search" style="font-size: 0.5rem">
-      <i class="material-icons h3 mb-0" onclick="Busqueda()" style="font-size: 1.75rem">search</i>
-    </div>
-  </nav>
-
-  <div class="desplegable sticky-top mt-5" id="play">
-    <div class=" navbar-collapse  navbar-collapse  justify-content-center d-flex   align-items-start  " id="slide-navbar-collapse">
-      <ul class="list-group list-group-flush w-75 rounded">
-
-        <span class="border rounded ">
-          <li class="list-group-item btn-lg p-1 pl-2">Logearse</li>
-        </span>
-        <span class="border rounded ">
-          <li class="list-group-item btn-lg p-1 pl-2">Cerrar sesion</li>
-        </span>
-        <span class="border  rounded ">
-          <li class="list-group-item btn-lg p-1 pl-2"><a href="search.html">Buscar</a></li>
-        </span>
-        <span class="border rounded ">
-          <li class="list-group-item btn-lg p-1 pl-2">Invitar</li>
-        </span>
-        <span class="border  rounded ">
-          <li class="list-group-item btn-lg p-1 pl-2"><a href="profile.html"> Mi perfil</a></li>
-        </span>
+  <nav class="navbar navbar-expand-lg header-top fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">CV App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./profile.html">My Profile</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Advanced Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Log in</a>
+        </li>
       </ul>
     </div>
-  </div>
-  <main>
-    <form class="form-horizontal">
-      <fieldset>
-        <div class="col-md-4">
-          <!-- Form Name -->
-          <legend>Sign Up</legend>
+  </nav>
+  <main class="container" id="cards-container">
+    <form>
+      <legend class="mb-4 mt-4">Advanced Search</legend>
+      <!-- Name input-->
+      <div class="form-group row w-100">
+        <label class="col-4 control-label" for="name">Name</label>
+        <input name="name" class="form-control input-md col-8" id="name" required="" type="text" placeholder="Por favor introduzca su nombre">
+      </div>
+      <!-- City input-->
+      <div class="form-group row w-100">
+        <label class="col-4 control-label" for="city">City</label>
+        <input name="city" class="form-control input-md col-8" id="city" required="" type="text" placeholder="Enter the city">
+      </div>
+      <!-- Experience select input-->
+      <div class="form-group row w-100">
+        <label class="col-4" for="exampleFormControlSelect1">Experience</label>
+        <select class="form-control col-8" id="exampleFormControlSelect1">
+          <option>- 1 year</option>
+          <option>1 - 3 years</option>
+          <option>3 - 5 years</option>
+          <option>+ 5 years</option>
+        </select>
+      </div>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-md-4 control-label" for="Business Name">Tu nombre</label>
-            <div>
-              <input name="Business Name" class="form-control input-md" id="Business Name" required="" type="text"
-                placeholder="Por favor introduzca su nombre">
-
-            </div>
+      <!-- Checkbox area -->
+      <div class="row w-100">
+        <!-- Languages Checkboxes -->
+        <div class="form-group col-6 mt-5">
+          <label>Languages</label>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              English
+            </label>
           </div>
-          <!-- Text input-->
-          <div class="form-group">
-            <select class="form-control">
-              <option>Ciudad</option>
-              <option>Las Palmas de Gran Canaria</option>
-              <option>San Bartolomé de Tirajana</option>
-              <option>Telde</option>
-              <option>Santa María de Guía de Gran Canaria</option>
-              <option>Santa Lucía de Tirajana</option>
-              <option>Arucas</option>
-              <option>Agaete</option>
-              <option>Agüimes</option>
-            </select>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              German
+            </label>
           </div>
-          <!-- Text input-->
-          <div class="form-group">
-            <select class="form-control">
-              <option>Experiencia</option>
-              <option>- de 1 año</option>
-              <option>1 año</option>
-              <option>2 año</option>
-              <option>3 año</option>
-              <option>4 año</option>
-              <option>5 año</option>
-              <option>6 año</option>
-              <option>+ de 7 año</option>
-
-            </select>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              Chineese
+            </label>
           </div>
-
-
-          <!-- Multiple Checkboxes -->
-          <div class="form-group">
-            <label class="col-md-4 control-label" for="checkboxes">Idiomas</label>
-            <div class="col-md-4">
-              <div class="checkbox">
-                <label for="ingles">
-                  <input name="checkboxes" id="ingles" type="checkbox" value="1">
-                  Inglés </label>
-              </div>
-              <div class="checkbox">
-                <label for="chino">
-                  <input name="checkboxes" id="chino" type="checkbox" value="2">
-                  Chino Mandarín
-                </label>
-              </div>
-              <div class="checkbox">
-                <label for="aleman">
-                  <input name="checkboxes" id="aleman" type="checkbox" value="3">
-                  Alemán
-                </label>
-              </div>
-              <div class="checkbox">
-                <label for="frances">
-                  <input name="checkboxes" id="frances" type="checkbox" value="4">
-                  Francés
-                </label>
-              </div>
-            </div>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              Spanish
+            </label>
           </div>
-          <div class="form-group">
-            <label class="col-md-4 control-label" for="checkboxes">Skill</label>
-            <div class="col-md-4">
-              <div class="checkbox">
-                <label for="checkboxes-0">
-                  <input name="checkboxes" id="checkboxes-0" type="checkbox" value="1">
-                  Capacidad para gestionar el estrés
-                </label>
-              </div>
-              <div class="checkbox">
-                <label for="checkboxes-1">
-                  <input name="checkboxes" id="checkboxes-1" type="checkbox" value="2">
-                  Adaptación o flexibilidad
-                </label>
-              </div>
-              <div class="checkbox">
-                <label for="checkboxes-2">
-                  <input name="checkboxes" id="checkboxes-2" type="checkbox" value="3">
-                  Orientación al logro
-                </label>
-              </div>
-              <div class="checkbox">
-                <label for="checkboxes-3">
-                  <input name="checkboxes" id="checkboxes-3" type="checkbox" value="4">
-                  Identificación de oportunidades y resolución de problemas
-                </label>
-
-              </div>
-            </div>
-          </div>
-
         </div>
-        <div class="row justify-content-around">
-          <div class="col-4">
 
+        <!-- Skills Checkboxes -->
+        <div class="form-group col-6 mt-5">
+          <label>Skills</label>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              HTML
+            </label>
           </div>
-          <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Ver resultado
-          </button>
-
-
-
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              CSS
+            </label>
+          </div>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              SASS, LESS
+            </label>
+          </div>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              Javascript
+            </label>
+          </div>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              React
+            </label>
+          </div>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              Node js
+            </label>
+          </div>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              Express js
+            </label>
+          </div>
+          <div class="form-check col-12">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+            <label class="form-check-label" for="defaultCheck2">
+              Mongodb
+            </label>
+          </div>
         </div>
+      </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-4">Search</button>
+    </form>
   </main>
 
+  <!-- Bootstrap scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
-  <script src="../js/slide_menu.js"></script>
 </body>
 
 </html>
-</fieldset>
-</form>
