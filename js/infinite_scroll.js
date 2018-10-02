@@ -1,19 +1,23 @@
 const cardsContainer = document.querySelector('#cards-container');
+const searchInput = document.getElementById("nav-input");
 // const loader = document.querySelector('#loader');
 
 // Initial content load from API
 function fetchUsersData() {
-  $.ajax({
-    url: "https://jsonplaceholder.typicode.com/users"
-  }).done((data) => {
-    // Iterate over the data array and extract the info for each user in a card variable
-    data.map( user => {
-      const card = renderCard( user.name, user.username, user.email, user.company.name);
-      // Add the card with the user info to the DOM
-      cardsContainer.innerHTML += card;
+  if (searchInput.value == '') {
+    $.ajax({
+      url: "https://jsonplaceholder.typicode.com/users"
+    }).done((data) => {
+      // Iterate over the data array and extract the info for each user in a card variable
+      data.map( user => {
+        const card = renderCard( user.name, user.username, user.email, user.company.name);
+        // Add the card with the user info to the DOM
+        cardsContainer.innerHTML += card;
+      });
     });
-  });
+  }
 }
+
 fetchUsersData();
 
 // Create an html card template with the user data
@@ -57,7 +61,7 @@ cardsContainer.addEventListener('scroll', () => {
     // showLoader();
     console.log('You reached the bottom of the container.');
     // Print more users after two seconds
-    sleep(3000);
+    sleep(2000);
     fetchUsersData();
     // hideLoader();
   }
