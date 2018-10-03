@@ -11,45 +11,42 @@ searchInput.addEventListener("keyup", function(e) {
   const emailsArray = [];
   const companiesArray = [];
 
-  function filterByData(data, reference, store) {
-    if (data.toLowerCase() !== reference.slice(0, data.length).toLowerCase()) {
+  function filterByData(input, reference, store, user) {
+    if (input.toLowerCase() !== reference.textContent.slice(0, input.length).toLowerCase()) {
       store.push(null);
     } else {
-      store.push(reference);
+      // store.push(reference.textContent);
+      user.classList.remove('d-none');
+      reference.classList.add('bg-warning');
     }
   }
 
   if (searchTerm) {
     // Filter the users and store the results on the arrays above
     users.forEach( user => {
+      user.classList.add('d-none');
       // Save every user data in a variable for future comparison
-      const userName = user.childNodes[1].childNodes[0].childNodes[0].textContent;
-      const userUsername = user.childNodes[1].childNodes[1].childNodes[1].textContent;
-      const userEmail = user.childNodes[1].childNodes[2].childNodes[1].textContent;
-      const userCompany = user.childNodes[1].childNodes[3].childNodes[1].textContent;
+      const userName = user.childNodes[1].childNodes[0].childNodes[0];
+      const userUsername = user.childNodes[1].childNodes[1].childNodes[1];
+      const userEmail = user.childNodes[1].childNodes[2].childNodes[1];
+      const userCompany = user.childNodes[1].childNodes[3].childNodes[1];
 
       // Filter by name
-      filterByData(searchTerm, userName, namesArray);
+      filterByData(searchTerm, userName, namesArray, user);
 
       // Filter by username
-      filterByData(searchTerm, userUsername, usernamesArray);
+      filterByData(searchTerm, userUsername, usernamesArray, user);
 
       // Filter by email
-      filterByData(searchTerm, userEmail, emailsArray);
+      filterByData(searchTerm, userEmail, emailsArray, user);
 
       // Filter by company
-      filterByData(searchTerm, userCompany, companiesArray);
+      filterByData(searchTerm, userCompany, companiesArray, user);
 
     });
 
-    // Once the data is separated its iterated by priority to show the correct users
-    // Check if there is at least one value that is not null inside the array
-    console.log('names: ', namesArray);
-    console.log('usernames: ', usernamesArray);
-    console.log('emails: ', emailsArray);
-    console.log('companies: ', companiesArray);
-
   } else {
     users.forEach( user => user.classList.remove('d-none'));
+    document.querySelectorAll('.bg-warning').forEach( element => element.classList.remove('bg-warning'));
   }
 });
