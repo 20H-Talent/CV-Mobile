@@ -20,6 +20,8 @@ searchInput.addEventListener("keyup", function(e) {
   }
 
   if (searchTerm) {
+    // Avoid infinite scroll from fetching more users while searching
+    isFetchAllowed = false;
     // Filter the users and store the results on the arrays above
     users.forEach( user => {
       user.classList.add('d-none');

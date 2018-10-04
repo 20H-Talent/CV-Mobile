@@ -2,6 +2,8 @@ const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.getElementById("nav-input");
 // console.log(loader);
 
+let isFetchAllowed = true;
+
 // Initial content load from API
 function fetchUsersData() {
   if (searchInput.value == '') {
@@ -53,7 +55,7 @@ cardsContainer.addEventListener('scroll', () => {
   const containerHeight = cardsContainer.offsetHeight;
 
   // When the user scrolls to the bottom of the container call the function to get more users
-  if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight)) {
+  if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight) && isFetchAllowed) {
     showLoader();
     // timeout for debugging purpose
     setTimeout(fetchUsersData, 500);
