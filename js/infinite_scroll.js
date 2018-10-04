@@ -1,6 +1,6 @@
 const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.getElementById("nav-input");
-// const loader = document.querySelector('#loader');
+// console.log(loader);
 
 // Initial content load from API
 function fetchUsersData() {
@@ -8,16 +8,22 @@ function fetchUsersData() {
     $.ajax({
       url: "https://jsonplaceholder.typicode.com/users"
     }).done((data) => {
+      // Show the loader while loading the content
+      showLoader();
       // Iterate over the data array and extract the info for each user in a card variable
       data.map( user => {
         const card = renderCard( user.name, user.username, user.email, user.company.name);
         // Add the card with the user info to the DOM
         cardsContainer.innerHTML += card;
       });
+      // Hide the loader after the content has loaded
+      // While development kept the setTimeout to debug loader issues
+      setTimeout(hideLoader, 1500);
+      // The production loading behavior would be calling hideLoader() itself
     });
   }
 }
-
+// Request the users data at page loading
 fetchUsersData();
 
 // Create an html card template with the user data
@@ -37,32 +43,19 @@ function renderCard(name, userName, email, company) {
   return template_cards;
 }
 
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
+function showLoader() {
+  loader.style.display = 'block';
 }
 
-// function showLoader() {
-//   loader.style.display = 'flex';
-// }
-
-// function hideLoader() {
-//   loader.style.display = 'none';
-// }
+function hideLoader() {
+  loader.style.display = 'none';
+}
 
 cardsContainer.addEventListener('scroll', () => {
   const containerHeight = cardsContainer.offsetHeight;
 
+  // When the user scrolls to the bottom of the container call the function to get more users
   if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight)) {
-    // showLoader();
-    console.log('You reached the bottom of the container.');
-    // Print more users after two seconds
-    sleep(2000);
     fetchUsersData();
-    // hideLoader();
   }
 });
