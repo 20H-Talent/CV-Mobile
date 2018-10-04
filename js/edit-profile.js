@@ -1,11 +1,12 @@
 function edit() {
-    if (document.getElementById("edit").className == "w-25") {
-        document.getElementById("edit").innerHTML = "Guardar";
-        document.getElementById("edit").className += " editing";
+    var Button = document.getElementById("edit");
+    if (Button.className == "w-25 border border-info mt-2 rounded") {
+        Button.innerHTML = "Save";
+        Button.className += " editing";
         document.querySelectorAll('p').forEach(el => el.setAttribute('contenteditable', true));
     } else {
-        document.querySelectorAll('p').forEach(el => { el.removeAttribute('contenteditable'); console.log(el.textContent); });
-        document.getElementById("edit").className = "w-25";
-        document.getElementById("edit").innerHTML = "Edit";
+        document.querySelectorAll('p').forEach(el => { el.setAttribute('contenteditable', false); console.log(el.textContent); });
+        Button.className = "w-25 border border-info mt-2 rounded";
+        Button.innerHTML = "Edit";
     }
 };
