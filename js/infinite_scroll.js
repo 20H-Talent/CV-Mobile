@@ -9,7 +9,7 @@ function fetchUsersData() {
       url: "https://jsonplaceholder.typicode.com/users"
     }).done((data) => {
       // Show the loader while loading the content
-      showLoader();
+      // showLoader();
       // Iterate over the data array and extract the info for each user in a card variable
       data.map( user => {
         const card = renderCard( user.name, user.username, user.email, user.company.name);
@@ -17,9 +17,7 @@ function fetchUsersData() {
         cardsContainer.innerHTML += card;
       });
       // Hide the loader after the content has loaded
-      // While development kept the setTimeout to debug loader issues
-      setTimeout(hideLoader, 1500);
-      // The production loading behavior would be calling hideLoader() itself
+      hideLoader();
     });
   }
 }
@@ -56,6 +54,11 @@ cardsContainer.addEventListener('scroll', () => {
 
   // When the user scrolls to the bottom of the container call the function to get more users
   if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight)) {
-    fetchUsersData();
+    showLoader();
+    // timeout for debugging purpose
+    setTimeout(fetchUsersData, 500);
+
+    // In production the function would be called instantly
+    // fetchUsersData();
   }
 });
