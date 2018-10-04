@@ -12,10 +12,8 @@ searchInput.addEventListener("keyup", function(e) {
   const companiesArray = [];
 
   function filterByData(input, reference, store, user) {
-    if (input.toLowerCase() !== reference.textContent.slice(0, input.length).toLowerCase()) {
-      store.push(null);
-    } else {
-      // store.push(reference.textContent);
+    if (input.toLowerCase() === reference.textContent.slice(0, input.length).toLowerCase()) {
+      store.push(user);
       user.classList.remove('d-none');
       reference.classList.add('bg-warning');
     }
@@ -49,4 +47,9 @@ searchInput.addEventListener("keyup", function(e) {
     users.forEach( user => user.classList.remove('d-none'));
     document.querySelectorAll('.bg-warning').forEach( element => element.classList.remove('bg-warning'));
   }
+
+  console.log('namesArray: ', namesArray);
+  console.log('usernamesArray: ', usernamesArray);
+  console.log('emailsArray: ', emailsArray);
+  console.log('companiesArray: ', companiesArray);
 });
