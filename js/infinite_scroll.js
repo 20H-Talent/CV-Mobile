@@ -3,6 +3,7 @@ const searchInput = document.getElementById("nav-input");
 // console.log(loader);
 
 let isFetchAllowed = true;
+let loadedUsers = [];
 
 // Initial content load from API
 function fetchUsersData() {
@@ -17,6 +18,8 @@ function fetchUsersData() {
         const card = renderCard( user.name, user.username, user.email, user.company.name);
         // Add the card with the user info to the DOM
         cardsContainer.innerHTML += card;
+        // Save the user inside a collections with all loaded users
+        loadedUsers.push(card);
       });
       // Hide the loader after the content has loaded
       hideLoader();
