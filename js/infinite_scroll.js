@@ -31,7 +31,7 @@ fetchUsersData();
 // Create an html card template with the user data
 function renderCard(name, userName, email, company, userId, highlight) {
   var template_cards = (
-    '<div class="card shadow m-3" style="width: 90%; height: 60%;">' +
+    '<div class="card shadow m-3" style="width: 90%; max-height: 450px;">' +
     '<img class="card-img-top" src="https://source.unsplash.com/random/500x300" alt="Card image cap">' +
     '<div class="card-body">' +
     '<h5 class="card-title"><b' + (highlight === 'name' ? ' class="bg-warning"' : '') + '>' + name + '</b></h5>' +
