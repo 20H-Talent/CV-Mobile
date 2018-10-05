@@ -4,8 +4,10 @@ function edit() {
         Button.innerHTML = "Save";
         Button.className += " editing";
         document.querySelectorAll('p').forEach(el => el.setAttribute('contenteditable', true));
+        document.querySelector('h2').setAttribute('contenteditable', true);
     } else {
         document.querySelectorAll('p').forEach(el => { el.setAttribute('contenteditable', false); console.log(el.textContent); });
+        document.querySelector('h2').setAttribute('contenteditable', false);
         Button.className = "w-25 border border-info mt-2 rounded";
         Button.innerHTML = "Edit";
     }
