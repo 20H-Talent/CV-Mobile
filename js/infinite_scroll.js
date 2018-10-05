@@ -14,8 +14,8 @@ function fetchUsersData() {
       // Show the loader while loading the content
       // showLoader();
       // Iterate over the data array and extract the info for each user in a card variable
-      data.map( user => {
-        const card = renderCard( user.name, user.username, user.email, user.company.name);
+      data.map( (user, index) => {
+        const card = renderCard( user.name, user.username, user.email, user.company.name, index);
         // Add the card with the user info to the DOM
         cardsContainer.innerHTML += card;
         // Save the user inside a collections with all loaded users
@@ -30,7 +30,7 @@ function fetchUsersData() {
 fetchUsersData();
 
 // Create an html card template with the user data
-function renderCard(name, userName, email, company) {
+function renderCard(name, userName, email, company, index) {
   var template_cards = (
     '<div class="card shadow m-3" style="width: 90%; height: 60%;">' +
     '<img class="card-img-top" src="https://source.unsplash.com/random/500x300" alt="Card image cap">' +
@@ -39,7 +39,7 @@ function renderCard(name, userName, email, company) {
     '<p class="card-text">Username: <b>' + userName + '</b></p>' +
     '<p class="card-text">Email: <b>' + email + '</b></p>' +
     '<p class="card-text">Company: <b>' + company + '</b></p>' +
-    '<a href="./html/profile.html" class="btn btn-primary">View Profile</a>' +
+    '<a href="./html/profile.html?index=' + index + '" class="btn btn-primary">View Profile</a>' +
     '</div>' +
     '</div>'
   );
