@@ -3,13 +3,10 @@ $.ajax({
     contentType: "application/json"
   }).done(function (data){
     var userid = window.location.search;
-   
+
    var filterUser = data.filter(function(user){
-     console.log(user.id)
      return user.id == userid[userid.length - 1];
    });
-
-   console.log(filterUser)
 
   var nameUser = document.querySelector("h2");
   nameUser.innerHTML = filterUser[0].name;
@@ -25,11 +22,6 @@ $.ajax({
 
   // var city = document.querySelector("#city");
   // city.innerHTML = filterUser[0].city;
-
-
-
-
-
   });
 
 

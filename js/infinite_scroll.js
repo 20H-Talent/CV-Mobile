@@ -13,8 +13,8 @@ function fetchUsersData() {
       // Show the loader while loading the content
       // showLoader();
       // Iterate over the data array and extract the info for each user in a card variable
-      data.map( (user, index) => {
-        const card = renderCard( user.name, user.username, user.email, user.company.name, index);
+      data.map( (user) => {
+        const card = renderCard( user.name, user.username, user.email, user.company.name, user.id);
         // Add the card with the user info to the DOM
         cardsContainer.innerHTML += card;
         // Save the user inside a collections with all loaded users
