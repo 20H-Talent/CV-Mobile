@@ -2,15 +2,34 @@ $.ajax({
     url: "https://jsonplaceholder.typicode.com/users",
     contentType: "application/json"
   }).done(function (data){
-    console.log(data)
-  })
+    var userid = window.location.search;
+   
+   var filterUser = data.filter(function(user){
+     console.log(user.id)
+     return user.id == userid[userid.length - 1];
+   });
 
-  // var cards_profile = (
-  //   '<h5 class="card-title"><b>' + Leanne Graham + '</b></h5>' +
-  //   '<p class="card-text">Username: <b>' + Bret + '</b></p>' +
-  //   '<p class="card-text">Email: <b>' + Sincere@april.biz + '</b></p>' +
-  //   '<p class="card-text">city: <b>' + Gwenborough + '</b></p>' +
-  //   // window.location.search console.log index=3
-  //   // var x = document.getElementById("myList").innerHTML;
+   console.log(filterUser)
 
-  // );
+  var nameUser = document.querySelector("h2");
+  nameUser.innerHTML = filterUser[0].name;
+
+  var username = document.querySelector("#username");
+  username.innerHTML = filterUser[0].username;
+
+  var email = document.querySelector("#email");
+  email.innerHTML = filterUser[0].email;
+
+  var company = document.querySelector("#company");
+  company.innerHTML = filterUser[0].company.name;
+
+  // var city = document.querySelector("#city");
+  // city.innerHTML = filterUser[0].city;
+
+
+
+
+
+  });
+
+
