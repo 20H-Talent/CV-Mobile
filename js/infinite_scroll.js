@@ -1,6 +1,5 @@
 const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.getElementById("nav-input");
-// console.log(loader);
 
 let isFetchAllowed = true;
 let loadedUsers = [];
@@ -19,7 +18,7 @@ function fetchUsersData() {
         // Add the card with the user info to the DOM
         cardsContainer.innerHTML += card;
         // Save the user inside a collections with all loaded users
-        loadedUsers.push(card);
+        loadedUsers.push(user);
       });
       // Hide the loader after the content has loaded
       hideLoader();
@@ -30,16 +29,16 @@ function fetchUsersData() {
 fetchUsersData();
 
 // Create an html card template with the user data
-function renderCard(name, userName, email, company, index) {
+function renderCard(name, userName, email, company, userId, highlight) {
   var template_cards = (
     '<div class="card shadow m-3" style="width: 90%; height: 60%;">' +
     '<img class="card-img-top" src="https://source.unsplash.com/random/500x300" alt="Card image cap">' +
     '<div class="card-body">' +
-    '<h5 class="card-title"><b>' + name + '</b></h5>' +
-    '<p class="card-text">Username: <b>' + userName + '</b></p>' +
-    '<p class="card-text">Email: <b>' + email + '</b></p>' +
-    '<p class="card-text">Company: <b>' + company + '</b></p>' +
-    '<a href="./html/profile.html?index=' + index + '" class="btn btn-primary">View Profile</a>' +
+    '<h5 class="card-title"><b' + (highlight === 'name' ? ' class="bg-warning"' : '') + '>' + name + '</b></h5>' +
+    '<p class="card-text">Username: <b' + (highlight === 'username' ? ' class="bg-warning"' : '') + '>' + userName + '</b></p>' +
+    '<p class="card-text">Email: <b' + (highlight === 'email' ? ' class="bg-warning"' : '') + '>' + email + '</b></p>' +
+    '<p class="card-text">Company: <b' + (highlight === 'company' ? ' class="bg-warning"' : '') + '>' + company + '</b></p>' +
+    '<a href="./html/profile.html?id=' + userId + '" class="btn btn-primary">View Profile</a>' +
     '</div>' +
     '</div>'
   );
@@ -59,11 +58,11 @@ cardsContainer.addEventListener('scroll', () => {
 
   // When the user scrolls to the bottom of the container call the function to get more users
   if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight) && isFetchAllowed) {
+
     showLoader();
-    // timeout for debugging purpose
     setTimeout(fetchUsersData, 500);
 
-    // In production the function would be called instantly
+    // In production the function would be called directly
     // fetchUsersData();
   }
 });
