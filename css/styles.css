@@ -13,6 +13,12 @@ html {
 	padding-bottom: 5vh;
 	overflow-y: scroll;
 }
+p[contenteditable="true"]{
+border-bottom:  solid #00F0B5 2px;
+}
+.profile-info{
+	border-bottom: 2px white
+}
 
 #loader {
 	position: fixed;
