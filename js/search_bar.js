@@ -18,7 +18,7 @@ searchInput.addEventListener("keyup", function(e) {
 
   function renderCategoryOfFilteredUsers(category, categoryName) {
     category.forEach( (user) => {
-      const card = renderCard( user.name, user.username, user.email, user.company.name, user.id, categoryName);
+      const card = renderCard( user, categoryName);
       cardsContainer.innerHTML += card;
     })
   }
@@ -56,8 +56,8 @@ searchInput.addEventListener("keyup", function(e) {
     // Empty the cardContainer with the filtered Results
     cardsContainer.innerHTML = '';
     // Render the default users loaded with the initial ajax call and render them into the DOM again
-    loadedUsers.forEach((user, index) => {
-      const card = renderCard( user.name, user.username, user.email, user.company.name, index);
+    loadedUsers.forEach((user) => {
+      const card = renderCard(user);
       cardsContainer.innerHTML += card;
     });
   }
