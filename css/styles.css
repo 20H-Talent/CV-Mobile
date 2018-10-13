@@ -76,3 +76,18 @@ html {
 		transform: rotate(360deg);
 	}
 }
+
+/*
+PROFILE PAGE CUSTOM STYLES
+ */
+
+#edit,
+#save {
+	top: 10px;
+	right: 10px;
+}
+
+#cancel {
+	top: 10px;
+	left: 10px;
+}
