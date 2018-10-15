@@ -25,85 +25,95 @@ function hello() {
 
 }
 hello();
+function structure(languages, skills, name, userName, email, gender, city, state, country, company, jobTitle, website, birthDate, experience) {
+    this.languages = languages;
+    this.skills = skills;
+    this.name = name;
+    this.userName = userName;
+    this.email = email;
+    this.gender = gender;
+    this.city = city;
+    this.state = state;
+    this.country = country;
+    this.company = company;
+    this.jobTitle = jobTitle;
+    this.website = website;
+    this.birthDate = birthDate;
+    this.experience = experience;
+}
 function old() {
     var data = document.getElementsByClassName("data");
-    var img = document.getElementById("image");
+    var profilePicture = document.getElementById("image");
     var checkboxSkil = document.getElementsByClassName("skills");
     var seletdEspe = document.getElementsByClassName("experience");
     var checkgender = document.getElementsByClassName("gender");
     var checkboxLanguages = document.getElementsByClassName("languages");
-    var usernew = {};
     var i;
     for (i = 0; i < data.length; i++) {
         //it is sorted by order of the file API
         if (data[i].name == "languages") {
+            languages = [];
             var e;
             for (e = 0; e < checkboxLanguages.length; e++) {
                 if (checkboxLanguages[e].checked) {
-                    compileLang += '"' + checkboxLanguages[e].attributes.id.nodeValue + '"';
+                    languages.push(checkboxLanguages[e].attributes.id.nodeValue);
                 }
             }
-            compileLang += '],';
+
         } else if (data[i].name == "skills") {
-            var compileCheck =[];
+            var skills = [];
             var e;
             for (e = 0; e < checkboxSkil.length; e++) {
                 if (checkboxSkil[e].checked) {
-                    compileCheck.push(checkboxSkil[e].attributes.id.nodeValue);
+                    skills.push(checkboxSkil[e].attributes.id.nodeValue);
                 }
             };
-            data[i].name = compileCheck
-        }else if(data[i].classList=="form-control order1 data border border-info"){
+        } else if (data[i].classList == "gender data data mr-1") {
             var e;
-            var compileData1 ="";
-            for(e=0;e<data1.length;e++){
-                compileData1 += '"'+ data1[e].name +'":"'+data1[e].value +'",';
-            }
-        }else if(data[i].classList=="gender data"){
-            var e;
-            var gender = "";
-            for(e=0;e<checkgender.length;e++){
-                if(checkgender[e].checked){
-                    gender +='"gender":"'+ checkgender[e].attributes.id.nodeValue+'",';
+            for (e = 0; e < checkgender.length; e++) {
+                if (checkgender[e].checked) {
+                    var gender = checkgender[e].attributes.id.nodeValue;
                 }
             }
-        }else if(data[i].classList=="form-control data location border border-info"){
+        } else if (data[i].id == "Experience") {
             var e;
-            var location ='"location":[';
-            for(e=0;e<dataLocal.length;e++)
-            location +='"'+dataLocal[e].name+'":"'+dataLocal[e].value+'"';
-            if(e==dataLocal.length-1){
-            }else{
-                location +=',';
-            }
-            location += ']';
-        }else if(data[i].classList=="form-control order2 data border border-info"){
-           
-        }else if(data[i].id=="Experience"){
-            var e;
-            var experience='';
-            for(e=0;e<seletdEspe.length;e++){
-                if(seletdEspe[e].selected){
-                    experience +='"experience":"'+ seletdEspe[e].value+'"';
+            var experience = '';
+            for (e = 0; e < seletdEspe.length; e++) {
+                if (seletdEspe[e].selected) {
+                    experience += seletdEspe[e].value;
                 }
             }
+        } else if (data[i].id == "Name") {
+            var name = data[i].value;
+        } else if (data[i].id == "userName") {
+            var userName = data[i].value;
+        } else if (data[i].id == "email") {
+            var email = data[i].value;
+        } else if (data[i].id == "city") {
+            var city = data[i].value;
+        } else if (data[i].id == "state") {
+            var state = data[i].value;
+        } else if (data[i].id == "country") {
+            var country = data[i].value;
+        } else if (data[i].id == "Company") {
+            var company = data[i].value;
+        } else if (data[i].id == "jobTitle") {
+            var jobTitle = data[i].value;
+        } else if (data[i].id == "website") {
+            var website = data[i].value;
+        } else if (data[i].id == "birthDate") {
+            var birthDate = data[i].value;
         }
     }
+    var usernew = new structure(languages, skills, name, userName, email, gender, city, state, country, company, jobTitle, website, birthDate, experience);
     console.log(usernew)
-  //  import {compileall} from 'https://cv-mobile-api.herokuapp.com/api/users'
-};
-    //  user  += datatext[i].value; 
-    //  console.log(user)
-    // var endComCheck = [ compileCheck];
-    //   console.log(endComCheck)
+    //  import {compileall} from 'https://cv-mobile-api.herokuapp.com/api/users'
 
-    var userdata = new function data(){
-        this.languages=
-        this.name=
-    }
+};
+
 /*
-{
-    "languages":["english"],"skills":["html","css","javascript","jquery"]
+    "languages":["english"]
+    ,"skills":["html","css","javascript","jquery"]
     ,"_id":"5bbcd54633daa000153cc81b"
     ,"name":"Leanne Graham"
     ,"username":"LennyG"
@@ -117,5 +127,4 @@ function old() {
     ,"experience":"1 - 3 years"
     ,"profilePicture":"https://cv-mobile-api.herokuapp.com/uploads/500_3.jpeg"
     ,"__v":0
-}
 */
