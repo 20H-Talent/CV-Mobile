@@ -1,6 +1,9 @@
 const inputName = document.getElementById("name");
+const inputUsername = document.getElementById("username");
 const inputCity = document.getElementById("city");
+const inputCountry = document.getElementById("country");
 const inputExperience = document.getElementById("experience");
+const inputCompany = document.getElementById("company");
 
 //Imprimir los checkboxes de lang que están checked
 function getLangFilterAdvancedSearch() {
@@ -10,20 +13,40 @@ function getLangFilterAdvancedSearch() {
     if (langChecks[i].checked == true) {
         langArr.push(langChecks[i].value);
     }
+  var checkUserLangs = [];
+  langArr.forEach(function(lang){
+    checkUserLangs.push(user.langs.includes(lang));
+    });
+    if(checkUserLangs.includes(false)){
+      console.log(checkUserLangs);
+      return false;
+    }else {
+      return true;
+    }
   }
-  console.log(langArr);
 }
 
 //Imprimir los checkboxes de skill que están checked
-function getSkillFilterAdvancedSearch() {
+function getSkillFilterAdvancedSearch(user) {
     var skillChecks = document.getElementsByClassName("check-skill");
     var skillArr = [];
     for (var i = 0; i < skillChecks.length; i++) {
       if (skillChecks[i].checked == true) {
           skillArr.push(skillChecks[i].value);
       }
+      //Comparar los lang que están en el array con los que el array del user
     }
-    console.log(skillArr);
+    var checkUserSkills = [];
+    skillArr.forEach(function(skill){
+        //Comprobar que el valor está en el array del usuario
+        checkUserSkills.push(user.skills.includes(skill));
+      });
+
+      if (checkUserSkills.includes(false)){
+        return false;
+      }else {
+        return true;
+      }
   }
 
 document.getElementById("searchbtn").addEventListener("click", function(e) {
@@ -33,16 +56,23 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
   $.ajax({
     url: "https://cv-mobile-api.herokuapp.com/api/users"
   }).done(function(data) {
-    getLangFilterAdvancedSearch();
-    getSkillFilterAdvancedSearch();
+    console.log(data)
     const filteredUser = data.filter(function(user) {
+      // console.log(getSkillFilterAdvancedSearch(user));
       return (
         inputName.value.toLowerCase() ===
           user.name.slice(0, inputName.value.length).toLowerCase() &&
+        inputUsername.value.toLowerCase() ===
+          user.username.slice(0, inputUsername.value.length).toLowerCase() &&
         inputCity.value.toLowerCase() ===
           user.location.city.slice(0, inputCity.value.length).toLowerCase() &&
-        inputExperience.value.toLowerCase() ===
-          user.experience.slice(0, inputExperience.value.length).toLowerCase()
+        inputCountry.value.toLowerCase() ===
+          user.location.country.slice(0, inputCountry.value.length).toLowerCase() &&
+        inputExperience.value.toLowerCase() === user.experience &&
+        inputCompany.value.toLowerCase() ===
+          user.company.slice(0, inputCompany.value.length).toLowerCase() &&
+        getSkillFilterAdvancedSearch(user) &&
+        getLangFilterAdvancedSearch(user)
       );
     });
     console.log(filteredUser);
@@ -82,13 +112,6 @@ $.ajax({
       langArr.push(lang.value);
     }
   });
-  //Necesitamos que nos enseñe cada valor que esté checked en la consola. Para ello necesitamos:
-  //Iterar con un forEach langArr
-  //Array.include
-
-  // langArr.forEach();
-  //     console.log(langArr.includes());
-  //console.log(langArr);
 });
 
 function renderLanguage(language) {
@@ -101,8 +124,5 @@ function renderLanguage(language) {
     "</div>";
   return languageTemplate;
 }
-/*
-<div class="form-check col-12">
-    <input class="form-check-input" type="checkbox" value="" id="defaultCheckGerman">
-    <label class="form-check-label" for="defaultCheckGerman">German</label>
-          </div> */
+
+
