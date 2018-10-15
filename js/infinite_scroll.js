@@ -64,12 +64,12 @@ function renderCard(user) {
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
-    '<h2 class="card-title text-center mb-2"><span' + (highlight.includes('name') ? ' class="bg-warning"' : '') + '>' + name + '</span></h2>' +
-    '<h6 class="card-title text-center text-muted mb-4"><span' + (highlight.includes('jobTitle') ? ' class="bg-warning"' : '') + '>' + jobTitle + '</span></h6>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span' + (highlight.includes('username') ? ' class="bg-warning"' : '' ) + '>' + username + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span' + (highlight.includes('email') ? ' class="bg-warning"' : '' ) + '>' + email + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span' + (highlight.includes('company') ? ' class="bg-warning"' : '' ) + '>' + company + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span' + (highlight.includes('location') ? ' class="bg-warning"' : '' ) + '>' + location.city + ', ' + location.country + '</span></p>' +
+    '<h2 class="card-title text-center mb-2"><span' + (highlight ? highlight.includes('name') ? ' class="bg-warning"' : '': '') + '>' + name + '</span></h2>' +
+    '<h6 class="card-title text-center text-muted mb-4"><span' + (highlight ? highlight.includes('jobTitle') ? ' class="bg-warning"' : '': '') + '>' + jobTitle + '</span></h6>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span' + (highlight ? highlight.includes('username') ? ' class="bg-warning"' : '' : '') + '>' + username + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span' + (highlight ? highlight.includes('email') ? ' class="bg-warning"' : '' : '') + '>' + email + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span' + (highlight ? highlight.includes('company') ? ' class="bg-warning"' : '' : '') + '>' + company + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span' + (highlight ? highlight.includes('location') ? ' class="bg-warning"' : '' : '') + '>' + location.city + ', ' + location.country + '</span></p>' +
     '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'
