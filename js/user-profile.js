@@ -6,7 +6,7 @@ fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`)
 .then( res => res.json() )
 .then( userData => {
   // Save a copy of the user info for editin mode comparison
-  currentUserInfo = userData;
+  currentUserInfo = {...userData};
   renderUSerInfo(userData);
 });
 
@@ -53,7 +53,7 @@ function createBadges(skills) {
 // Edit mode state
 let editModeStatus = false;
 // Change interface icons on edit mode status
-function checkEditStatus() {
+function changeEditModeStatus() {
   editModeStatus = !editModeStatus;
   if (editModeStatus) {
     edit.classList.add('d-none');
@@ -89,7 +89,7 @@ function changeForSelect(property, options, multiple) {
 }
 
 function openEditMode() {
-  checkEditStatus();
+  changeEditModeStatus();
   // Enable to cancel the edits made
   cancel.addEventListener('click', closeEditMode);
   // Save profile changes functionality
@@ -114,7 +114,7 @@ function openEditMode() {
 // Close edit mode and return user info to the initial state
 function closeEditMode() {
   if (editModeStatus) {
-    checkEditStatus();
+    changeEditModeStatus();
     document.querySelectorAll('.user-info').forEach(el => {
       el.setAttribute('contenteditable', false);
       el.classList.remove('edited');
@@ -126,8 +126,50 @@ function closeEditMode() {
 // Grab the changed info and send it to the API
 function saveProfileChanges() {
   if (editModeStatus) {
-    checkEditStatus();
-    document.querySelectorAll('.edited').forEach( el => console.log(el.id, $(el).val() || $(el).html()));
+    changeEditModeStatus();
+    document.querySelectorAll('.edited').forEach( el => {
+      switch (el.id) {
+        case 'location':
+          currentUserInfo[el.id] = {
+            city: el.textContent.split(', ')[0],
+            country: el.textContent.split(', ')[1],
+            state: currentUserInfo.location.state
+          }
+          break;
+
+        default:
+          currentUserInfo[el.id] = $(el).val() || $(el).html();
+          break;
+      }
+    });
+
+    let formData = new FormData();
+
+    formData.append('name', currentUserInfo.name);
+    formData.append('username', currentUserInfo.username);
+    formData.append('jobTitle', currentUserInfo.jobTitle);
+    formData.append('email', currentUserInfo.email);
+    formData.append('website', currentUserInfo.website);
+    formData.append('city', currentUserInfo.location.city);
+    formData.append('state', currentUserInfo.location.state);
+    formData.append('country', currentUserInfo.location.country);
+    formData.append('languages', currentUserInfo.languages.join(', '));
+    formData.append('skills', currentUserInfo.skills.join(', '));
+    formData.append('company', currentUserInfo.company);
+    formData.append('experience', currentUserInfo.experience);
+    formData.append('birthDate', '1986-02-25T00:00:00.000Z');
+    formData.append('gender', 'male');
+    formData.append('profilePicture', currentUserInfo.profilePicture);
+
+    // Send the data to the server
+    fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
+      method: 'PUT',
+      body: formData
+    }).then( res => res.json())
+    .then( jsonRes => {
+      console.log(jsonRes);
+      closeEditMode();
+    });
   }
 }
 
@@ -167,7 +209,6 @@ function handleTextChange(e) {
         break;
 
       case 'experience':
-        console.log(this.value)
         if (currentUserInfo.experience !== this.value) {
           e.target.classList.add('edited');
           e.target.style.color = '#f28202';
