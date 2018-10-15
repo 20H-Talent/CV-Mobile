@@ -42,8 +42,8 @@
   <main class="container" id="cards-container">
     <div class="w-100 position-relative">
       <i class="material-icons position-absolute" id="edit">edit</i>
-      <i class="material-icons position-absolute text-success d-none" id="save">save</i>
-      <i class="material-icons position-absolute text-danger d-none" id="cancel">cancel</i>
+      <i class="material-icons position-absolute d-none" id="save">save</i>
+      <i class="material-icons position-absolute d-none" id="cancel">cancel</i>
       <div class="jumbotron">
         <div class="row">
           <div class="container d-flex justify-content-center">
@@ -52,41 +52,44 @@
         </div>
         <div class="row mt-3">
           <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
-            <h2 class="text-center" id="name"></h2>
-            <h6 class="text-center text-muted mb-4" id="jobTitle"></h6>
+            <h2 class="text-center user-info" id="name"></h2>
+            <h6 class="text-center text-muted mb-4 user-info" id="jobTitle"></h6>
             <ul class="list-group list-group-flush mt-4 mb-4">
               <li class="list-group-item d-flex">
                 <i class="material-icons mr-3">person</i>
-                <p class="m-0 w-100" id="username"></p>
+                <p class="m-0 w-100 user-info" id="username"></p>
               </li>
               <li class="list-group-item d-flex">
                 <i class="material-icons mr-3">email</i>
-                <p class="m-0 w-100" id="email"></p>
+                <p class="m-0 w-100 user-info" id="email"></p>
               </li>
               <li class="list-group-item d-flex">
                 <i class="material-icons mr-3">link</i>
-                <p class="m-0 w-100" id="website"></p>
+                <p class="m-0 w-100 user-info" id="website"></p>
               </li>
               <li class="list-group-item d-flex">
                 <i class="material-icons mr-3">work</i>
-                <p class="m-0 w-100" id="company"></p>
+                <p class="m-0 w-100 user-info" id="company"></p>
               </li>
               <li class="list-group-item d-flex">
                 <i class="material-icons mr-3">today</i>
-                <p class="m-0 w-100" id="experience"></p>
+                <p class="m-0 w-100 user-info" id="experience"></p>
               </li>
               <li class="list-group-item d-flex">
                 <i class="material-icons mr-3">translate</i>
-                <p class="m-0 w-100" id="langs"></p>
+                <p class="m-0 w-100 user-info" id="languages"></p>
               </li>
               <li class="list-group-item d-flex">
                 <i class="material-icons mr-3">public</i>
-                <p class="m-0 w-100" id="location"></p>
+                <p class="m-0 w-100 user-info" id="location"></p>
             </ul>
           </div>
         </div>
         <div class="row">
-          <div class="container d-flex flex-wrap" id="skillContainer"></div>
+          <div class="container mb-3">
+            <h4>Skills</h4>
+          </div>
+          <div class="container d-flex flex-wrap" id="skills"></div>
         </div>
       </div>
   </main>
