@@ -60,10 +60,12 @@ function changeEditModeStatus() {
     edit.classList.add('d-none');
     save.classList.remove('d-none');
     cancel.classList.remove('d-none');
+    remove.classList.remove('d-none');
   } else {
     edit.classList.remove('d-none');
     save.classList.add('d-none');
     cancel.classList.add('d-none');
+    remove.classList.add('d-none');
   }
 }
 // Edit profile functionality
@@ -95,8 +97,12 @@ function openEditMode() {
   cancel.addEventListener('click', closeEditMode);
   // Save profile changes functionality
   save.addEventListener('click', saveProfileChanges);
+  // Remove user profile functionality
+  remove.addEventListener('click', removeUser);
+
   // Replace experience and languages for inputs of type select
   changeForSelect('experience', ["- 1 year", "1 - 3 years", "3 - 5 years", "+ 5 years"], false);
+
   // Get all available languages from the api to create the select input dynamically
   fetch(`https://cv-mobile-api.herokuapp.com/api/langs`)
   .then( res => res.json() ).then(langs => {
@@ -171,6 +177,19 @@ function saveProfileChanges() {
       updatedUser.profilePicture = currentUserInfo.profilePicture;
       currentUserInfo = {...updatedUser};
       closeEditMode();
+    });
+  }
+}
+
+function removeUser() {
+  if (editModeStatus) {
+    fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
+      method: 'DELETE'
+    })
+    .then(data => data.json())
+    .then(response => {
+      console.log(response);
+      window.location.pathname = '/index.html';
     });
   }
 }
