@@ -13,11 +13,19 @@ html {
 	padding-bottom: 5vh;
 	overflow-y: scroll;
 }
-[contenteditable='true'] {
-	border-bottom: solid #00f0b5 2px;
-}
-.profile-info {
+
+.user-info {
 	border-bottom: 2px white;
+}
+
+.user-info[contenteditable='true'] {
+	/* border-bottom: solid #00f0b5 2px; */
+	color: #05c643 !important;
+}
+
+.user-info.edited[contenteditable='true'] {
+	/* border-bottom: solid #f28202 2px; */
+	color: #f28202 !important;
 }
 
 #loader {
@@ -75,4 +83,24 @@ html {
 	100% {
 		transform: rotate(360deg);
 	}
+}
+
+/*
+PROFILE PAGE CUSTOM STYLES
+ */
+
+#edit,
+#save {
+	top: 10px;
+	right: 10px;
+}
+
+#cancel {
+	top: 10px;
+	left: 10px;
+}
+
+#remove {
+	bottom: 10px;
+	right: 10px;
 }

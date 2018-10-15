@@ -5,22 +5,37 @@ searchInput.addEventListener("keyup", function(e) {
   // User data separated for type
   const filteredResults = {
     name: [],
+    jobTitle: [],
     username: [],
     email: [],
     company: []
   }
 
-  function filterByData(input, reference, store, user) {
-    if (input.toLowerCase() === reference.slice(0, input.length).toLowerCase()) {
+  function filterByData(input, reference, store, user, coincidence) {
+    if (reference.toLowerCase().includes(input.toLowerCase())) {
+      user.highlight.includes(coincidence) ? '' : user.highlight.push(coincidence);
       store.push(user);
+    } else {
+      let position = user.highlight.indexOf(coincidence);
+      user.highlight.includes(coincidence) && position !== -1 ? user.highlight.splice(position, 1) : '';
     }
   }
 
-  function renderCategoryOfFilteredUsers(category, categoryName) {
-    category.forEach( (user) => {
-      const card = renderCard( user.name, user.username, user.email, user.company.name, user.id, categoryName);
+  function renderFilteredResults() {
+    const userArray = [];
+
+    for (key in filteredResults) {
+      filteredResults[key].forEach( user => {
+        if (userArray.indexOf(user) == -1) {
+          userArray.push(user);
+        }
+      });
+    }
+
+    userArray.forEach( user => {
+      const card = renderCard(user);
       cardsContainer.innerHTML += card;
-    })
+    });
   }
 
   if (searchTerm) {
@@ -34,21 +49,20 @@ searchInput.addEventListener("keyup", function(e) {
       // Save user data inside an object for future comparison
       const userData = {
         name: user.name,
+        jobTitle: user.jobTitle,
         username: user.username,
         email: user.email,
-        company: user.company.name
+        company: user.company
       }
 
       // Grab each userData property and filter it into the searchResult object
       for (let dataType in userData) {
-        filterByData(searchTerm, userData[dataType], filteredResults[dataType], user);
+        filterByData(searchTerm, userData[dataType], filteredResults[dataType], user, dataType);
       }
     });
 
     // Once the users have been filtered render them into the DOM
-    for (let category in filteredResults) {
-      renderCategoryOfFilteredUsers(filteredResults[category], category);
-    }
+    renderFilteredResults();
 
   } else {
     // Allow infinite scroll again
@@ -56,8 +70,9 @@ searchInput.addEventListener("keyup", function(e) {
     // Empty the cardContainer with the filtered Results
     cardsContainer.innerHTML = '';
     // Render the default users loaded with the initial ajax call and render them into the DOM again
-    loadedUsers.forEach((user, index) => {
-      const card = renderCard( user.name, user.username, user.email, user.company.name, index);
+    loadedUsers.forEach((user) => {
+      user.highlight = [];
+      const card = renderCard(user);
       cardsContainer.innerHTML += card;
     });
   }
