@@ -43,6 +43,7 @@ function structure(languages, skills, name, userName, email, gender, city, state
 }
 function old() {
     var data = document.getElementsByClassName("data");
+    var country =document.getElementById("Country")
     var profilePicture = document.getElementById("image");
     var checkboxSkil = document.getElementsByClassName("skills");
     var seletdEspe = document.getElementsByClassName("experience");
@@ -93,9 +94,7 @@ function old() {
             var city = data[i].value;
         } else if (data[i].id == "state") {
             var state = data[i].value;
-        } else if (data[i].id == "country") {
-            var country = data[i].value;
-        } else if (data[i].id == "Company") {
+        }  else if (data[i].id == "Company") {
             var company = data[i].value;
         } else if (data[i].id == "jobTitle") {
             var jobTitle = data[i].value;
@@ -105,7 +104,7 @@ function old() {
             var birthDate = data[i].value;
         }
     }
-    var usernew = new structure(languages, skills, name, userName, email, gender, city, state, country, company, jobTitle, website, birthDate, experience);
+    var usernew = new structure(languages, skills, name, userName, email, gender, city, state, country.value, company, jobTitle, website, birthDate, experience);
     console.log(usernew)
     //  import {compileall} from 'https://cv-mobile-api.herokuapp.com/api/users'
 
