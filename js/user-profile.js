@@ -14,6 +14,7 @@ function renderUSerInfo(user) {
   // Set image src
   userImg.src = user.profilePicture;
   userImg.alt = user.name + ' picture';
+  userImg.style.backgroundColor = '#999';
   // Print user's name
   document.querySelector('#name').innerHTML = user.name;
   // Print user's job title
@@ -118,6 +119,7 @@ function closeEditMode() {
     document.querySelectorAll('.user-info').forEach(el => {
       el.setAttribute('contenteditable', false);
       el.classList.remove('edited');
+      el.style.color = '';
     });
     renderUSerInfo(currentUserInfo);
   }
@@ -126,7 +128,6 @@ function closeEditMode() {
 // Grab the changed info and send it to the API
 function saveProfileChanges() {
   if (editModeStatus) {
-    changeEditModeStatus();
     document.querySelectorAll('.edited').forEach( el => {
       switch (el.id) {
         case 'location':
@@ -166,8 +167,9 @@ function saveProfileChanges() {
       method: 'PUT',
       body: formData
     }).then( res => res.json())
-    .then( jsonRes => {
-      console.log(jsonRes);
+    .then( updatedUser => {
+      updatedUser.profilePicture = currentUserInfo.profilePicture;
+      currentUserInfo = {...updatedUser};
       closeEditMode();
     });
   }
