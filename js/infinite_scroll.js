@@ -61,25 +61,6 @@ function renderCard(user) {
   } = user;
 
   var template_cards = (
-<<<<<<< HEAD
-    '<div class="card shadow m-3" style="width: 90%; max-height: 450px;">' +
-    '<img class="card-img-top" src="https://source.unsplash.com/random/500x300" alt="Card image cap">' +
-    '<div class="card-body">' +
-    '<h5 class="card-title"><b' + (highlight === 'name' ? ' class="bg-warning"' : '') + '>' + name + '</b></h5>' +
-    '<p class="card-text">Username: <b' + (highlight === 'username' ? ' class="bg-warning"' : '') + '>' + userName + '</b></p>' +
-    '<p class="card-text">Email: <b' + (highlight === 'email' ? ' class="bg-warning"' : '') + '>' + email + '</b></p>' +
-    '<p class="card-text">Company: <b' + (highlight === 'company' ? ' class="bg-warning"' : '') + '>' + company + '</b></p>' +
-    '<a href="./html/profile.html?id=' + userId + '" class="btn btn-primary">View Profile</a>' +
-||||||| merged common ancestors
-    '<div class="card shadow m-3" style="width: 90%; height: 60%;">' +
-    '<img class="card-img-top" src="https://source.unsplash.com/random/500x300" alt="Card image cap">' +
-    '<div class="card-body">' +
-    '<h5 class="card-title"><b' + (highlight === 'name' ? ' class="bg-warning"' : '') + '>' + name + '</b></h5>' +
-    '<p class="card-text">Username: <b' + (highlight === 'username' ? ' class="bg-warning"' : '') + '>' + userName + '</b></p>' +
-    '<p class="card-text">Email: <b' + (highlight === 'email' ? ' class="bg-warning"' : '') + '>' + email + '</b></p>' +
-    '<p class="card-text">Company: <b' + (highlight === 'company' ? ' class="bg-warning"' : '') + '>' + company + '</b></p>' +
-    '<a href="./html/profile.html?id=' + userId + '" class="btn btn-primary">View Profile</a>' +
-=======
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
@@ -90,7 +71,6 @@ function renderCard(user) {
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span' + (highlight ? highlight.includes('company') ? ' class="bg-warning"' : '' : '') + '>' + company + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span' + (highlight ? highlight.includes('location') ? ' class="bg-warning"' : '' : '') + '>' + location.city + ', ' + location.country + '</span></p>' +
     '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
->>>>>>> develop
     '</div>' +
     '</div>'
     // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">today</i> <span' + (highlight.includes('experience') ? ' class="bg-warning"' : '') + '>' + experience + '</span></p>' +
