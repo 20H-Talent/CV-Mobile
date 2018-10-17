@@ -92,11 +92,12 @@ function createBadges(skills) {
 }
 
 function showLoader() {
-  loader.style.display = 'block';
+  loader.classList.remove('d-none');
 }
 
 function hideLoader() {
-  loader.style.display = 'none';
+  // loader.style.display = 'none';
+  loader.classList.add('d-none');
 }
 
 cardsContainer.addEventListener('scroll', () => {
