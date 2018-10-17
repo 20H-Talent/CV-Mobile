@@ -45,6 +45,15 @@
       <i class="material-icons position-absolute d-none" id="save">save</i>
       <i class="material-icons position-absolute d-none" id="cancel">cancel</i>
       <i class="material-icons position-absolute d-none text-danger" id="remove">delete</i>
+      <div id="loader" class="bg-secondary d-none p-4" style="width: 250px; height: 150px; font-size:1.12rem;">
+        <p class="text-white">Are you sure you want to delete this user?</p>
+        <div class="row">
+          <div class="container d-flex justify-content-between">
+            <button class="btn btn-link text-light" id="delete-cancel">Cancel</button>
+            <button class="btn btn-danger" id="delete-confirm">Delete</button>
+          </div>
+        </div>
+      </div>
       <div class="jumbotron">
         <div class="row">
           <div class="container d-flex justify-content-center">

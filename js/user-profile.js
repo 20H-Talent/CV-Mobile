@@ -94,7 +94,7 @@ function openEditMode() {
   // Save profile changes functionality
   save.addEventListener('click', saveProfileChanges);
   // Remove user profile functionality
-  remove.addEventListener('click', removeUser);
+  remove.addEventListener('click', removeConfirmation);
 
   // Replace experience and languages for inputs of type select
   let experienceOptions = [
@@ -134,6 +134,7 @@ function openEditMode() {
 
 // Close edit mode and return user info to the initial state
 function closeEditMode() {
+  loader.classList.add('d-none');
   if (editModeStatus) {
     changeEditModeStatus();
     document.querySelectorAll('.user-info').forEach(el => {
@@ -193,6 +194,17 @@ function saveProfileChanges() {
       closeEditMode();
     });
   }
+}
+
+function removeConfirmation() {
+  // Show the context menu
+  loader.classList.remove('d-none');
+  // Confirm delete of user
+  $('#delete-confirm').on('click', removeUser);
+  // Cancel delete action
+  $('#delete-cancel').on('click', () => {
+    loader.classList.add('d-none');
+  });
 }
 
 function removeUser() {
