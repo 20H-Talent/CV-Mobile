@@ -1,68 +1,115 @@
 const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.getElementById("nav-input");
-// const loader = document.querySelector('#loader');
+
+// State variables to control activation of infinite scroll, page of users to request and store of all users requested
+let isFetchAllowed = true;
+let currentUsersPage = 1;
+let loadedUsers = [];
 
 // Initial content load from API
 function fetchUsersData() {
   if (searchInput.value == '') {
     $.ajax({
-      url: "https://jsonplaceholder.typicode.com/users"
+      url: `https://cv-mobile-api.herokuapp.com/api/users/pages/${currentUsersPage}`
     }).done((data) => {
-      // Iterate over the data array and extract the info for each user in a card variable
-      data.map( user => {
-        const card = renderCard( user.name, user.username, user.email, user.company.name);
-        // Add the card with the user info to the DOM
-        cardsContainer.innerHTML += card;
-      });
+
+      if (data.length === 10) {
+        data.map( (user) => {
+          user.highlight = [];
+          const card = renderCard(user);
+          cardsContainer.innerHTML += card;
+          loadedUsers.push(user);
+        });
+        // Add one to the current page of users for the next request if the page has 10 users
+        currentUsersPage++;
+
+      } else if (data.length < 10) {
+
+        if (data[0]._id !== loadedUsers[loadedUsers.length - 1]._id) {
+          data.map( (user) => {
+            const card = renderCard(user);
+            cardsContainer.innerHTML += card;
+            loadedUsers.push(user);
+          });
+          isFetchAllowed = false;
+        }
+      }
+
+    // Hide the loader after the content has loaded
+    hideLoader();
     });
   }
 }
-
+// Request the users data at page loading
 fetchUsersData();
 
 // Create an html card template with the user data
-function renderCard(name, userName, email, company) {
+function renderCard(user) {
+  const {
+    name,
+    username,
+    jobTitle,
+    company,
+    email,
+    languages,
+    skills,
+    _id,
+    location,
+    experience,
+    profilePicture,
+    highlight
+  } = user;
+
   var template_cards = (
-    '<div class="card shadow m-3" style="width: 90%; height: 60%;">' +
-    '<img class="card-img-top" src="https://source.unsplash.com/random/500x300" alt="Card image cap">' +
-    '<div class="card-body">' +
-    '<h5 class="card-title"><b>' + name + '</b></h5>' +
-    '<p class="card-text">Username: <b>' + userName + '</b></p>' +
-    '<p class="card-text">Email: <b>' + email + '</b></p>' +
-    '<p class="card-text">Company: <b>' + company + '</b></p>' +
-    '<a href="./html/profile.html" class="btn btn-primary">View Profile</a>' +
+    '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
+    '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
+    '<div class="card-body p-0 mt-2">' +
+    '<h2 class="card-title text-center mb-2"><span' + (highlight ? highlight.includes('name') ? ' class="bg-warning"' : '': '') + '>' + name + '</span></h2>' +
+    '<h6 class="card-title text-center text-muted mb-4"><span' + (highlight ? highlight.includes('jobTitle') ? ' class="bg-warning"' : '': '') + '>' + jobTitle + '</span></h6>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span' + (highlight ? highlight.includes('username') ? ' class="bg-warning"' : '' : '') + '>' + username + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span' + (highlight ? highlight.includes('email') ? ' class="bg-warning"' : '' : '') + '>' + email + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span' + (highlight ? highlight.includes('company') ? ' class="bg-warning"' : '' : '') + '>' + company + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span' + (highlight ? highlight.includes('location') ? ' class="bg-warning"' : '' : '') + '>' + location.city + ', ' + location.country + '</span></p>' +
+    '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'
+    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">today</i> <span' + (highlight.includes('experience') ? ' class="bg-warning"' : '') + '>' + experience + '</span></p>' +
+    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">translate</i> <span' + (highlight.includes('languages') ? ' class="bg-warning"' : '') + '>' + languages.join(', ') + '</span></p>' +
+    // '<div class="container-fluid p-0 mt-4 d-flex flex-wrap">' + createBadges(skills) + '</div>' +
   );
+
   return template_cards;
 }
 
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
+function createBadges(skills) {
+  const skillBadges = [];
+
+  skills.forEach( skill => {
+    skillBadges.push(`<h5 class="mr-2"><span class="badge badge-pill badge-success p-2">${skill}</span></h5>`);
+  });
+
+  return skillBadges.join('');
 }
 
-// function showLoader() {
-//   loader.style.display = 'flex';
-// }
+function showLoader() {
+  loader.classList.remove('d-none');
+}
 
-// function hideLoader() {
-//   loader.style.display = 'none';
-// }
+function hideLoader() {
+  // loader.style.display = 'none';
+  loader.classList.add('d-none');
+}
 
 cardsContainer.addEventListener('scroll', () => {
   const containerHeight = cardsContainer.offsetHeight;
 
-  if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight)) {
-    // showLoader();
-    console.log('You reached the bottom of the container.');
-    // Print more users after two seconds
-    sleep(2000);
-    fetchUsersData();
-    // hideLoader();
+  // When the user scrolls to the bottom of the container call the function to get more users
+  if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight) && isFetchAllowed) {
+
+    showLoader();
+    setTimeout(fetchUsersData, 500);
+
+    // In production the function would be called directly
+    // fetchUsersData();
   }
 });
