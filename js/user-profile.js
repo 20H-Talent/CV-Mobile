@@ -74,11 +74,7 @@ edit.addEventListener('click', openEditMode);
 function changeForSelect(property, options, multiple) {
   const optionsArray = [];
 
-  if (property === 'experience') {
     options.map( option => optionsArray.push(returnOptionElement(option)));
-  } else {
-    options.map( option => optionsArray.push(returnOptionElement(option.label)));
-  }
 
   $(`#${property}`).replaceWith(
     `<select class="w-100 user-info" id="${property}" style="border:none; color: #05c643;" ${multiple ? 'multiple' : ''}>` +
@@ -87,7 +83,7 @@ function changeForSelect(property, options, multiple) {
   );
 
   function returnOptionElement(option) {
-    return `<option value="${option}" ${currentUserInfo[property].includes(option) ? 'selected' : ''}>${option}</option>`;
+    return `<option value="${option.value}" ${currentUserInfo[property].includes(option.value) || currentUserInfo[property] === option.value ? 'selected' : ''}>${option.label}</option>`;
   }
 }
 
@@ -101,7 +97,25 @@ function openEditMode() {
   remove.addEventListener('click', removeUser);
 
   // Replace experience and languages for inputs of type select
-  changeForSelect('experience', ["- 1 year", "1 - 3 years", "3 - 5 years", "+ 5 years"], false);
+  let experienceOptions = [
+    {
+      value: "- 1 year",
+      label: "- 1 year"
+    },
+    {
+      value: "1 - 3 years",
+      label: "1 - 3 years"
+    },
+    {
+      value: "3 - 5 years",
+      label: "3 - 5 years"
+    },
+    {
+      value: "+ 5 years",
+      label: "+ 5 years"
+    }
+  ]
+  changeForSelect('experience', experienceOptions, false);
 
   // Get all available languages from the api to create the select input dynamically
   fetch(`https://cv-mobile-api.herokuapp.com/api/langs`)
