@@ -113,3 +113,8 @@ cardsContainer.addEventListener('scroll', () => {
     // fetchUsersData();
   }
 });
+
+// Functionality fot the floating action button
+document.querySelector('#floating-action-button').addEventListener('click', () => {
+  window.location.pathname = '/html/adduser.html';
+});
