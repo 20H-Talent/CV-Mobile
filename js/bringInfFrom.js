@@ -5,7 +5,7 @@ function hello() {
         var text1 = "";
         var i;
         for (i = 0; i < lang.length; i++) {
-            text1 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="languages" class="languages data mr-1" id="' + lang[i].label + '"><p class="mb-0 mr-2">' + lang[i].label + "</p></div>";
+            text1 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="languages" class="languages data mr-2" id="' + lang[i].label + '"><p class="mb-0 mr-2">' + lang[i].label + "</p></div>";
         }
         var fromlague = '<label for="Laguages" class="w-100">Laguages</label>' + text1;
         document.getElementById("substitutelangue").innerHTML = fromlague;
@@ -17,7 +17,7 @@ function hello() {
         var text2 = "";
         var e;
         for (e = 0; e < skill.length; e++) {
-            text2 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="skills"' + ' id="' + skill[e].name + '"' + ' class="skills data mr-1"><p class="mb-0 mr-2">' + skill[e].label + "</p></div>";
+            text2 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="skills"' + ' id="' + skill[e].name + '"' + ' class="skills data mr-2 "><p class="mb-0 mr-2">' + skill[e].label + "</p></div>";
         }
         var fromskill = ' <label for="skills" class="w-100">Skills</label>' + text2;
         document.getElementById("substituteskill").innerHTML = fromskill;
@@ -42,8 +42,10 @@ function structure(languages, skills, name, userName, email, gender, city, state
     this.experience = experience;
 }
 function old() {
+    var hoy = new Date();
+    var dd = hoy.getDate();
     var data = document.getElementsByClassName("data");
-    var country =document.getElementById("Country")
+    var country = document.getElementById("Country")
     var profilePicture = document.getElementById("image");
     var checkboxSkil = document.getElementsByClassName("skills");
     var seletdEspe = document.getElementsByClassName("experience");
@@ -94,7 +96,7 @@ function old() {
             var city = data[i].value;
         } else if (data[i].id == "state") {
             var state = data[i].value;
-        }  else if (data[i].id == "Company") {
+        } else if (data[i].id == "Company") {
             var company = data[i].value;
         } else if (data[i].id == "jobTitle") {
             var jobTitle = data[i].value;
