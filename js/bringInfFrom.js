@@ -19,13 +19,13 @@ function hello() {
         for (e = 0; e < skill.length; e++) {
             text2 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="skills"' + ' id="' + skill[e].name + '"' + ' class="skills data mr-2 "><p class="mb-0 mr-2">' + skill[e].label + "</p></div>";
         }
-        var fromskill = ' <label for="skills" class="w-100">Skills</label>' + text2;
+        var fromskill =   text2;
         document.getElementById("substituteskill").innerHTML = fromskill;
     });
 
 }
 hello();
-function structure(languages, skills, name, userName, email, gender, city, state, country, company, jobTitle, website, birthDate, experience) {
+function structure(languages, skills, name, userName, email, gender, city, state, country, company, jobTitle, website, birthDate, experience,profilePicture) {
     this.languages = languages;
     this.skills = skills;
     this.name = name;
@@ -40,10 +40,11 @@ function structure(languages, skills, name, userName, email, gender, city, state
     this.website = website;
     this.birthDate = birthDate;
     this.experience = experience;
+    this.profilePicture=profilePicture;
 }
-function old() {
-    var hoy = new Date();
-    var dd = hoy.getDate();
+/*
+   */
+  $( "#send" ).click(function () {
     var data = document.getElementsByClassName("data");
     var country = document.getElementById("Country")
     var profilePicture = document.getElementById("image");
@@ -71,7 +72,7 @@ function old() {
                     skills.push(checkboxSkil[e].attributes.id.nodeValue);
                 }
             };
-        } else if (data[i].classList == "gender data data mr-1") {
+        } else if (data[i].classList == "gender data  mr-1 ") {
             var e;
             for (e = 0; e < checkgender.length; e++) {
                 if (checkgender[e].checked) {
@@ -106,26 +107,41 @@ function old() {
             var birthDate = data[i].value;
         }
     }
-    var usernew = new structure(languages, skills, name, userName, email, gender, city, state, country.value, company, jobTitle, website, birthDate, experience);
+    
+    
+    function createRequestBody() {
+        let formData = new FormData();
+        
+        formData.append('name', name);
+        formData.append('username', userName);
+        formData.append('email', email);
+        formData.append('city', city);
+        formData.append('state', state);
+        formData.append('country', country.value);
+        formData.append('website', website);
+        formData.append('jobTitle', jobTitle);
+        formData.append('languages',JSON.stringify(languages));
+        formData.append('skills',JSON.stringify(skills) );
+        formData.append('company', company);
+        formData.append('experience', experience);
+        formData.append('birthDate', birthDate);
+        formData.append('profilePicture', profilePicture.files[0]);
+        
+        return formData;
+      }
+      var usernew = createRequestBody();
     console.log(usernew)
-    //  import {compileall} from 'https://cv-mobile-api.herokuapp.com/api/users'
-
-};
-
-/*
-    "languages":["english"]
-    ,"skills":["html","css","javascript","jquery"]
-    ,"_id":"5bbcd54633daa000153cc81b"
-    ,"name":"Leanne Graham"
-    ,"username":"LennyG"
-    ,"email":"lenny@april.biz"
-    ,"gender":"male"
-    ,"location":{"city":"Bolton","state":"Manchester","country":"United Kingdom"}
-    ,"company":"Romaguera, SL"
-    ,"jobTitle":"UI Designer"
-    ,"website":"leannegraham.com"
-    ,"birthDate":"1986-02-25T00:00:00.000Z"
-    ,"experience":"1 - 3 years"
-    ,"profilePicture":"https://cv-mobile-api.herokuapp.com/uploads/500_3.jpeg"
-    ,"__v":0
-*/
+    // 
+    fetch('https://cv-mobile-api.herokuapp.com/api/users', {
+        method: 'POST',
+        body: usernew
+        })
+        .then( res => res.json())
+        .then( response => console.log(response));
+      });
+/*function createRequestBody() {
+  let formData = new FormData();
+  
+ 
+  return formData;
+}*/
