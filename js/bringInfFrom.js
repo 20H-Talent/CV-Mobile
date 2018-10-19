@@ -19,13 +19,13 @@ function hello() {
         for (e = 0; e < skill.length; e++) {
             text2 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="skills"' + ' id="' + skill[e].name + '"' + ' class="skills data mr-2 "><p class="mb-0 mr-2">' + skill[e].label + "</p></div>";
         }
-        var fromskill =   text2;
+        var fromskill = text2;
         document.getElementById("substituteskill").innerHTML = fromskill;
     });
 
 }
 hello();
-function structure(languages, skills, name, userName, email, gender, city, state, country, company, jobTitle, website, birthDate, experience,profilePicture) {
+function structure(languages, skills, name, userName, email, gender, city, state, country, company, jobTitle, website, birthDate, experience, profilePicture) {
     this.languages = languages;
     this.skills = skills;
     this.name = name;
@@ -40,11 +40,11 @@ function structure(languages, skills, name, userName, email, gender, city, state
     this.website = website;
     this.birthDate = birthDate;
     this.experience = experience;
-    this.profilePicture=profilePicture;
+    this.profilePicture = profilePicture;
 }
 /*
    */
-  $( "#send" ).click(function () {
+$("#send").click(function () {
     var data = document.getElementsByClassName("data");
     var country = document.getElementById("Country")
     var profilePicture = document.getElementById("image");
@@ -55,7 +55,9 @@ function structure(languages, skills, name, userName, email, gender, city, state
     var i;
     for (i = 0; i < data.length; i++) {
         //it is sorted by order of the file API
-        if (data[i].name == "languages") {
+        if (data[i].value == "") {
+            alert('it is required '+data[i].id)
+        } else if (data[i].name == "languages") {
             languages = [];
             var e;
             for (e = 0; e < checkboxLanguages.length; e++) {
@@ -107,11 +109,11 @@ function structure(languages, skills, name, userName, email, gender, city, state
             var birthDate = data[i].value;
         }
     }
-    
-    
+
+
     function createRequestBody() {
         let formData = new FormData();
-        
+
         formData.append('name', name);
         formData.append('username', userName);
         formData.append('email', email);
@@ -120,28 +122,27 @@ function structure(languages, skills, name, userName, email, gender, city, state
         formData.append('country', country.value);
         formData.append('website', website);
         formData.append('jobTitle', jobTitle);
-        formData.append('languages',JSON.stringify(languages));
-        formData.append('skills',JSON.stringify(skills) );
+        formData.append('languages', JSON.stringify(languages));
+        formData.append('skills', JSON.stringify(skills));
         formData.append('company', company);
         formData.append('experience', experience);
         formData.append('birthDate', birthDate);
         formData.append('profilePicture', profilePicture.files[0]);
-        
+
         return formData;
-      }
-      var usernew = createRequestBody();
-    console.log(usernew)
-    // 
-    fetch('https://cv-mobile-api.herokuapp.com/api/users', {
-        method: 'POST',
-        body: usernew
-        })
-        .then( res => res.json())
-        .then( response => console.log(response));
-      });
-/*function createRequestBody() {
-  let formData = new FormData();
-  
- 
-  return formData;
-}*/
+    }
+    /*
+    var usernew = createRequestBody();
+  console.log(usernew)
+  // 
+  fetch('https://cv-mobile-api.herokuapp.com/api/users', {
+      method: 'POST',
+      body: usernew
+      })
+      .then( res => res.json())
+      .then( response => console.log(response));
+*/
+
+
+});
+
