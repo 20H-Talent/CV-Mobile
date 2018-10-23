@@ -15,7 +15,6 @@ function fetchUsersData() {
     $.ajax({
       url: `https://cv-mobile-api.herokuapp.com/api/users/pages/${currentUsersPage}`
     }).done((data) => {
-
       if (data.length === 10) {
         data.map( (user) => {
           user.highlight = [];
