@@ -1,4 +1,3 @@
-
 function hello() {
     $.ajax({
         url: "https://cv-mobile-api.herokuapp.com/api/langs"
@@ -37,6 +36,7 @@ $("#send").click(function () {
     var checkgender = document.getElementsByClassName("gender");
     var checkboxLanguages = document.getElementsByClassName("languages");
     var i;
+    // it var(n,s) is because calc the "input" required that are filled
     var n = 0;
     var s = 0;
     for (i = 0; i < required.length; i++) {
