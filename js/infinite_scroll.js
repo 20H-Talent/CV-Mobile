@@ -12,7 +12,6 @@ function fetchUsersData() {
     $.ajax({
       url: `https://cv-mobile-api.herokuapp.com/api/users/pages/${currentUsersPage}`
     }).done((data) => {
-
       if (data.length === 10) {
         data.map( (user) => {
           user.highlight = [];
@@ -24,15 +23,12 @@ function fetchUsersData() {
         currentUsersPage++;
 
       } else if (data.length < 10) {
-
-        if (data[0]._id !== loadedUsers[loadedUsers.length - 1]._id) {
-          data.map( (user) => {
-            const card = renderCard(user);
-            cardsContainer.innerHTML += card;
-            loadedUsers.push(user);
-          });
-          isFetchAllowed = false;
-        }
+        data.map( (user) => {
+          const card = renderCard(user);
+          cardsContainer.innerHTML += card;
+          loadedUsers.push(user);
+        });
+        isFetchAllowed = false;
       }
 
     // Hide the loader after the content has loaded
