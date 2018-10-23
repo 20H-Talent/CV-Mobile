@@ -29,7 +29,8 @@ hello();
 
 $("#send").click(function () {
     var data = document.getElementsByClassName("data");
-    var country = document.getElementById("Country")
+    var country = document.getElementById("Country");
+    var required = document.getElementsByClassName("required");
     var profilePicture = document.getElementById("image");
     var checkboxSkil = document.getElementsByClassName("skills");
     var seletdEspe = document.getElementsByClassName("experience");
@@ -37,9 +38,10 @@ $("#send").click(function () {
     var checkboxLanguages = document.getElementsByClassName("languages");
     var i;
     var n = 0;
-    for (i = 0; i < data.length; i++) {
-        if (data[i].value == "" || (data[i].checked == "false" && data[i].checked == "false")) {
-            alert('it is required ' + data[i].id);
+    var s = 0;
+    for (i = 0; i < required.length; i++) {
+        if (required[i].value == "") {
+            alert('it is required ' + required[i].id);
         } else {
             n++;
         }
@@ -49,8 +51,23 @@ $("#send").click(function () {
     } else {
         n++;
     }
+    //the -1 's because you have to remove the profilePicture of the list
+    for (i = 0; i < checkboxSkil.length; i++) {
+        if (checkboxSkil[i].checked == false) {
+            s++;
+        }
+        if (s == checkboxSkil.length) {
+            alert("Please indicate you skill");
+        }
+    }
     console.log(n);
-    if(n==30){
+
+    console.log(s);
+    if (!(s == checkboxSkil.length)) {
+        n++;
+    }
+    console.log(n);
+    if (n == 10) {
         alert("a funcionado");
         for (i = 0; i < data.length; i++) {
             if (data[i].name == "languages") {
@@ -61,7 +78,7 @@ $("#send").click(function () {
                         languages.push(checkboxLanguages[e].attributes.id.nodeValue);
                     }
                 }
-    
+
             } else if (data[i].name == "skills") {
                 var skills = [];
                 var e;
@@ -107,7 +124,7 @@ $("#send").click(function () {
         }
         function createRequestBody() {
             let formData = new FormData();
-            
+
             formData.append('name', name);
             formData.append('username', userName);
             formData.append('email', email);
@@ -116,23 +133,23 @@ $("#send").click(function () {
             formData.append('country', country.value);
             formData.append('website', website);
             formData.append('jobTitle', jobTitle);
-            formData.append('languages',JSON.stringify(languages));
-            formData.append('skills',JSON.stringify(skills) );
+            formData.append('languages', JSON.stringify(languages));
+            formData.append('skills', JSON.stringify(skills));
             formData.append('company', company);
             formData.append('experience', experience);
             formData.append('birthDate', birthDate);
             formData.append('profilePicture', profilePicture.files[0]);
-            
+
             return formData;
-          }
-          var usernew = createRequestBody();
+        }
+        var usernew = createRequestBody();
         console.log(usernew)
         fetch('https://cv-mobile-api.herokuapp.com/api/users', {
             method: 'POST',
             body: usernew
-            })
-            .then( res => res.json())
-            .then( response => console.log(response));
+        })
+            .then(res => res.json())
+            .then(response => console.log(response));
     }
 });
 

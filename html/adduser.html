@@ -22,40 +22,41 @@
 
             <div class="container  ">
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
-                    <label for="Name" class="col-2">Name</label>
-                    <input required type="text" class="form-control order1 data col-8" id="Name" name="name"  aria-describedby="basic-addon1">
+                    <label for="Name" class="col-2 d-flex">Name<p class="text-danger">*</p></label>
+                    <input type="text" class="form-control order1 data col-8 required" id="Name" name="name" 
+                      aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
-                    <label for="userName" class="col-4">User Name</label>
-                    <input type="text" class="form-control order1 data  col-8" id="userName" name="userName"
+                    <label for="userName" class="col-4 d-flex">User Name<p class="text-danger">*</p></label>
+                    <input type="text" class="form-control order1 data  col-8 required" id="userName" name="userName"
                         aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex align-items-center font-weight-bold">
-                    <label for="gender" class="mb-0 col-4 ">Gender</label>
+                    <label for="gender" class="mb-0 col-4  d-flex">Gender<p class="text-danger">*</p></label>
                     <input type="radio" name="gender" id="Male" class="gender data  mr-1 ">
                     <p class="mr-1 mb-0 mr-4">Male</p>
                     <input type="radio" name="gender" id="Female" class="gender data  mr-1 ">
                     <p class="mr-1 mb-0">Female</p>
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
-                    <label for="email" class="col-2">Email</label>
-                    <input type="email" class="form-control order1 data  col-8" id="email" name="email"
+                    <label for="email" class="col-2 d-flex">Email<p class="text-danger">*</p></label>
+                    <input type="email" class="form-control order1 data  col-8 required" id="email" name="email"
                         aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
-                    <label for="city" class="col-2">City</label>
-                    <input type="text" class="form-control data location  col-8" id="city" name="city"
+                    <label for="city" class="col-2 d-flex">City<p class="text-danger">*</p></label>
+                    <input type="text" class="form-control data location  col-8 required" id="city" name="city"
                         aria-describedby="basic-addon1">
                 </div>
 
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between  font-weight-bold">
-                    <label for="state" class="col-2">State</label>
-                    <input type="text" class="form-control data location col-8" id="state" name="state"
+                    <label for="state" class="col-2 d-flex">State<p class="text-danger">*</p></label>
+                    <input type="text" class="form-control data location col-8 required" id="state" name="state"
                         aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between  font-weight-bold">
-                    <label for="Country" class="col-2">Country</label>
-                    <input type="text" class="form-control data location  col-8" id="Country" name="country"
+                    <label for="Country" class="col-2 d-flex">Country<p class="text-danger">*</p></label>
+                    <input type="text" class="form-control data location  col-8 required" id="Country" name="country"
                         aria-describedby="basic-addon1">
                 </div>
 
@@ -69,7 +70,7 @@
                     <input type="text" class="form-control order2 data  col-8" id="jobTitle" name="jobTitle"
                         aria-describedby="basic-addon1">
                 </div>
-                <label for="skills" class="w-100">Skills</label>
+                <label for="skills" class="w-100 col-4 mb-0 d-flex font-weight-bold">Skills<p class="text-danger">*</p></label>
                 <div class="input-group input-group-sm mb-3 d-flex align-items-center font-weight-bold border border-secondary p-3" id="substituteskill">
 
                 </div>
@@ -78,17 +79,17 @@
 
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
-                    <label for="image">Profile picture</label>
-                    <input type="file" id="image" name="profilePicture" class="font-weight-bold">
+                    <label for="image" class=" d-flex">Profile picture<p class="text-danger">*</p></label>
+                    <input type="file" id="image" name="profilePicture" class="font-weight-bold required">
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
-                    <label for="website" class="col-2">Website</label>
+                    <label for="website" class="col-2 d-flex">Website</label>
                     <input type="text" class="form-control order2 data  col-8" id="website" name="website"
                         aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
-                    <label for="birthDate" class="col-2">BirthDate</label>
-                    <input type="date" class="form-control order2 data col-8" id="birthDate" name="birthDate"
+                    <label for="birthDate" class="col-2 d-flex">BirthDate<p class="text-danger">*</p></label>
+                    <input type="date" class="form-control order2 data col-8 required" id="birthDate" name="birthDate"
                         aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
