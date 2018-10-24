@@ -69,9 +69,6 @@ function renderCard(user) {
     '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'
-    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">today</i> <span' + (highlight.includes('experience') ? ' class="bg-warning"' : '') + '>' + experience + '</span></p>' +
-    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">translate</i> <span' + (highlight.includes('languages') ? ' class="bg-warning"' : '') + '>' + languages.join(', ') + '</span></p>' +
-    // '<div class="container-fluid p-0 mt-4 d-flex flex-wrap">' + createBadges(skills) + '</div>' +
   );
 
   return template_cards;

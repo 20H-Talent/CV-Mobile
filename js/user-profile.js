@@ -1,14 +1,20 @@
 // Get the user's id from the url search parameter
 const userID = window.location.search.split('=')[1];
 let currentUserInfo = '';
+
+// Render the user info on page load
+window.onload = fetchUserInfo(userID);
+
 // Get the user's info from the API with the user's id
-fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`)
-.then( res => res.json() )
-.then( userData => {
-  // Save a copy of the user info for editin mode comparison
-  currentUserInfo = {...userData};
-  renderUSerInfo(userData);
-});
+function fetchUserInfo(id) {
+  fetch(`https://cv-mobile-api.herokuapp.com/api/users/${id}`)
+  .then( res => res.json() )
+  .then( userData => {
+    // Save a copy of the user info for editin mode comparison
+    currentUserInfo = {...userData};
+    renderUSerInfo(userData);
+  });
+}
 
 function renderUSerInfo(user) {
   // Set image src
@@ -138,6 +144,8 @@ function openEditMode() {
 
   // Adds checkboxes for skills inside the skillChecks container
   renderSkillChecks();
+  // Render a file input on top of the user's image
+  toggleFileUploader();
 };
 
 // Renders a new row with checkboxes for each skill on the database
@@ -147,7 +155,6 @@ function renderSkillChecks() {
   .then( response => response.json() )
   .then( jsonSkills =>  {
     const checkBoxes = [];
-    console.log(currentUserInfo)
     // Render a new checkbox for each skill
     jsonSkills.forEach( skill => {
       checkBoxes.push(`
@@ -162,6 +169,14 @@ function renderSkillChecks() {
     document.querySelectorAll('.skill-check').forEach( check => check.addEventListener('click', editUserSkills));
   });
 
+}
+
+// Render an input type file over the user's avatar when edit mode is active
+function toggleFileUploader() {
+  document.querySelector('#profileBackdrop').classList.toggle('d-none');
+  document.querySelector('#profileBackdrop').classList.toggle('d-flex');
+  document.querySelector('#pictureLabel').classList.toggle('d-none');
+  document.querySelector('#pictureLabel').classList.toggle('d-flex');
 }
 
 // Edit the skills inside the user profile
@@ -202,7 +217,8 @@ function closeEditMode() {
       el.classList.remove('edited');
       el.style.color = '';
     });
-    renderUSerInfo(currentUserInfo);
+    fetchUserInfo(userID);
+    toggleFileUploader();
   }
 }
 
