@@ -37,12 +37,12 @@ function renderUSerInfo(user) {
   document.querySelector('#location').innerHTML = user.location.city + ', ' + user.location.country;
   // Print user's skills
   document.querySelector('#skills').innerHTML = (
-    '<div class="fluid-container d-flex flex-wrap" id="badgeContainer">' +
+    '<div class="fluid-container w-100 d-flex flex-wrap" id="badgeContainer">' +
       createBadges(user.skills, false) +
     '</div>' +
-    '<div class="container" style="height:auto;" >' +
-    '<input type="text" name="skill-input" id="skill-input" class="mt-3 w-100" />' +
-    '<div id="skill-search" class="w-100 bg-white" style="top:100%;"></div>' +
+    '<div class="fluid-container w-100 d-none mb-5" id="skill-search">' +
+    '<input type="text" name="skill-input" id="skill-input" class="mt-3 w-100 border" />' +
+    '<div id="skill-result" class="w-100 bg-white border";"></div>' +
     '</div>'
     );
 }
@@ -145,13 +145,30 @@ function openEditMode() {
   });
 
   // Adds checkboxes for skills inside the skillChecks container
-  // renderSkillChecks();
   renderSkillsEditMode(currentUserInfo.skills);
+  toggleSkillSearch('show');
 };
 
 
 function renderSkillsEditMode(skills) {
   return document.querySelector('#badgeContainer').innerHTML = createBadges(skills, true);
+}
+
+function toggleSkillSearch(order) {
+  let skillSearch = document.querySelector('#skill-search');
+  if (typeof order === 'string' && order === 'show') {
+    skillSearch.classList.remove('d-none');
+    document.querySelector('#skill-input').addEventListener('input', handleSkillSearch);
+  } else if (typeof order === 'string' && order === 'hide') {
+    skillSearch.classList.add('d-none');
+    document.querySelector('#skill-input').removeEventListener('input', handleSkillSearch);
+  } else {
+    return 'Parameter not valid';
+  }
+}
+
+function handleSkillSearch(e) {
+  console.log(e.target.value)
 }
 
 function removeSkill(element) {
