@@ -37,18 +37,26 @@ function renderUSerInfo(user) {
   document.querySelector('#location').innerHTML = user.location.city + ', ' + user.location.country;
   // Print user's skills
   document.querySelector('#skills').innerHTML = (
-    '<div class="container d-flex flex-wrap" id="badgeContainer">' +
-      createBadges(user.skills) +
+    '<div class="fluid-container d-flex flex-wrap" id="badgeContainer">' +
+      createBadges(user.skills, false) +
     '</div>' +
-    '<div class="container d-flex flex-wrap my-4 skillChecks"></div>');
+    '<div class="container" style="height:auto;" >' +
+    '<input type="text" name="skill-input" id="skill-input" class="mt-3 w-100" />' +
+    '<div id="skill-search" class="w-100 bg-white" style="top:100%;"></div>' +
+    '</div>'
+    );
 }
 
 
-function createBadges(skills) {
+function createBadges(skills, editMode) {
   const skillBadges = [];
 
   skills.forEach( skill => {
-    skillBadges.push(`<h5 class="mr-2"><span class="badge badge-pill badge-secondary p-2 badge-skill" data-skill="${skill}">${skill}</span></h5>`);
+    skillBadges.push(`
+    <h5 class="mr-2">
+    <span class="badge badge-pill badge-success py-2 px-3 badge-skill d-flex align-items-center">
+    ${editMode ? `<span data-skill="${skill}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : ''}
+    ${skill}</span></h5>`);
   });
 
   return skillBadges.join('');
@@ -137,60 +145,23 @@ function openEditMode() {
   });
 
   // Adds checkboxes for skills inside the skillChecks container
-  renderSkillChecks();
+  // renderSkillChecks();
+  renderSkillsEditMode(currentUserInfo.skills);
 };
 
-// Renders a new row with checkboxes for each skill on the database
-function renderSkillChecks() {
-  // Grab the skill from the api
-  fetch('https://cv-mobile-api.herokuapp.com/api/skills')
-  .then( response => response.json() )
-  .then( jsonSkills =>  {
-    const checkBoxes = [];
-    console.log(currentUserInfo)
-    // Render a new checkbox for each skill
-    jsonSkills.forEach( skill => {
-      checkBoxes.push(`
-      <div class="form-check skill-check w-50">
-        <input class="form-check-input" type="checkbox" value="${skill.value}" id="${skill.value}-check" ${currentUserInfo.skills.includes(skill.value) ? 'checked' : null}>
-        <label class="form-check-label" for="${skill.value}-check">${skill.label}</label>
-      </div>`);
-    });
-    document.querySelector('.skillChecks').innerHTML += checkBoxes.join('');
-  })
-  .then( () => {
-    document.querySelectorAll('.skill-check').forEach( check => check.addEventListener('click', editUserSkills));
-  });
 
+function renderSkillsEditMode(skills) {
+  return document.querySelector('#badgeContainer').innerHTML = createBadges(skills, true);
 }
 
-// Edit the skills inside the user profile
-function editUserSkills(e) {
-  const originalSkills = [...currentUserInfo.skills];
-  const currentSkills = [...originalSkills];
-  const target = e.target;
+function removeSkill(element) {
+  const valuetoRemove = element.dataset.skill;
+  const { skills } = currentUserInfo;
+  let skillIndex = skills.indexOf(valuetoRemove);
+  skills.splice( skillIndex, 1);
 
-  if (target.checked ) {
-    // check if the checked property is true and then search in the array to push it
-    if (!currentSkills.includes(target.value)) {
-      currentSkills.push(target.value);
-    }
-  } else {
-    // or if checked is false search it in the array to remove it
-    if (currentSkills.includes(target.value)) {
-      let targetIndex = currentSkills.indexOf(target.value);
-      currentSkills.splice(targetIndex, 1);
-    }
-  }
-
-  // clear the content inside the first div in the skillscontainer and re-render the new skills
-  const badgeContainer = document.querySelector('#badgeContainer');
-  badgeContainer.innerHTML = createBadges(currentSkills);
-
-  // Change the actual skills of the user
-  return currentUserInfo.skills = currentSkills;
+  renderSkillsEditMode(skills);
 }
-
 
 // Close edit mode and return user info to the initial state
 function closeEditMode() {
