@@ -12,7 +12,6 @@ function fetchUsersData() {
     $.ajax({
       url: `https://cv-mobile-api.herokuapp.com/api/users/pages/${currentUsersPage}`
     }).done((data) => {
-
       if (data.length === 10) {
         data.map( (user) => {
           user.highlight = [];
@@ -24,15 +23,12 @@ function fetchUsersData() {
         currentUsersPage++;
 
       } else if (data.length < 10) {
-
-        if (data[0]._id !== loadedUsers[loadedUsers.length - 1]._id) {
-          data.map( (user) => {
-            const card = renderCard(user);
-            cardsContainer.innerHTML += card;
-            loadedUsers.push(user);
-          });
-          isFetchAllowed = false;
-        }
+        data.map( (user) => {
+          const card = renderCard(user);
+          cardsContainer.innerHTML += card;
+          loadedUsers.push(user);
+        });
+        isFetchAllowed = false;
       }
 
     // Hide the loader after the content has loaded
@@ -92,11 +88,12 @@ function createBadges(skills) {
 }
 
 function showLoader() {
-  loader.style.display = 'block';
+  loader.classList.remove('d-none');
 }
 
 function hideLoader() {
-  loader.style.display = 'none';
+  // loader.style.display = 'none';
+  loader.classList.add('d-none');
 }
 
 cardsContainer.addEventListener('scroll', () => {
@@ -111,4 +108,9 @@ cardsContainer.addEventListener('scroll', () => {
     // In production the function would be called directly
     // fetchUsersData();
   }
+});
+
+// Functionality fot the floating action button
+document.querySelector('#floating-action-button').addEventListener('click', () => {
+  window.location.pathname = '/html/adduser.html';
 });
