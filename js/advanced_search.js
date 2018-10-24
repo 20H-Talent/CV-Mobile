@@ -5,6 +5,7 @@ const inputCountry = document.getElementById("country");
 const inputExperience = document.getElementById("experience");
 const inputCompany = document.getElementById("company");
 const inputJobTitle = document.getElementById("job-title");
+// const cardsContainer = document.getElementById('cards-container');
 
 //Imprimir los checkboxes de lang que están checked
 function getLangFilterAdvancedSearch(user) {
@@ -57,7 +58,6 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
   $.ajax({
     url: "https://cv-mobile-api.herokuapp.com/api/users"
   }).done(function(data) {
-    console.log(data);
     const filteredUser = data.filter(function(user) {
       // console.log(getSkillFilterAdvancedSearch(user));
       return (
@@ -72,9 +72,66 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
         getLangFilterAdvancedSearch(user)
       );
     });
-    console.log(filteredUser);
-  });
+      $("form").hide();
+      $(".goback-btn").show();
+      cardsContainer.classList.remove('d-none');
+
+      filteredUser.forEach( user => {
+        cardsContainer.innerHTML += renderCards(user);
+        
+      $(".goback-btn").click(function(){
+        $(".goback-btn").hide();
+        $("form").show();
+        cardsContainer.innerHTML = '';
+        cardsContainer.classList.add('d-none');
+      });
+      });
 });
+})
+
+
+// when submit button is clicked, the form will hide and the go back button will appear
+
+
+//when go back button is clicked, the form will appear and the go back button will dissapear
+  
+
+function renderCards(filteredUser) {
+  const {
+    name,
+    username,
+    jobTitle,
+    company,
+    email,
+    languages,
+    skills,
+    _id,
+    location,
+    experience,
+    profilePicture,
+  } = filteredUser;
+
+  console.log(filteredUser)
+  var template_cards = (
+    '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
+    '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
+    '<div class="card-body p-0 mt-2">' +
+    '<h2 class="card-title text-center mb-2"><span>' + name + '</span></h2>' +
+    '<h6 class="card-title text-center text-muted mb-4"><span>' + jobTitle + '</span></h6>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span>' + username + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span>' + email + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span>' + company + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span>' + location.city + ', ' + location.country + '</span></p>' +
+    '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
+    '</div>' +
+    '</div>'
+    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">today</i> <span' + (highlight.includes('experience') ? ' class="bg-warning"' : '') + '>' + experience + '</span></p>' +
+    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">translate</i> <span' + (highlight.includes('languages') ? ' class="bg-warning"' : '') + '>' + languages.join(', ') + '</span></p>' +
+    // '<div class="container-fluid p-0 mt-4 d-flex flex-wrap">' + createBadges(skills) + '</div>' +
+  );
+
+  return template_cards;
+}
 
 $.ajax({
   url: "https://cv-mobile-api.herokuapp.com/api/skills"
@@ -138,6 +195,3 @@ function renderLanguage(language) {
   return languageTemplate;
 }
 
-// $(".submit-btn").click(function(){
-//   $("main").hide();
-// });
