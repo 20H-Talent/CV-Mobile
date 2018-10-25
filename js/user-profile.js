@@ -299,6 +299,8 @@ function saveProfileChanges() {
       }
     });
 
+    let newPicture = document.querySelector('#picture-input').files[0];
+
     let formData = new FormData();
 
     formData.append('name', editedUserInfo.name);
@@ -315,7 +317,7 @@ function saveProfileChanges() {
     formData.append('experience', editedUserInfo.experience);
     formData.append('birthDate', editedUserInfo.birthDate);
     formData.append('gender', editedUserInfo.gender);
-    formData.append('profilePicture', editedUserInfo.profilePicture);
+    formData.append('profilePicture', newPicture);
 
     // Send the data to the server
     fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
