@@ -1,6 +1,9 @@
 const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.getElementById("nav-input");
 
+// Request the users data at page loading
+window.onload = fetchUsersData;
+
 // State variables to control activation of infinite scroll, page of users to request and store of all users requested
 let isFetchAllowed = true;
 let currentUsersPage = 1;
@@ -15,6 +18,7 @@ function fetchUsersData() {
       if (data.length === 10) {
         data.map( (user) => {
           user.highlight = [];
+          checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
           const card = renderCard(user);
           cardsContainer.innerHTML += card;
           loadedUsers.push(user);
@@ -23,12 +27,16 @@ function fetchUsersData() {
         currentUsersPage++;
 
       } else if (data.length < 10) {
-        data.map( (user) => {
-          const card = renderCard(user);
-          cardsContainer.innerHTML += card;
-          loadedUsers.push(user);
-        });
-        isFetchAllowed = false;
+
+        if (data[0]._id !== loadedUsers[loadedUsers.length - 1]._id) {
+          data.map( (user) => {
+            checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
+            const card = renderCard(user);
+            cardsContainer.innerHTML += card;
+            loadedUsers.push(user);
+          });
+          isFetchAllowed = false;
+        }
       }
 
     // Hide the loader after the content has loaded
@@ -36,31 +44,28 @@ function fetchUsersData() {
     });
   }
 }
-// Request the users data at page loading
-fetchUsersData();
+
+// Function to check if a user has registered for 5 days or less
+function checkIfUserIsNew(user) {
+  const fiveDaysToMiliseconds = 432000164;
+  const result = Date.now() - user.registeredDate;
+  if (result < fiveDaysToMiliseconds) {
+    return true;
+  }
+}
 
 // Create an html card template with the user data
 function renderCard(user) {
-  const {
-    name,
-    username,
-    jobTitle,
-    company,
-    email,
-    languages,
-    skills,
-    _id,
-    location,
-    experience,
-    profilePicture,
-    highlight
-  } = user;
+  const { name, username, jobTitle, company, email, _id, location, profilePicture, highlight, newUser } = user;
 
   var template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
-    '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
+    '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
-    '<h2 class="card-title text-center mb-2"><span' + (highlight ? highlight.includes('name') ? ' class="bg-warning"' : '': '') + '>' + name + '</span></h2>' +
+    '<h2 class="card-title text-center mb-2">' +
+      '<span' + (highlight ? highlight.includes('name') ? ' class="bg-warning d-flex justify-content-center"' : ' class="d-flex justify-content-center"': '') + '>' + name + '</span>' +
+      (newUser ? ' <span class="badge badge-success px-2 py-1 ml-3 my-auto position-absolute" style="font-size:0.8rem; top:10px; right: 10px;">NEW</span>' : '') +
+    '</h2>' +
     '<h6 class="card-title text-center text-muted mb-4"><span' + (highlight ? highlight.includes('jobTitle') ? ' class="bg-warning"' : '': '') + '>' + jobTitle + '</span></h6>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span' + (highlight ? highlight.includes('username') ? ' class="bg-warning"' : '' : '') + '>' + username + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span' + (highlight ? highlight.includes('email') ? ' class="bg-warning"' : '' : '') + '>' + email + '</span></p>' +
@@ -69,12 +74,17 @@ function renderCard(user) {
     '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'
-    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">today</i> <span' + (highlight.includes('experience') ? ' class="bg-warning"' : '') + '>' + experience + '</span></p>' +
-    // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">translate</i> <span' + (highlight.includes('languages') ? ' class="bg-warning"' : '') + '>' + languages.join(', ') + '</span></p>' +
-    // '<div class="container-fluid p-0 mt-4 d-flex flex-wrap">' + createBadges(skills) + '</div>' +
   );
 
   return template_cards;
+}
+
+// Handle img error loading resources from a bad endpoint
+function imgError(image) {
+  image.onerror = "";
+  image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
+  console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
+  return true;
 }
 
 function createBadges(skills) {
@@ -87,6 +97,7 @@ function createBadges(skills) {
   return skillBadges.join('');
 }
 
+// Loader functions
 function showLoader() {
   loader.classList.remove('d-none');
 }
@@ -96,21 +107,20 @@ function hideLoader() {
   loader.classList.add('d-none');
 }
 
+// Infinite scroll functionality
 cardsContainer.addEventListener('scroll', () => {
   const containerHeight = cardsContainer.offsetHeight;
 
   // When the user scrolls to the bottom of the container call the function to get more users
   if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight) && isFetchAllowed) {
-
     showLoader();
     setTimeout(fetchUsersData, 500);
-
-    // In production the function would be called directly
-    // fetchUsersData();
   }
 });
 
+
 // Functionality fot the floating action button
-document.querySelector('#floating-action-button').addEventListener('click', () => {
-  window.location.pathname = '/html/adduser.html';
+document.querySelector('#floating-action-button').addEventListener('click', function () {
+    window.location.pathname = '/html/adduser.html';
 });
+

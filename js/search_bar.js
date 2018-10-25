@@ -77,3 +77,12 @@ searchInput.addEventListener("keyup", function(e) {
     });
   }
 });
+
+// Compress the navbar after submiting the search form
+navForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Change navbarList properties to hide it
+  const navbarList = document.querySelector('.navbar-collapse');
+  navbarList.classList.remove('show');
+});
