@@ -42,7 +42,7 @@ function renderUSerInfo(user) {
     '</div>' +
     '<div class="fluid-container w-100 d-none mb-5" id="skill-search">' +
     '<input type="text" name="skill-input" id="skill-input" class="mt-3 w-100 border" />' +
-    '<div id="skill-result" class="w-100 bg-white border";"></div>' +
+    '<div class="container w-100 bg-white border";"><ul id="skill-result"></ul></div>' +
     '</div>'
     );
 }
@@ -186,12 +186,51 @@ function handleSkillSearch(e) {
       if (filteredSkills.length > 0) {
         console.log(filteredSkills);
         document.querySelector('#skill-result').innerHTML = '';
-        filteredSkills.forEach( skill => document.querySelector('#skill-result').innerHTML += `${skill.label}`)
+        filteredSkills.forEach( skill => document.querySelector('#skill-result').appendChild(skillResultTemplate(skill)) )
+      } else {
+        document.querySelector('#skill-result').innerHTML = '';
       }
     });
   } else {
     document.querySelector('#skill-result').innerHTML = '';
   }
+}
+
+function skillResultTemplate(skill) {
+  let listItem = document.createElement('li');
+  listItem.classList = 'skill-result fluid-container d-flex py-2 bg-light';
+  listItem.innerHTML = skill.label;
+  listItem.dataset.value = skill.value;
+
+  let enterSkill = document.createElement('i');
+  enterSkill.classList = 'material-icons ml-auto'
+  enterSkill.innerHTML = 'forward';
+
+  listItem.appendChild(enterSkill);
+  listItem.addEventListener('click', addNewSkill);
+  listItem.addEventListener('mouseenter', addResultHover);
+  listItem.addEventListener('mouseleave', removeResultHover);
+
+  return listItem;
+}
+
+function addResultHover(e) {
+  let target = e.target;
+  target.classList.add('bg-primary')
+  target.classList.add('text-white')
+  target.classList.remove('bg-light')
+
+}
+function removeResultHover(e) {
+  let target = e.target;
+  target.classList.remove('bg-primary')
+  target.classList.remove('text-white')
+  target.classList.add('bg-light')
+}
+
+function addNewSkill(e) {
+  let skillValue = e.target.dataset.value;
+  console.log(skillValue);
 }
 
 function removeSkill(element) {
