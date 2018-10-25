@@ -52,11 +52,12 @@ function createBadges(skills, editMode) {
   const skillBadges = [];
 
   skills.forEach( skill => {
-    skillBadges.push(`
-    <h5 class="mr-2">
-    <span class="badge badge-pill badge-success py-2 px-3 badge-skill d-flex align-items-center">
-    ${editMode ? `<span data-skill="${skill}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : ''}
-    ${skill}</span></h5>`);
+    skillBadges.push(
+      '<h5 class="mr-2">' +
+      '<span class="badge badge-pill badge-success py-2 px-3  badge-skill d-flex align-items-center">' +
+      (editMode ? `<span data-skill="${skill}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : '') +
+      `${skill}</span></h5>`
+    );
   });
 
   return skillBadges.join('');
@@ -168,7 +169,29 @@ function toggleSkillSearch(order) {
 }
 
 function handleSkillSearch(e) {
-  console.log(e.target.value)
+  // grab the value to search
+  let searchTerm = e.target.value;
+  let size = searchTerm.length;
+  // fetch the skills from the server
+  if (size > 0) {
+    fetch('https://cv-mobile-api.herokuapp.com/api/skills')
+    .then( response => response.json() )
+    .then( response => {
+      let serverSkills = response.slice(0);
+
+      // filter the skills by name
+      let filteredSkills = serverSkills.filter( skill => skill.value.slice(0, size) === searchTerm.toLowerCase() );
+
+      // render the coincidences in the #skill-result container
+      if (filteredSkills.length > 0) {
+        console.log(filteredSkills);
+        document.querySelector('#skill-result').innerHTML = '';
+        filteredSkills.forEach( skill => document.querySelector('#skill-result').innerHTML += `${skill.label}`)
+      }
+    });
+  } else {
+    document.querySelector('#skill-result').innerHTML = '';
+  }
 }
 
 function removeSkill(element) {
