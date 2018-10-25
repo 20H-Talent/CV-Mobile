@@ -62,9 +62,9 @@ function renderCard(user) {
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
-    '<h2 class="card-title text-center mb-2 position-relative">' +
+    '<h2 class="card-title text-center mb-2">' +
       '<span' + (highlight ? highlight.includes('name') ? ' class="bg-warning d-flex justify-content-center"' : ' class="d-flex justify-content-center"': '') + '>' + name + '</span>' +
-      (newUser ? ' <span class="badge badge-success px-2 py-1 ml-3 my-auto position-absolute" style="font-size:0.8rem; top:-20px; right: 45%;">NEW</span>' : '') +
+      (newUser ? ' <span class="badge badge-success px-2 py-1 ml-3 my-auto position-absolute" style="font-size:0.8rem; top:10px; right: 10px;">NEW</span>' : '') +
     '</h2>' +
     '<h6 class="card-title text-center text-muted mb-4"><span' + (highlight ? highlight.includes('jobTitle') ? ' class="bg-warning"' : '': '') + '>' + jobTitle + '</span></h6>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span' + (highlight ? highlight.includes('username') ? ' class="bg-warning"' : '' : '') + '>' + username + '</span></p>' +
