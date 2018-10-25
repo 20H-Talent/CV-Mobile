@@ -355,6 +355,8 @@ function saveProfileChanges() {
 }
 
 function removeConfirmation() {
+  // Hide the users options
+  toggleDropdown();
   // Show the context menu
   loader.classList.remove('d-none');
   // Confirm delete of user
