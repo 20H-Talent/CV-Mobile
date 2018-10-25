@@ -58,6 +58,9 @@ function renderCard(user) {
 
   var template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
+    '<button class="star-btn position-absolute">' +
+    '<i class="material-icons" id="star-icon">star_border</i>' +
+    '</button>' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
     '<h2 class="card-title text-center mb-2"><span' + (highlight ? highlight.includes('name') ? ' class="bg-warning"' : '': '') + '>' + name + '</span></h2>' +
