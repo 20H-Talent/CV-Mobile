@@ -8,61 +8,41 @@
   <title>CV App</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Custom CSS styles -->
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg header-top fixed-top navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">CV App</a>
+    <a class="navbar-brand" href="../index.html">CV App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./profile.html">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./search.html">Advanced Search</a>
+        </li>
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./html/profile.html">My Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./html/search.html">Advanced Search</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./html/surveys.html">Surveys</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./html/reports.html">Reports</a>
+          <a class="nav-link" href="#">Surveys and Reports</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Log in</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0" id="navForm">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search-term"
-          id="nav-input">
-        <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-      </form>
     </div>
   </nav>
-  <main class="container d-flex flex-wrap justify-content-center align-items-start" id="cards-container">
 
-  </main>
-  <div id="loader" class="bg-secondary d-none">
-    <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </div>
-  <!-- Floating action button -->
-  <button id="floating-action-button" class="btn btn-primary position-fixed d-flex shadow" style="bottom:40px; right:25px; width:60px; height: 60px; border-radius:50%;">
-    <i class="m-auto material-icons" style="font-size: 2.2rem;">add</i>
-  </button>
   <!-- Bootstrap scripts -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
@@ -70,9 +50,6 @@
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
-  <!-- Project scripts -->
-  <script src="./js/infinite_scroll.js"></script>
-  <script src="./js/search_bar.js"></script>
 </body>
 
 </html>
