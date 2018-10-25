@@ -1,14 +1,21 @@
 // Get the user's id from the url search parameter
 const userID = window.location.search.split('=')[1];
-let currentUserInfo = '';
+let originalUserInfo = '';
+let editedUserInfo = '';
+
+window.onload = fetchUserInfo(userID, renderUSerInfo);
+
 // Get the user's info from the API with the user's id
-fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`)
-.then( res => res.json() )
-.then( userData => {
-  // Save a copy of the user info for editin mode comparison
-  currentUserInfo = {...userData};
-  renderUSerInfo(userData);
-});
+function fetchUserInfo(id, callback) {
+  fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`)
+  .then( res => res.json() )
+  .then( userData => {
+    // Save a copy of the user info for editin mode comparison
+    originalUserInfo = {...userData};
+    editedUserInfo = {...userData};
+    callback ? callback(originalUserInfo) : null;
+  });
+}
 
 function renderUSerInfo(user) {
   // Set image src
@@ -42,7 +49,7 @@ function renderUSerInfo(user) {
     '</div>' +
     '<div class="fluid-container w-100 d-none mb-5" id="skill-search">' +
     '<input type="text" name="skill-input" id="skill-input" class="mt-3 w-100 border" />' +
-    '<div id="skill-result" class="w-100 bg-white border";"></div>' +
+    '<div class="fluid-container w-100 bg-white border"><ul class="m-0" id="skill-result"></ul></div>' +
     '</div>'
     );
 }
@@ -52,11 +59,12 @@ function createBadges(skills, editMode) {
   const skillBadges = [];
 
   skills.forEach( skill => {
-    skillBadges.push(`
-    <h5 class="mr-2">
-    <span class="badge badge-pill badge-success py-2 px-3 badge-skill d-flex align-items-center">
-    ${editMode ? `<span data-skill="${skill}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : ''}
-    ${skill}</span></h5>`);
+    skillBadges.push(
+      '<h5 class="mr-2">' +
+      '<span class="badge badge-pill badge-success py-2 px-3  badge-skill d-flex align-items-center">' +
+      (editMode ? `<span data-skill="${skill}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : '') +
+      `${skill}</span></h5>`
+    );
   });
 
   return skillBadges.join('');
@@ -89,13 +97,13 @@ function changeForSelect(property, options, multiple) {
     options.map( option => optionsArray.push(returnOptionElement(option)));
 
   $(`#${property}`).replaceWith(
-    `<select class="w-100 user-info" id="${property}" style="border:none; color: #05c643;" ${multiple ? 'multiple' : ''}>` +
+    `<select class="w-100 user-info border" id="${property}" style="border:none; color: #05c643;" ${multiple ? 'multiple' : ''}>` +
     optionsArray.join('') +
     `</select>`
   );
 
   function returnOptionElement(option) {
-    return `<option value="${option.value}" ${currentUserInfo[property].includes(option.value) || currentUserInfo[property] === option.value ? 'selected' : ''}>${option.label}</option>`;
+    return `<option value="${option.value}" ${originalUserInfo[property].includes(option.value) || originalUserInfo[property] === option.value ? 'selected' : ''}>${option.label}</option>`;
   }
 }
 
@@ -145,7 +153,7 @@ function openEditMode() {
   });
 
   // Adds checkboxes for skills inside the skillChecks container
-  renderSkillsEditMode(currentUserInfo.skills);
+  renderSkillsEditMode(originalUserInfo.skills);
   toggleSkillSearch('show');
 };
 
@@ -168,12 +176,77 @@ function toggleSkillSearch(order) {
 }
 
 function handleSkillSearch(e) {
-  console.log(e.target.value)
+  // grab the value to search
+  let searchTerm = e.target.value;
+  let size = searchTerm.length;
+  // fetch the skills from the server
+  if (size > 0) {
+    fetch('https://cv-mobile-api.herokuapp.com/api/skills')
+    .then( response => response.json() )
+    .then( response => {
+      let serverSkills = response.slice(0);
+
+      // filter the skills by name
+      let filteredSkills = serverSkills.filter( skill => skill.value.slice(0, size) === searchTerm.toLowerCase() );
+
+      // render the coincidences in the #skill-result container
+      if (filteredSkills.length > 0) {
+        document.querySelector('#skill-result').innerHTML = '';
+        filteredSkills.forEach( (skill, index) => document.querySelector('#skill-result').appendChild(skillResultTemplate(skill, index)) )
+      } else {
+        document.querySelector('#skill-result').innerHTML = '';
+      }
+    });
+  } else {
+    document.querySelector('#skill-result').innerHTML = '';
+  }
+}
+
+function skillResultTemplate(skill, order) {
+  let listItem = document.createElement('li');
+  listItem.classList = `skill-result fluid-container d-flex p-2 bg-light border`;
+  listItem.innerHTML = skill.label;
+  listItem.dataset.value = skill.value;
+  listItem.dataset.bg = order % 2 === 0 ? 'even' : 'odd';
+  listItem.style.cursor = 'pointer';
+
+  let enterSkill = document.createElement('i');
+  enterSkill.classList = 'material-icons ml-auto'
+  enterSkill.innerHTML = 'add_circle';
+
+  listItem.appendChild(enterSkill);
+  listItem.addEventListener('click', addNewSkill);
+  listItem.addEventListener('mouseenter', addResultHover);
+  listItem.addEventListener('mouseleave', removeResultHover);
+
+  return listItem;
+}
+
+function addResultHover(e) {
+  let target = e.target;
+
+  target.classList.add('bg-success')
+  target.classList.add('text-white')
+  target.classList.remove('bg-light')
+}
+
+function removeResultHover(e) {
+  let target = e.target;
+
+  target.classList.remove('bg-success')
+  target.classList.remove('text-white')
+  target.classList.add('bg-light')
+}
+
+function addNewSkill(e) {
+  let skillValue = e.target.dataset.value;
+  editedUserInfo.skills.push(skillValue);
+  renderSkillsEditMode(editedUserInfo.skills)
 }
 
 function removeSkill(element) {
   const valuetoRemove = element.dataset.skill;
-  const { skills } = currentUserInfo;
+  const { skills } = editedUserInfo;
   let skillIndex = skills.indexOf(valuetoRemove);
   skills.splice( skillIndex, 1);
 
@@ -190,7 +263,8 @@ function closeEditMode() {
       el.classList.remove('edited');
       el.style.color = '';
     });
-    renderUSerInfo(currentUserInfo);
+
+    fetchUserInfo(userID, renderUSerInfo)
   }
 }
 
@@ -200,36 +274,36 @@ function saveProfileChanges() {
     document.querySelectorAll('.edited').forEach( el => {
       switch (el.id) {
         case 'location':
-          currentUserInfo[el.id] = {
+          editedUserInfo[el.id] = {
             city: el.textContent.split(', ')[0],
             country: el.textContent.split(', ')[1],
-            state: currentUserInfo.location.state
+            state: editedUserInfo.location.state
           }
           break;
 
         default:
-          currentUserInfo[el.id] = $(el).val() || $(el).html();
+          editedUserInfo[el.id] = $(el).val() || $(el).html();
           break;
       }
     });
 
     let formData = new FormData();
 
-    formData.append('name', currentUserInfo.name);
-    formData.append('username', currentUserInfo.username);
-    formData.append('jobTitle', currentUserInfo.jobTitle);
-    formData.append('email', currentUserInfo.email);
-    formData.append('website', currentUserInfo.website);
-    formData.append('city', currentUserInfo.location.city);
-    formData.append('state', currentUserInfo.location.state);
-    formData.append('country', currentUserInfo.location.country);
-    formData.append('languages', JSON.stringify(currentUserInfo.languages));
-    formData.append('skills', JSON.stringify(currentUserInfo.skills));
-    formData.append('company', currentUserInfo.company);
-    formData.append('experience', currentUserInfo.experience);
-    formData.append('birthDate', '1986-02-25T00:00:00.000Z');
-    formData.append('gender', 'male');
-    formData.append('profilePicture', currentUserInfo.profilePicture);
+    formData.append('name', editedUserInfo.name);
+    formData.append('username', editedUserInfo.username);
+    formData.append('jobTitle', editedUserInfo.jobTitle);
+    formData.append('email', editedUserInfo.email);
+    formData.append('website', editedUserInfo.website);
+    formData.append('city', editedUserInfo.location.city);
+    formData.append('state', editedUserInfo.location.state);
+    formData.append('country', editedUserInfo.location.country);
+    formData.append('languages', JSON.stringify(editedUserInfo.languages));
+    formData.append('skills', JSON.stringify(editedUserInfo.skills));
+    formData.append('company', editedUserInfo.company);
+    formData.append('experience', editedUserInfo.experience);
+    formData.append('birthDate', editedUserInfo.birthDate);
+    formData.append('gender', editedUserInfo.gender);
+    formData.append('profilePicture', editedUserInfo.profilePicture);
 
     // Send the data to the server
     fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
@@ -237,8 +311,7 @@ function saveProfileChanges() {
       body: formData
     }).then( res => res.json())
     .then( updatedUser => {
-      updatedUser.profilePicture = currentUserInfo.profilePicture;
-      currentUserInfo = {...updatedUser};
+      originalUserInfo = {...updatedUser};
       closeEditMode();
     });
   }
@@ -279,9 +352,9 @@ function handleTextChange(e) {
       case 'languages':
         // Comprobar que el array que los idiomas es igual que un array a partir del string actual
         const checkArr = [];
-        targetContent.forEach( el => currentUserInfo.languages.includes(el) ? checkArr.push(true) : checkArr.push(false));
+        targetContent.forEach( el => originalUserInfo.languages.includes(el) ? checkArr.push(true) : checkArr.push(false));
 
-        if (checkArr.length !== currentUserInfo.languages.length || checkArr.includes(false)) {
+        if (checkArr.length !== originalUserInfo.languages.length || checkArr.includes(false)) {
           e.target.classList.add('edited');
           e.target.style.color = '#f28202';
         } else {
@@ -294,9 +367,9 @@ function handleTextChange(e) {
         const modifiedLocation = {
           city: targetContent.split(', ')[0],
           country: targetContent.split(', ')[1],
-          state: currentUserInfo.location.state
+          state: originalUserInfo.location.state
         }
-        if (currentUserInfo.location.city === modifiedLocation.city && currentUserInfo.location.country === modifiedLocation.country) {
+        if (originalUserInfo.location.city === modifiedLocation.city && originalUserInfo.location.country === modifiedLocation.country) {
           e.target.classList.remove('edited');
         } else {
           e.target.classList.add('edited');
@@ -304,7 +377,7 @@ function handleTextChange(e) {
         break;
 
       case 'experience':
-        if (currentUserInfo.experience !== this.value) {
+        if (originalUserInfo.experience !== this.value) {
           e.target.classList.add('edited');
           e.target.style.color = '#f28202';
         } else {
@@ -315,7 +388,7 @@ function handleTextChange(e) {
         break;
 
       default:
-        if (currentUserInfo[targetName] !== targetContent) {
+        if (originalUserInfo[targetName] !== targetContent) {
           // Change the text color when the info has changed from the initial data
           e.target.classList.add('edited');
         } else {
