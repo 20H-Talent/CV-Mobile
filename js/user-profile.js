@@ -152,7 +152,9 @@ function openEditMode() {
     });
   });
 
-  // Adds checkboxes for skills inside the skillChecks container
+
+  // Render a file input on top of the user's image
+  toggleFileUploader();
   renderSkillsEditMode(originalUserInfo.skills);
   toggleSkillSearch('show');
 };
@@ -161,6 +163,15 @@ function openEditMode() {
 function renderSkillsEditMode(skills) {
   return document.querySelector('#badgeContainer').innerHTML = createBadges(skills, true);
 }
+
+// Render an input type file over the user's avatar when edit mode is active
+function toggleFileUploader() {
+  document.querySelector('#profileBackdrop').classList.toggle('d-none');
+  document.querySelector('#profileBackdrop').classList.toggle('d-flex');
+  document.querySelector('#pictureLabel').classList.toggle('d-none');
+  document.querySelector('#pictureLabel').classList.toggle('d-flex');
+}
+
 
 function toggleSkillSearch(order) {
   let skillSearch = document.querySelector('#skill-search');
@@ -264,6 +275,7 @@ function closeEditMode() {
       el.style.color = '';
     });
 
+    toggleFileUploader();
     fetchUserInfo(userID, renderUSerInfo)
   }
 }
@@ -287,6 +299,8 @@ function saveProfileChanges() {
       }
     });
 
+    let newPicture = document.querySelector('#picture-input').files[0];
+
     let formData = new FormData();
 
     formData.append('name', editedUserInfo.name);
@@ -303,7 +317,7 @@ function saveProfileChanges() {
     formData.append('experience', editedUserInfo.experience);
     formData.append('birthDate', editedUserInfo.birthDate);
     formData.append('gender', editedUserInfo.gender);
-    formData.append('profilePicture', editedUserInfo.profilePicture);
+    formData.append('profilePicture', newPicture);
 
     // Send the data to the server
     fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
