@@ -25,7 +25,9 @@ function hello() {
 
 }
 hello();
-
+var alertText = document.getElementsByClassName("alert-text");
+var alertGeder = document.getElementById("gender-Alert");
+var alertSkills = document.getElementById("alert-skills");
 $("#send").click(function () {
     var data = document.getElementsByClassName("data");
     var country = document.getElementById("Country");
@@ -37,42 +39,47 @@ $("#send").click(function () {
     var checkboxLanguages = document.getElementsByClassName("languages");
     var i;
     // it var(n,s) is because calc the "input" required that are filled
+    //n is the input filled
     var n = 0;
+    //s is the skill no checks
     var s = 0;
+    for (i = 0; i < alertText.length; i++) {
+        alertText[i].classList.add("d-none")
+    }
+    alertGeder.classList.add("d-none");
+    alertSkills.classList.add("d-none")
     for (i = 0; i < required.length; i++) {
         if (required[i].value == "") {
-            alert('it is required ' + required[i].id);
+            alertText[i].classList.remove("d-none");
         } else {
             n++;
         }
     }
+    //if the two gender check are false the alert
     if (checkgender[0].checked == false && checkgender[1].checked == false) {
-        alert("Please indicate your gender");
+        alertGeder.classList.remove("d-none")
     } else {
         n++;
     }
-    //the -1 's because you have to remove the profilePicture of the list
     for (i = 0; i < checkboxSkil.length; i++) {
         if (checkboxSkil[i].checked == false) {
             s++;
         }
-        if (s == checkboxSkil.length) {
-            alert("Please indicate you skill");
-        }
     }
-    console.log(n);
-
-    console.log(s);
+    if (s == checkboxSkil.length) {
+        alertSkills.classList.remove("d-none")
+    }
+    //if there is no checks of the Skill activated sum one to change the result
     if (!(s == checkboxSkil.length)) {
         n++;
     }
-    console.log(n);
-    if (n == 10) {
-        alert("a funcionado");
+    // the  9 because are the obligatory questions ,the question of Gender value two
+    if (n == 9) {
         for (i = 0; i < data.length; i++) {
             if (data[i].name == "languages") {
                 languages = [];
                 var e;
+                //here unite the language in a array 
                 for (e = 0; e < checkboxLanguages.length; e++) {
                     if (checkboxLanguages[e].checked) {
                         languages.push(checkboxLanguages[e].attributes.id.nodeValue);
@@ -82,11 +89,13 @@ $("#send").click(function () {
             } else if (data[i].name == "skills") {
                 var skills = [];
                 var e;
+                //here unite the Skill in a array
                 for (e = 0; e < checkboxSkil.length; e++) {
                     if (checkboxSkil[e].checked) {
                         skills.push(checkboxSkil[e].attributes.id.nodeValue);
                     }
                 };
+                //here take the check active the gender
             } else if (data[i].classList == "gender data  mr-1 ") {
                 var e;
                 for (e = 0; e < checkgender.length; e++) {
@@ -122,6 +131,7 @@ $("#send").click(function () {
                 var birthDate = data[i].value;
             }
         }
+        //the constructor of the data user
         function createRequestBody() {
             let formData = new FormData();
 
@@ -142,6 +152,7 @@ $("#send").click(function () {
 
             return formData;
         }
+        //here create the object
         var usernew = createRequestBody();
         console.log(usernew)
         fetch('https://cv-mobile-api.herokuapp.com/api/users', {
@@ -156,10 +167,3 @@ $("#send").click(function () {
 
 
 
-
-/*function createRequestBody() {
-  let formData = new FormData();
-  
- 
-  return formData;
-}*/

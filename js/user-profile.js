@@ -273,9 +273,15 @@ function removeResultHover(e) {
 }
 
 function addNewSkill(e) {
-  let skillValue = e.target.dataset.value;
-  editedUserInfo.skills.push(skillValue);
-  renderSkillsEditMode(editedUserInfo.skills)
+  const skillValue = e.target.dataset.value;
+  const isSkillRepeated = editedUserInfo.skills.includes(skillValue);
+
+  if (!isSkillRepeated) {
+    editedUserInfo.skills.push(skillValue);
+    renderSkillsEditMode(editedUserInfo.skills)
+  } else {
+    console.warn('[ERROR]: the user already has that skill.');
+  }
 }
 
 function removeSkill(element) {
@@ -355,6 +361,8 @@ function saveProfileChanges() {
 }
 
 function removeConfirmation() {
+  // Hide the users options
+  toggleDropdown();
   // Show the context menu
   loader.classList.remove('d-none');
   // Confirm delete of user
