@@ -7,7 +7,7 @@ function hello() {
         for (i = 0; i < lang.length; i++) {
             text1 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="languages" class="languages data mr-2" id="' + lang[i].label + '"><p class="mb-0 mr-2">' + lang[i].label + "</p></div>";
         }
-        var fromlague = '<label for="Laguages" class="w-100">Laguages</label>' + text1;
+        var fromlague = '<label for="Laguages" class="col-4 font-weight-bold">Laguages</label>'+'<div class="input-group input-group-sm  font-weight-bold col-11"> ' + text1+'</div>';
         document.getElementById("substitutelangue").innerHTML = fromlague;
     });
 
@@ -19,7 +19,7 @@ function hello() {
         for (e = 0; e < skill.length; e++) {
             text2 += '<div class="w-50 d-flex align-items-center"> <input type="checkbox" name="skills"' + ' id="' + skill[e].name + '"' + ' class="skills data mr-2 "><p class="mb-0 mr-2">' + skill[e].label + "</p></div>";
         }
-        var fromskill = text2;
+        var fromskill = '<div class="input-group input-group-sm mb-4 d-flex align-items-center font-weight-bold border border-secondary p-2  col-11">'+text2+'</div';
         document.getElementById("substituteskill").innerHTML = fromskill;
     });
 
