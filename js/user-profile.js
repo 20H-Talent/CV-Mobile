@@ -73,6 +73,8 @@ function createBadges(skills, editMode) {
 
 // Edit mode state
 let editModeStatus = false;
+let isDropdownOpen = false;
+
 // Change interface icons on edit mode status
 function changeEditModeStatus() {
   editModeStatus = !editModeStatus;
@@ -80,16 +82,38 @@ function changeEditModeStatus() {
     edit.classList.add('d-none');
     save.classList.remove('d-none');
     cancel.classList.remove('d-none');
-    remove.classList.remove('d-none');
   } else {
     edit.classList.remove('d-none');
     save.classList.add('d-none');
     cancel.classList.add('d-none');
-    remove.classList.add('d-none');
   }
 }
 // Edit profile functionality
-edit.addEventListener('click', openEditMode);
+edit.addEventListener('click', toggleDropdown);
+
+// Show profile options dropdown
+function toggleDropdown() {
+  isDropdownOpen = !isDropdownOpen;
+  let options = document.querySelector('#edit-options');
+
+  if (isDropdownOpen) {
+    // Show the options of the profile
+    options.classList.add('d-flex');
+    options.classList.remove('d-none');
+    // Add listeners to each option
+    document.querySelector('#edit-btn').addEventListener('click', openEditMode)
+    document.querySelector('#delete-btn').addEventListener('click', removeConfirmation)
+  } else {
+    // Hide the options of the profile
+    options.classList.remove('d-flex');
+    options.classList.add('d-none');
+    // Remove the listener of the options to avoid unexpected behavior
+    document.querySelector('#edit-btn').removeEventListener('click', openEditMode)
+    document.querySelector('#delete-btn').removeEventListener('click', removeConfirmation)
+
+  }
+
+}
 
 function changeForSelect(property, options, multiple) {
   const optionsArray = [];
@@ -108,13 +132,12 @@ function changeForSelect(property, options, multiple) {
 }
 
 function openEditMode() {
+  toggleDropdown();
   changeEditModeStatus();
   // Enable to cancel the edits made
   cancel.addEventListener('click', closeEditMode);
   // Save profile changes functionality
   save.addEventListener('click', saveProfileChanges);
-  // Remove user profile functionality
-  remove.addEventListener('click', removeConfirmation);
 
   // Replace experience and languages for inputs of type select
   let experienceOptions = [
@@ -250,9 +273,15 @@ function removeResultHover(e) {
 }
 
 function addNewSkill(e) {
-  let skillValue = e.target.dataset.value;
-  editedUserInfo.skills.push(skillValue);
-  renderSkillsEditMode(editedUserInfo.skills)
+  const skillValue = e.target.dataset.value;
+  const isSkillRepeated = editedUserInfo.skills.includes(skillValue);
+
+  if (!isSkillRepeated) {
+    editedUserInfo.skills.push(skillValue);
+    renderSkillsEditMode(editedUserInfo.skills)
+  } else {
+    console.warn('[ERROR]: the user already has that skill.');
+  }
 }
 
 function removeSkill(element) {
@@ -332,6 +361,8 @@ function saveProfileChanges() {
 }
 
 function removeConfirmation() {
+  // Hide the users options
+  toggleDropdown();
   // Show the context menu
   loader.classList.remove('d-none');
   // Confirm delete of user
