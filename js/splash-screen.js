@@ -36,15 +36,15 @@ class SplashScreen {
   }
 
   renderSplashLoader() {
-    let timeFragment = this._time / 50;
+    let timeFragment = this._time / 100;
     let currentProgress = 0;
 
     let progressInterval = setInterval(increaseLoader, timeFragment);
 
     function increaseLoader() {
-      if (currentProgress <= 98) {
+      if (currentProgress <= 99) {
+        currentProgress += 1;
         document.querySelector('#splash-progress').style.width = `${currentProgress}%`;
-        currentProgress += 2;
       } else {
         console.log('page loaded');
         clearInterval(progressInterval);
