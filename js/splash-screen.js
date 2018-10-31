@@ -21,7 +21,7 @@ class SplashScreen {
         <img src="./assets/images/splash-img.jpg" class="position-absolute" style="width:100%; height:100%; object-fit:cover; filter:brightness(50%); z-index:9991;" />
         <img src="./assets/images/20h-logo.png" style="width:40%; height:auto; border-radius:50%; z-index:9994;" />
         <h2 class="text-white text-center mb-4" style="z-index: 9992">${this._text}</h2>
-        <div id="splash-loader" class="bg-secondary position-absolute" style="bottom:50px; width:70%; height:8px; border-radius:4px; z-index: 9993;">
+        <div id="splash-loader" class="bg-secondary position-absolute" style="bottom:50px; width:60%; height:8px; border-radius:4px; z-index: 9993;">
           <div id="splash-progress" class="bg-light" style="height:100%; transition:all 50ms ease-out; border-radius:4px;"></div>
         </div>
       </div>`);
