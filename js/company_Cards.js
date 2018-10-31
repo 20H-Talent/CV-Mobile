@@ -15,7 +15,7 @@ exportCards();
 function renderCard(data) {
     var card = (
         '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
-        '<img class="card-img-top m-auto" src="' + data[0].logoURL + '" alt="20H Profile picture" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;">' +
+        '<img class="card-img-top mx-5" src="' + data[0].logoURL + '" alt="'+data[0].name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;">' +
         '<div class="card-body p-0 mt-2">' +
         '<h5 class="card-title text-center mb-2">' +
         data[0].name +
@@ -50,17 +50,4 @@ function renderCard(data) {
     "logoURL": "http://cv-mobile-api.herokuapp.com/uploads/2018-10-30T16_38_53.628Zapple-logo.jpeg"
     "__v ": 0
 }]
-*/
-
-/*
-       
-    <div class="alert alert-primary" role="alert">
-        Buscamos desarrolladores expertos en <a href="#" class="alert-link">Java</a>
-    </div>
-    <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-primary">More Info</button>
-    </div>
-
-</div>
-</div>
  */

@@ -34,3 +34,33 @@ __v: 0
 _id: "5bd8891d9a8c59001ba6d7f5"
 __proto__: Object
 */
+
+
+let isDropdownOpen = false;
+// Edit profile functionality
+edit.addEventListener('click', toggleDropdown);
+
+// Show profile options dropdown
+function toggleDropdown() {
+  isDropdownOpen = !isDropdownOpen;
+  let options = document.querySelector('#edit-options');
+
+  if (isDropdownOpen) {
+    // Show the options of the profile
+    options.classList.add('d-flex');
+    options.classList.remove('d-none');
+    // Add listeners to each option
+    document.querySelector('#edit-btn').addEventListener('click', openEditMode)
+    document.querySelector('#delete-btn').addEventListener('click', removeConfirmation)
+  } else {
+    // Hide the options of the profile
+    options.classList.remove('d-flex');
+    options.classList.add('d-none');
+    // Remove the listener of the options to avoid unexpected behavior
+    document.querySelector('#edit-btn').removeEventListener('click', openEditMode)
+    document.querySelector('#delete-btn').removeEventListener('click', removeConfirmation)
+
+  }
+
+}
+
