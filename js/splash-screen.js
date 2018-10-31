@@ -16,12 +16,13 @@ class SplashScreen {
 
   splashTemplate() {
     return (
-      `<div id="splash" class="position-absolute bg-secondary d-flex flex-column align-items-center justify-content-around"
-        style="top:0; left:0; width:100vw; height:100vh; z-index:9998;">
-        <img src="./assets/images/20h-logo.png" style="width:40%; height:auto; border-radius:50%;" />
-        <h2 class="text-light text-center mb-5">${this._text}</h2>
-        <div id="splash-loader" class="bg-secondary position-absolute" style="bottom:50px; width:80%; height:8px; border-radius:4px;">
-          <div id="splash-progress" class="bg-light" style="height:100%; transition:all 50ms ease-out;"></div>
+      `<div id="splash" class="position-absolute d-flex flex-column align-items-center justify-content-around"
+        style="top:0; left:0; width:100vw; height:100vh; z-index:9990;">
+        <img src="./assets/images/splash-img.jpg" class="position-absolute" style="width:100%; height:100%; object-fit:cover; filter:brightness(50%); z-index:9991;" />
+        <img src="./assets/images/20h-logo.png" style="width:40%; height:auto; border-radius:50%; z-index:9994;" />
+        <h2 class="text-white text-center mb-4" style="z-index: 9992">${this._text}</h2>
+        <div id="splash-loader" class="bg-secondary position-absolute" style="bottom:50px; width:70%; height:8px; border-radius:4px; z-index: 9993;">
+          <div id="splash-progress" class="bg-light" style="height:100%; transition:all 50ms ease-out; border-radius:4px;"></div>
         </div>
       </div>`);
   }
@@ -66,4 +67,4 @@ class SplashScreen {
 }
 
 // Create an instance of the SplashScreen and call init on declare to make its properties unavailable through the console
-const splash = new SplashScreen('welcome to 20h, move your career forward', 5000).init();
+const splash = new SplashScreen('Trust. Passion. Talent.', 10000).init();
