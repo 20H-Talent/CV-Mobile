@@ -1,19 +1,6 @@
-// node-fetch required to be able to live test the code with quokka.js
-const fetch = require('node-fetch');
-
-// Render a form inside an accordion dynamically from the surveys stored into the api
-// 1 - Connect to the api and get the surveys
-// 2 - Render an accordion that will hold the forms
-// 2 - Render a form component for each survey inside the accordion
-// 3 - Render the correct type of input for each form element
-
-
-const surveysURL = 'https://cv-mobile-api.herokuapp.com/api/surveys';
-const container = document.querySelector('.main-container');
-
 class SurveysPage {
-  constructor(url) {
-    this._url = url;
+  constructor() {
+    this._url = 'https://cv-mobile-api.herokuapp.com/api/surveys';
     this._surveys;
   }
 
@@ -30,13 +17,181 @@ class SurveysPage {
       .then( res => res.json())
       .then( data => {
         this._surveys = data;
-        this.renderAccordion(this._surveys);
+        this.renderPage();
       })
       .catch( err => console.log(err.message));
   }
 
-  renderAccordion(surveysArr) {
-    // console.log(surveysArr);
+  generatePageStructure() {
+    let pageStructure = (`
+        <div class="container w-100">
+          <h5 class="pt-4 pb-2">Latest surveys</h5>
+        </div>
+        <div class="container w-100">
+          ${this.generateAccordion(this._surveys)}
+        </div>
+    `);
+
+    return pageStructure;
+  }
+
+  generateAccordion(surveysArr) {
+    let formCards = [];
+    surveysArr.forEach( (survey, index) => {
+      formCards.push(this.generateFormCard(survey, index));
+    })
+
+    let accordionTemplate = `<div class="accordion mb-4" id="accordion-surveys">${formCards.join('')}</div>`;
+
+    return accordionTemplate;
+  }
+
+  generateFormCard(survey, index) {
+    let inputArray = [];
+    survey.elements.forEach( element => inputArray.push(this.generateInput(element)));
+
+    let randomId = Math.floor(Math.random() * 5000);
+
+    let formTemplate = (
+      `<div class="card shadow">
+        <div class="card-header" id="form-header-${randomId}">
+          <h5 class="mb-0">
+            <button class="btn btn-link w-100 d-flex" style="text-decoration:none;" type="button" data-toggle="collapse" data-target="#collapse-${randomId}" aria-expanded="true" aria-controls="collapse-${randomId}">
+              <span>${survey.header.title}</span><span class="ml-auto ${(this.checkFormFinish(survey.header.endDate) ? 'text-danger' : '')}">${this.convertTimestampToDate(survey.header.endDate)}</span>
+            </button>
+          </h5>
+        </div>
+
+        <div id="collapse-${randomId}" class="collapse" aria-labelledby="form-header-${randomId}" data-parent="#accordion-surveys">
+        <div class="alert alert-info rounded-0" style="font-size:0.9rem;" role="alert">
+
+          <p class="m-0">${survey.header.description}</p>
+        </div>
+          <div class="card-body">
+            <form>
+              ${inputArray.join('')}
+              <div class="fluid-container pt-4">
+                <button class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>`
+    );
+
+    return formTemplate;
+  }
+
+  generateInput(input) {
+    let inputTemplate;
+
+    switch (input.type) {
+      case 'text':
+        let randomTextID = this.generateRandomId();
+
+        inputTemplate = (`
+          <div class="form-group">
+            <label for="input-text-${randomTextID}">${input.title}</label>
+            <input type="text" class="form-control" id="input-text-${randomTextID}" aria-describedby="textHelp" >
+          </div>
+        `);
+        break;
+
+      case 'number':
+        let randomNumberID = this.generateRandomId();
+
+        inputTemplate = (`
+        <div class="form-group">
+          <label for="input-number-${randomNumberID}">${input.title}</label>
+          <input type="text" class="form-control" id="input-number-${randomNumberID}" aria-describedby="textHelp" >
+        </div>
+      `);
+        break;
+
+      case 'select':
+        let selectOptions = [];
+        input.values.forEach( value => selectOptions.push(`<option value="${value}">${value}</option>`));
+        let randomSelectID = this.generateRandomId();
+
+        inputTemplate = (`
+        <div class="form-group">
+          <label for="input-select-${randomSelectID}">${input.title}</label>
+          <select class="form-control" id="input-select-${randomSelectID}">
+          ${selectOptions.join('')}
+          </select>
+        </div>
+      `);
+        break;
+      case 'checkbox':
+        let checkboxOptions = [];
+        input.values.forEach( value => {
+          let randomID = this.generateRandomId();
+
+          checkboxOptions.push((`
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="${value}" id="input-checkbox-${randomID}">
+            <label class="form-check-label" for="input-checkbox-${randomID}">${value}</label>
+          </div>
+          `))
+        });
+
+        inputTemplate = (`
+          <div class="form-group">
+            <label>${input.title}</label>
+            ${checkboxOptions.join('')}
+          </div>
+        `);
+        break;
+      case 'radio':
+        let radioOptions = [];
+
+        input.values.forEach( value => {
+          let randomID = this.generateRandomId();
+
+          radioOptions.push((`
+          <div class="form-check">
+            <input class="form-radio-input" type="radio" name="¿?" value="${value}" id="input-radio-${randomID}">
+            <label class="form-radio-label" for="input-radio-${randomID}">${value}</label>
+          </div>
+          `))
+        });
+
+        inputTemplate = (`
+          <div class="form-group">
+            <label>${input.title}</label>
+            ${radioOptions.join('')}
+          </div>
+        `);
+        break;
+
+      default:
+        break;
+    }
+
+    return inputTemplate;
+  }
+
+  generateRandomId() {
+    let randomId = Math.floor(Math.random() * 5000);
+    return randomId;
+  }
+
+  checkFormFinish(date) {
+    let timeLimit = 172800000;
+    if (date - Date.now() < timeLimit) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  convertTimestampToDate(timestamp) {
+    let fullDate = new Date(timestamp);
+    return `${fullDate.getDate()}-${fullDate.getMonth()}-${fullDate.getFullYear()}`;
+  }
+
+  renderPage() {
+    document.querySelector('.main-container').innerHTML = this.generatePageStructure();
   }
 
   init() {
@@ -44,25 +199,5 @@ class SurveysPage {
   }
 }
 
-class SurveyForm {
-  constructor(header, elements) {
-    this._header = header,
-    this._header = elements
-  }
-
-  renderHeader(header) {}
-  renderInput(element) {}
-  renderForm() {}
-}
-
-
-
 // Initialization of the page's functionality
-let pageHandler = new SurveysPage(surveysURL);
-window.onload = pageHandler.init();
-
-// Export functions for unit testing
-module.exports = {
-  SurveysPage: SurveysPage,
-  SurveyForm: SurveyForm
-}
+window.onload = new SurveysPage().init();
