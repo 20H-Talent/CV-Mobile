@@ -37,8 +37,16 @@ class SurveysPage {
 
   generateAccordion(surveysArr) {
     let formCards = [];
-    surveysArr.forEach( (survey, index) => {
-      formCards.push(this.generateFormCard(survey, index));
+    let orderedSurveys = surveysArr.sort( (a, b) => {
+      if (a.header.endDate > b.header.endDate) return 1;
+      if (a.header.endDate < b.header.endDate) return -1;
+      return 0;
+    });
+
+    orderedSurveys.forEach( (survey, index) => {
+      if (survey.header.endDate > Date.now()) {
+        formCards.push(this.generateFormCard(survey, index));
+      }
     })
 
     let accordionTemplate = `<div class="accordion mb-4" id="accordion-surveys">${formCards.join('')}</div>`;
@@ -187,7 +195,20 @@ class SurveysPage {
 
   convertTimestampToDate(timestamp) {
     let fullDate = new Date(timestamp);
-    return `${fullDate.getDate()}-${fullDate.getMonth()}-${fullDate.getFullYear()}`;
+    let monthArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let stringDay = fullDate.getDate().toString();
+
+    if (stringDay[stringDay.length - 1] == 1) {
+      stringDay += 'st';
+    } else if (stringDay[stringDay.length - 1] == 2) {
+      stringDay += 'nd';
+    } else if (stringDay[stringDay.length - 1] == 3) {
+      stringDay += 'rd';
+    } else {
+      stringDay += 'th';
+    }
+
+    return `${stringDay} ${monthArr[fullDate.getMonth()]}`;
   }
 
   renderPage() {
