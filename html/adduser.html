@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CV App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Custom CSS styles -->
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <nav class="navbar navbar-expand-lg header-top fixed-top navbar-dark bg-dark">
+            <a class="navbar-brand" href="../index.html">CV App</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="./profile.html">My Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./search.html">Advanced Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./surveys.html">Surveys</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./reports.html">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container pt-5 pb-5 pr-1 pl-1">
+            <form action="" class="pt-5">
+
+                <div class="container">
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="Name" class="col-2 d-flex">Name<p class="text-danger mb-1">*</p></label>
+                        <input type="text" class="form-control order1 data col-8 required" id="Name" name="name"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
+                        <strong>it is required </strong> Name
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="userName" class="col-4 d-flex">User Name<p class="text-danger mb-1">*</p></label>
+                        <input type="text" class="form-control order1 data  col-8 required" id="userName" name="userName"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4 " role="alert">
+                        <strong>it is required </strong>User Name
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex align-items-center font-weight-bold">
+                        <label for="gender" class="mb-0 col-4  d-flex align-items-center">Gender
+                            <p class="text-danger mb-1">*</p>
+                        </label>
+                        <input type="radio" name="gender" id="Male" class="gender data  mr-1 ">
+                        <p class="mr-1 mb-0 mr-4">Male</p>
+                        <input type="radio" name="gender" id="Female" class="gender data  mr-1 ">
+                        <p class="mr-1 mb-0">Female</p>
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show d-none mb-4" role="alert" id="gender-Alert">
+                        <strong>Please </strong> indicate your gender
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="email" class="col-2 d-flex">Email<p class="text-danger mb-1">*</p></label>
+                        <input type="email" class="form-control order1 data  col-8 required" id="email" name="email"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
+                        <strong>it is required </strong> Email
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="city" class="col-2 d-flex">City<p class="text-danger mb-1">*</p></label>
+                        <input type="text" class="form-control data location  col-8 required" id="city" name="city"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
+                        <strong>it is required </strong>City
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
+                        <label for="state" class="col-2 d-flex">State<p class="text-danger mb-1">*</p></label>
+                        <input type="text" class="form-control data location col-8 required" id="state" name="state"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
+                        <strong>it is required </strong> State
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
+                        <label for="Country" class="col-2 d-flex">Country<p class="text-danger mb-1">*</p></label>
+                        <input type="text" class="form-control data location  col-8 required" id="Country" name="country"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
+                        <strong>it is required </strong> Country
+                    </div>
+
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
+                        <label for="Company" class="col-2">Company</label>
+                        <input type="text" class="form-control order2 data  col-8" id="Company" name="company"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
+                        <label for="jobTitle" class="col-4">Job Title</label>
+                        <input type="text" class="form-control order2 data  col-8" id="jobTitle" name="jobTitle"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <label for="skills" class="w-100 col-4 mb-0 d-flex font-weight-bold">Skills
+                        <p class="text-danger mb-1">*</p>
+                    </label>
+                    <div class="d-flex justify-content-center " id="substituteskill">
+
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show d-none mb-4" role="alert" id="alert-skills">
+                        <strong>it is required </strong> Skills
+                    </div>
+                    <div class="d-flex justify-content-center flex-column mb-5" id="substitutelangue">
+
+                    </div>
+                    <div class="input-group input-group-sm mb-5 d-flex justify-content-between font-weight-bold">
+                        <label for="image" class=" d-flex mb-3 col-11">Profile picture</label>
+                        <input type="file" id="image" name="profilePicture" class="font-weight-bold col-11">
+                    </div>
+
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="website" class="col-2 d-flex">Website</label>
+                        <input type="text" class="form-control order2 data  col-8" id="website" name="website"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="birthDate" class="col-2 d-flex">BirthDate
+                            <p class="text-danger mb-1">*</p>
+                        </label>
+                        <input type="date" class="form-control order2 data col-8 required" id="birthDate" name="birthDate"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
+                        <strong>it is required </strong> BirthDate
+                    </div>
+                    <div class="input-group input-group-sm mb-3 d-flex justify-content-between font-weight-bold">
+                        <label for="Experience" class="col-2">Experience</label>
+                        <select class="form-control col-8 data " id="Experience" name="experience">
+                            <option class="experience" value="- 1 year">- 1 year</option>
+                            <option class="experience" value="1 - 3 years">1 - 3 years</option>
+                            <option class="experience" value="3 - 5 years">3 - 5 years</option>
+                            <option class="experience" value="+ 5 years">+ 5 years</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <input type="button" value="Enviar" id="send" class="btn btn-primary ">
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="../js/bringInfFrom.js"></script>
+</body>
+
+</html>
