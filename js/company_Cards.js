@@ -1,12 +1,16 @@
-var cardsContainer = document.getElementById("cards");
+var cardsContainer = document.getElementById("cards-container");
 var example = 'example';
 function exportCards() {
     $.ajax({
         url: "https://cv-mobile-api.herokuapp.com/api/company"
     }).done(function (data) {
         console.log(data);
-        const card = renderCard(data);
-        cardsContainer.innerHTML += card;
+        var i;
+        for(i=0;i<=data.length;i++){
+            const card = renderCard(data[i]);
+            cardsContainer.innerHTML += card;
+        }
+        
     });
 
 }
@@ -14,10 +18,11 @@ exportCards();
 
 function renderCard(data) {
     var card = (
-        '<img class="card-img-top m-auto" src="' + data[0].logoURL + '" alt="'+data[0].name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;" onerror="imgError(this)">' +
+        '<div class="card shadow m-3 p-4"  style="width: 90%; height: auto;">'+
+        '<img class="card-img-top m-auto" src="' + data.logoURL + '" alt="'+data.name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;" onerror="imgError(this)">' +
         '<div class="card-body p-0 mt-2">' +
         '<h5 class="card-title text-center mb-2">' +
-        data[0].name +
+        data.name +
         '<span class="d-flex justify-content-center">S.L</span>' +
         ' </h5>' +
         '<div class="alert alert-primary" role="alert">' +
@@ -27,8 +32,9 @@ function renderCard(data) {
         '</a>' +
         '</div>' +
         '<div class="d-flex justify-content-center">' +
-        '<button type="button" class="btn btn-primary "><a class="text-light" href="../html/company-profile.html?id='+data[0]._id+'">More Info</a></button>' +
+        '<button type="button" class="btn btn-primary "><a class="text-light" href="../html/company-profile.html?id='+data._id+'">More Info</a></button>' +
         '</div >' +
+        '</div >'  +
         '</div >' 
     );
     return card;

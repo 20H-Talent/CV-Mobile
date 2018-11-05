@@ -30,19 +30,19 @@
                         <a class="nav-link" href="../index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./html/profile.html">My Profile</a>
+                        <a class="nav-link" href="profile.html">My Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./html/search.html">Advanced Search</a>
+                        <a class="nav-link" href=".search.html">Advanced Search</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="./html/company.html">Company</a>
+                        <a class="nav-link" href="company.html">Company</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./html/surveys.html">Surveys</a>
+                        <a class="nav-link" href="surveys.html">Surveys</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./html/reports.html">Reports</a>
+                        <a class="nav-link" href="reports.html">Reports</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Log in</a>
@@ -51,69 +51,82 @@
             </div>
         </nav>
         <div class="container pt-5 pb-5 pr-1 pl-1">
-            <form action="" class="pt-5">
-
+            <form action="" class="pt-5" id="form">
+                <div class="alert alert-primary mt-1 d-none" role="alert" id="allError">
+                    <p id="need-company" >Please fill in all the information </p> 
+                  </div>
                 <div class="container">
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
-                        <label for="Name" class="col-2 d-flex">Name<p class="text-danger mb-1">*</p></label>
-                        <input type="text" class="form-control order1 data col-8 required" id="Name" name="name"
+                        <label for="Name" class="col-2 d-flex">Name</label>
+                        <input type="text" class="form-control  data col-8" id="Name" name="name" required
                             aria-describedby="basic-addon1">
                     </div>
-                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong> Name
-                    </div>
+                  
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
-                        <label for="email" class="col-2 d-flex">Email<p class="text-danger mb-1">*</p></label>
-                        <input type="email" class="form-control order1 data  col-8 required" id="email" name="email"
+                        <label for="email" class="col-2 d-flex">Email</label>
+                        <input type="email" class="form-control  data  col-8" id="email" name="email" required 
                             aria-describedby="basic-addon1">
-                    </div>
-                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong> Email
                     </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
-                        <label for="phone" class="col-2 d-flex">phone<p class="text-danger mb-1">*</p></label>
-                        <input type="number" class="form-control data location  col-8 required" id="phone" name="phone"
+                        <label for="phone" class="col-2 d-flex">phone</label>
+                        <input type="number" class="form-control data location  col-8 required" id="phone" name="phone" required
                             aria-describedby="basic-addon1">
                     </div>
-                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong>phone
-                    </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
-                        <label for="city" class="col-2 d-flex">City<p class="text-danger mb-1">*</p></label>
-                        <input type="text" class="form-control data location  col-8 required" id="city" name="city"
+                        <label for="city" class="col-2 d-flex">City</label>
+                        <input type="text" class="form-control data location  col-8 required" id="city" name="city" required
                             aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
-                        <label for="Country" class="col-2 d-flex">Country<p class="text-danger mb-1">*</p></label>
-                        <input type="text" class="form-control data location  col-8 required" id="Country" name="country"
+                        <label for="Country" class="col-2 d-flex">Country</label>
+                        <input type="text" class="form-control data location  col-8 required" id="Country" name="country" required
                             aria-describedby="basic-addon1">
-                    </div>
-                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong> Country
                     </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
-                        <label for="street" class="col-2 d-flex">street<p class="text-danger mb-1">*</p></label>
-                        <input type="text" class="form-control data location  col-8 required" id="street" name="street"
+                        <label for="street" class="col-2 d-flex">street</label>
+                        <input type="text" class="form-control data location  col-8 required" id="street" name="street"required
                             aria-describedby="basic-addon1">
-                    </div>
-                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong> street
                     </div>
                     <div class="input-group input-group-sm mb-5 d-flex justify-content-between font-weight-bold">
                         <label for="logoURL" class=" d-flex mb-3 col-11">Logo</label>
-                        <input type="file" id="logoURL" name="logoURL" class="font-weight-bold col-11">
+                        <input type="file" id="logoURL" name="logoURL" class="font-weight-bold col-11" required>
                     </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
                         <label for="website" class="col-2 d-flex">Website</label>
-                        <input type="text" class="form-control order2 data  col-8" id="website" name="website"
+                        <input type="text" class="form-control order2 data  col-8" id="website" name="website"required
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="bio" class="col-2 d-flex">bio</label>
+                        <input type="text" class="form-control order2 data  col-8" id="bio" name="bio"required
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="CIF" class="col-2 d-flex">CIF</label>
+                        <input type="number" class="form-control order2 data  col-8" id="CIF" name="CIF"required
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="zipcode" class="col-2 d-flex">Zipcode</label>
+                        <input type="number" class="form-control order2 data  col-8" id="zipcode" name="zipcode"required
                             aria-describedby="basic-addon1">
                     </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
-                        <label for="employees" class="col-2 d-flex">employees<p class="text-danger mb-1">*</p></label>
-                        <input type="number" class="form-control data location  col-8 required" id="employees" name="employees"
+                        <label for="employees" class="col-2 d-flex">employees</label>
+                        <input type="number" class="form-control data location  col-8 required" id="employees" name="employees"required
                             aria-describedby="basic-addon1">
                     </div>
+                    <!--
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
+                        <label for="What-need" class="col-4 d-flex">What need?</label>
+                        <input type="text" class="form-control data location  col-8 required" id="What-need" name=""
+                            aria-describedby="basic-addon1">
+                    </div>
+                    -->
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <input type="submit" value="Enviar" id="send" class="btn btn-primary ">
                 </div>
             </form>
         </div>
