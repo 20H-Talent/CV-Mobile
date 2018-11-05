@@ -94,7 +94,7 @@ function renderCard(user) {
   var template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
     '<i class="material-icons" style="width: 24px;" id="star-icon" data-id="' + _id + '">star_border</i>' +
-    '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
+    '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
     '<h2 class="card-title text-center mb-2">' +
       '<span' + (highlight ? highlight.includes('name') ? ' class="bg-warning d-flex justify-content-center"' : ' class="d-flex justify-content-center"': '') + '>' + name + '</span>' +
