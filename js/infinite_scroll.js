@@ -60,9 +60,10 @@ function showStar(e) {
   } else {
     e.target.innerHTML = 'star';
     favUsers.push(selectedFavUserId);
-    localStorage.setItem(selectedFavUserId, favUsers);
+    localStorage.setItem(favUsers, selectedFavUserId);
   }
   console.log(favUsers);
+  console.log(localStorage.getItem(favUsers));
 };
 
 
