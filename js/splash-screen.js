@@ -18,9 +18,9 @@ class SplashScreen {
     return (
       `<div id="splash" class="position-absolute d-flex flex-column align-items-center justify-content-around"
         style="top:0; left:0; width:100vw; height:100vh; z-index:9990;">
-        <img src="./assets/images/splash-img.jpg" class="position-absolute" style="width:100%; height:100%; object-fit:cover; filter:brightness(50%); z-index:9991;" />
+        <img src="./assets/images/splash-img.jpg" class="position-absolute" style="width:100%; height:100%; object-fit:cover; filter:brightness(45%); z-index:9991;" />
         <img src="./assets/images/20h-logo-anim.gif" style="width:40%; max-width: 200px; height:auto; border-radius:50%; z-index:9994;" />
-        <h3 class="text-white text-center mb-4" style="z-index: 9992">${this._text}</h3>
+        <h3 class="text-white font-weight-bold text-center mb-4" style="z-index: 9992">${this._text}</h3>
         <div id="splash-loader" class="bg-secondary position-absolute" style="bottom:50px; width:60%; height:8px; border-radius:4px; z-index: 9993;">
           <div id="splash-progress" class="bg-light" style="height:100%; transition:all 50ms ease-out; border-radius:4px;"></div>
         </div>
