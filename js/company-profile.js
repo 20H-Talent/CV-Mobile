@@ -1,23 +1,53 @@
 const userID = window.location.search.split('=')[1];
-console.log(userID);
-function dataCompany(userID){
+var email = document.getElementById("email");
+var website = document.getElementById("website");
+var works = document.getElementById("works");
+var phone = document.getElementById("phone");
+var locatiFull = document.getElementById("location");
+var country = document.getElementById("location-country");
+var city = document.getElementById("location-city");
+var street = document.getElementById("location-street");
+
+var liLocatiFull = document.getElementById("li-location");
+var liCountry = document.getElementById("li-location-country");
+var liCity = document.getElementById("li-location-city");
+var liStreet = document.getElementById("li-location-street");
+var dataf = "";
+
+
+function dataCompany(userID) {
     $.ajax({
-        url: "https://cv-mobile-api.herokuapp.com/api/company/"+ userID
+        url: "https://cv-mobile-api.herokuapp.com/api/company/" + userID
     }).done(function (data) {
         fillData(data);
-        console.log(data)
+        dataf = data;
+        console.log(dataf);
     });
 }
-function fillData(data){
-document.getElementById("name").innerHTML = data.name;
-document.getElementById("email").innerHTML = data.email;
-document.getElementById("website").innerHTML = data.website;
-document.getElementById("works").innerHTML = data.employees;
-document.getElementById("phone").innerHTML = data.phone;
-document.getElementById("userImg").src = data.logoURL;
-document.getElementById("location").innerHTML = data.address.country+' '+data.address.city+ ' ,'+data.address.street ;
+
+function fillData(data) {
+    document.getElementById("name").innerHTML = data.name;
+    email.innerHTML = data.email;
+    website.innerHTML = data.website;
+    works.innerHTML = data.employees;
+    phone.innerHTML = data.phone;
+    document.getElementById("userImg").src = data.logoURL;
+   
+    locatiFull.innerHTML = data.address.country + ' . ' + data.address.city + ' . ' + data.address.street;
+    country.innerHTML = data.address.country;
+    city.innerHTML = data.address.city;
+    street.innerHTML = data.address.street;
+
+
 }
+function imgError(image) {
+    image.onerror = "";
+    image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
+    console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
+    return true;
+  }
 dataCompany(userID);
+// "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png"
 /*
  email: "info@apple.com", …}
 CIF: 49900932
@@ -35,32 +65,105 @@ _id: "5bd8891d9a8c59001ba6d7f5"
 __proto__: Object
 */
 
+$("#edit").click(function editDelete() {
+    document.getElementById("edit-options").classList.remove("d-none");
+})
 
-let isDropdownOpen = false;
-// Edit profile functionality
-edit.addEventListener('click', toggleDropdown);
+$('#edit-btn').click(function edit() {
+    email.setAttribute('contenteditable', true);
+    website.setAttribute('contenteditable', true);
+    works.setAttribute('contenteditable', true);
+    phone.setAttribute('contenteditable', true);
+    street.setAttribute('contenteditable', true);
+    city.setAttribute('contenteditable', true);
+    country.setAttribute('contenteditable', true);
 
-// Show profile options dropdown
-function toggleDropdown() {
-  isDropdownOpen = !isDropdownOpen;
-  let options = document.querySelector('#edit-options');
+    liLocatiFull.classList.add("d-none");
+    liStreet.classList.remove("d-none");
+    liCity.classList.remove("d-none");
+    liCountry.classList.remove("d-none");
 
-  if (isDropdownOpen) {
-    // Show the options of the profile
-    options.classList.add('d-flex');
-    options.classList.remove('d-none');
-    // Add listeners to each option
-    document.querySelector('#edit-btn').addEventListener('click', openEditMode)
-    document.querySelector('#delete-btn').addEventListener('click', removeConfirmation)
-  } else {
-    // Hide the options of the profile
-    options.classList.remove('d-flex');
-    options.classList.add('d-none');
-    // Remove the listener of the options to avoid unexpected behavior
-    document.querySelector('#edit-btn').removeEventListener('click', openEditMode)
-    document.querySelector('#delete-btn').removeEventListener('click', removeConfirmation)
+    liLocatiFull.classList.remove("d-flex");
+    liStreet.classList.add("d-flex");
+    liCity.classList.add("d-flex");
+    liCountry.classList.add("d-flex");
 
-  }
+    document.getElementById("need-company").setAttribute('contenteditable', true);
+    document.getElementById("save").classList.remove("d-none");
+    document.getElementById("cancel").classList.remove("d-none");
+    document.getElementById("edit").classList.add("d-none");
+    document.getElementById("edit-options").classList.add("d-none");
 
-}
+});
 
+
+$("#save").click(function () {
+
+    email.setAttribute('contenteditable', false);
+    website.setAttribute('contenteditable', false);
+    works.setAttribute('contenteditable', false);
+    phone.setAttribute('contenteditable', false);
+    street.setAttribute('contenteditable', false);
+    city.setAttribute('contenteditable', false);
+    country.setAttribute('contenteditable', false);
+
+
+    liLocatiFull.classList.add("d-flex");
+    liStreet.classList.remove("d-flex");
+    liCity.classList.remove("d-flex");
+    liCountry.classList.remove("d-flex");
+
+    liLocatiFull.classList.remove("d-none");
+    liStreet.classList.add("d-none");
+    liCity.classList.add("d-none");
+    liCountry.classList.add("d-none");
+
+    locatiFull.innerHTML = country.innerText + ' . ' + city.innerText + ' . ' + street.innerText;
+
+
+    document.getElementById("need-company").setAttribute('contenteditable', false);
+    document.getElementById("save").classList.add("d-none");
+    document.getElementById("cancel").classList.add("d-none");
+    document.getElementById("edit").classList.remove("d-none");
+
+});
+
+$(".user-info").keyup(function () {
+    console.log(email);
+    console.log(dataf.email);
+    if (!(email.innerText == dataf.email)) {
+        email.classList.add("edited");
+    } else {
+        email.classList.remove("edited");
+    }
+    if (!(website.innerText == dataf.website)) {
+        website.classList.add("edited");
+    } else {
+        website.classList.remove("edited");
+    }
+    if (!(works.innerText == dataf.employees)) {
+        works.classList.add("edited");
+    } else {
+        works.classList.remove("edited");
+    }
+    if (!(phone.innerText == dataf.phone)) {
+        phone.classList.add("edited");
+    } else {
+        phone.classList.remove("edited");
+    }
+    if (!(street.innerText == dataf.address.street)) {
+        street.classList.add("edited");
+    } else {
+        street.classList.remove("edited");
+    }
+    if (!(city.innerText == dataf.address.city)) {
+        city.classList.add("edited");
+    } else {
+        city.classList.remove("edited");
+    }
+    if (!(country.innerText == dataf.address.country)) {
+        country.classList.add("edited");
+    } else {
+        country.classList.remove("edited");
+    }
+});

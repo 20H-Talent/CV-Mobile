@@ -23,25 +23,25 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-            <a class="nav-link" href="../index.html">Home</a>
-          </li>
-        <li class="nav-item">
-            <a class="nav-link" href="./html/profile.html">My Profile</a>
+          <a class="nav-link" href="../index.html">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./html/search.html">Advanced Search</a>
+          <a class="nav-link" href="./html/profile.html">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./html/search.html">Advanced Search</a>
         </li>
         <li class="nav-item ">
           <a class="nav-link" href="../html/company.html">Company</a>
-      </li>
-        <li class="nav-item">
-            <a class="nav-link" href="./html/surveys.html">Surveys</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./html/reports.html">Reports</a>
+          <a class="nav-link" href="./html/surveys.html">Surveys</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Log in</a>
+          <a class="nav-link" href="./html/reports.html">Reports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Log in</a>
         </li>
       </ul>
     </div>
@@ -70,7 +70,7 @@
       <div class="container">
         <div class="row">
           <div class="container d-flex justify-content-center position-relative">
-            <img class="img" id="userImg" style="width: 200px; height: 200px; object-fit: contain; border-radius: 50%;">
+            <img class="img rounded-circle" id="userImg" style="width: 200px; height: 200px; object-fit: contain;" onerror="imgError(this)">
             <div id="profileBackdrop" class="position-absolute bg-light d-none justify-content-center align-items-center"
               style="width: 150px; height: 150px; border-radius: 50%; top:50%; left:50%; background:#fff; opacity:0.6; transform: translate(-50%, -50%);">
             </div>
@@ -111,22 +111,37 @@
                 <i class="material-icons mr-3">translate</i>
                 <p class="m-0 w-100 user-info" id="languages"></p>
               </li>
-              <li class="container my-2 d-flex">
+              <li class="container my-2 d-flex" id="li-location">
                 <i class="material-icons mr-3">public</i>
                 <p class="m-0 w-100 user-info" id="location"></p>
+              </li>
+              <li class="container my-2  d-none " id="li-location-country">
+                <i class="material-icons mr-3">public</i>
+                <p class="m-0 w-100 user-info " id="location-country"></p>
+              </li>
+              <li class="container my-2 d-none " id="li-location-city">
+                <i class="material-icons mr-3">public</i>
+                <p class="m-0 w-100 user-info " id="location-city"></p>
+              </li>
+              <li class="container my-2  d-none" id="li-location-street">
+                <i class="material-icons mr-3">public</i>
+                <p class="m-0 w-100 user-info " id="location-street"></p>
+              </li>
             </ul>
           </div>
         </div>
         <div class="row">
           <div class="container mb-3 px-4">
             <h4>We need</h4>
-            <div class="alert alert-primary" role="alert"></div>
+            <div class="alert alert-primary" role="alert">
+              <p id="need-company">--</p>
+            </div>
           </div>
           <div class="container d-flex flex-wrap position relative px-4" id="skills"></div>
         </div>
       </div>
   </main>
-  
+
   <!-- Bootstrap scripts -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>

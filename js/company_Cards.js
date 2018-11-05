@@ -14,8 +14,7 @@ exportCards();
 
 function renderCard(data) {
     var card = (
-        '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
-        '<img class="card-img-top mx-5" src="' + data[0].logoURL + '" alt="'+data[0].name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;">' +
+        '<img class="card-img-top m-auto" src="' + data[0].logoURL + '" alt="'+data[0].name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;" onerror="imgError(this)">' +
         '<div class="card-body p-0 mt-2">' +
         '<h5 class="card-title text-center mb-2">' +
         data[0].name +
@@ -30,11 +29,16 @@ function renderCard(data) {
         '<div class="d-flex justify-content-center">' +
         '<button type="button" class="btn btn-primary "><a class="text-light" href="../html/company-profile.html?id='+data[0]._id+'">More Info</a></button>' +
         '</div >' +
-        '</div >' +
-        '</div >'
+        '</div >' 
     );
     return card;
 }
+function imgError(image) {
+    image.onerror = "";
+    image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
+    console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
+    return true;
+  }
 /*
 [{
     "address": {"country": "EEUU", "street": "Palo Alto, 239", "city": "San Francisco", "zipcode": 45783}
