@@ -1,8 +1,6 @@
 const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.getElementById("nav-input");
 
-//Variable global para guardar el local storage de favortios
-const favUsers = [];
 
 // Request the users data at page loading
 window.onload = fetchUsersData;
@@ -53,17 +51,16 @@ function fetchUsersData() {
 
 
 function showStar(e) {
-  
+  //Variable global para guardar el local storage de favoritos.Lo que va a hacer es intentar coger el favStorage del local Storage. Sino, nos dará un array vacío
+  let favUsers = JSON.parse(localStorage.getItem('favStorage')) || []
   const selectedFavUserId = e.target.dataset.id
   if (e.target.innerHTML === 'star'){
     e.target.innerHTML = 'star_border';
   } else {
     e.target.innerHTML = 'star';
     favUsers.push(selectedFavUserId);
-    localStorage.setItem(favUsers, selectedFavUserId);
+    localStorage.setItem('favStorage', JSON.stringify(favUsers));
   }
-  console.log(favUsers);
-  console.log(localStorage.getItem(favUsers));
 };
 
 
