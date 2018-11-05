@@ -144,6 +144,9 @@ cardsContainer.addEventListener('scroll', () => {
 
 // Functionality fot the floating action button
 document.querySelector('#floating-action-button').addEventListener('click', function () {
-    window.location.pathname = '/html/adduser.html';
+  let pathPieces = window.location.pathname.split('/');
+  pathPieces[pathPieces.length - 1] = '/html/adduser.html';
+
+  window.location.pathname = pathPieces.join('');
 });
 

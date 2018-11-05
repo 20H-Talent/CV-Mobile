@@ -374,7 +374,6 @@ function removeConfirmation() {
 }
 
 function removeUser() {
-  if (editModeStatus) {
     fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
       method: 'DELETE'
     })
@@ -383,7 +382,6 @@ function removeUser() {
       console.log(response);
       window.location.pathname = '/index.html';
     });
-  }
 }
 
 // Handle user's info content changes
