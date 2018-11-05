@@ -25,7 +25,7 @@ class SurveysPage {
   generatePageStructure() {
     let pageStructure = (`
         <div class="container w-100">
-          <h5 class="pt-4 pb-2">Latest surveys</h5>
+          <h5 class="pt-4 pb-2">List of surveys</h5>
         </div>
         <div class="container w-100">
           ${this.generateAccordion(this._surveys)}
@@ -211,8 +211,31 @@ class SurveysPage {
     return `${stringDay} ${monthArr[fullDate.getMonth()]}`;
   }
 
+  sendFormData(e) {
+    e.preventDefault();
+    const form = e.target;
+    const inputsList = {
+      text: [],
+      number: [],
+      select: [],
+      checkbox: [],
+      radio: []
+    };
+
+    for (let key in inputsList) {
+      if (key === 'select') {
+        form.querySelectorAll(key).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
+      } else {
+        form.querySelectorAll(`[type="${key}"]`).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
+      }
+    }
+
+    console.log(inputsList);
+  }
+
   renderPage() {
     document.querySelector('.main-container').innerHTML = this.generatePageStructure();
+    document.querySelectorAll('form').forEach( form => form.addEventListener('submit', this.sendFormData));
   }
 
   init() {
