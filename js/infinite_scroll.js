@@ -1,6 +1,6 @@
 const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.getElementById("nav-input");
-
+let stars;
 
 // Request the users data at page loading
 window.onload = fetchUsersData;
@@ -43,19 +43,24 @@ function fetchUsersData() {
       starIcons.forEach(function(star){
         star.addEventListener("click", showStar);
       });
-    // Hide the loader after the content has loaded
+      stars = document.querySelectorAll("#star-icon");
+      renderFav();
+          // Hide the loader after the content has loaded
     hideLoader();
     });
   }
 }
 
-
+//Function to check if the star is clicked or not, and add the selected favourite users into and array
 function showStar(e) {
-  //Variable global para guardar el local storage de favoritos.Lo que va a hacer es intentar coger el favStorage del local Storage. Sino, nos dará un array vacío
+  //Global variable to save in the favourite local storage. This will try to take favStorage of the local Storage. If not, it will create an empty array
   let favUsers = JSON.parse(localStorage.getItem('favStorage')) || []
   const selectedFavUserId = e.target.dataset.id
   if (e.target.innerHTML === 'star'){
     e.target.innerHTML = 'star_border';
+    let userIndex = favUsers.indexOf(selectedFavUserId);
+    favUser = favUsers.splice(userIndex, 1);
+    localStorage.setItem('favStorage', JSON.stringify(favUsers));
   } else {
     e.target.innerHTML = 'star';
     favUsers.push(selectedFavUserId);
@@ -63,6 +68,15 @@ function showStar(e) {
   }
 };
 
+//Function to render the users that have been selected as favourite
+function renderFav(){
+  let favUsers = localStorage.getItem('favStorage') || [];
+  stars.forEach(function(star){
+    if (favUsers.includes(star.dataset.id)) {
+      star.innerHTML = 'star';
+    }
+  })
+}
 
 // Function to check if a user has registered for 5 days or less
 function checkIfUserIsNew(user) {
@@ -79,7 +93,7 @@ function renderCard(user) {
 
   var template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
-    '<i class="material-icons" id="star-icon" data-id="' + _id + '">star_border</i>' +
+    '<i class="material-icons" style="width: 24px;" id="star-icon" data-id="' + _id + '">star_border</i>' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
     '<h2 class="card-title text-center mb-2">' +
