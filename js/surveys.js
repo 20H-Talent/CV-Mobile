@@ -25,7 +25,8 @@ class SurveysPage {
   generatePageStructure() {
     let pageStructure = (`
         <div class="container w-100">
-          <h5 class="pt-4 pb-2">List of surveys</h5>
+          <h4 class="pt-5 pb-4 pl-2">Available surveys</h4>
+          <p class="d-flex" style="font-size:0.9rem; padding: 0 35px;"><span>Title</span><span class="ml-auto text-right">End date</span></p>
         </div>
         <div class="container w-100">
           ${this.generateAccordion(this._surveys)}
@@ -223,14 +224,25 @@ class SurveysPage {
     };
 
     for (let key in inputsList) {
-      if (key === 'select') {
-        form.querySelectorAll(key).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
-      } else {
-        form.querySelectorAll(`[type="${key}"]`).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
+      switch (key) {
+        case 'select':
+          form.querySelectorAll(key).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
+          break;
+        case 'checkbox':
+          form.querySelectorAll(`[type="${key}"]`).forEach( input => { input.checked ? inputsList[key].push({name: input.name, value: input.value}) : null });
+          break;
+        case 'radio':
+          form.querySelectorAll(`[type="${key}"]`).forEach( input => { input.checked ? inputsList[key].push({name: input.name, value: input.value}) : null });
+          break;
+        default:
+          form.querySelectorAll(`[type="${key}"]`).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
+          break;
       }
     }
 
-    console.log(inputsList);
+    const { text, number, select, checkbox, radio } = inputsList;
+    const formBody = text.concat(number.concat(select.concat(checkbox.concat(radio))));
+    console.log(formBody);
   }
 
   renderPage() {
