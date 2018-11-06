@@ -148,7 +148,7 @@ cardsContainer.addEventListener('scroll', () => {
   // When the user scrolls to the bottom of the container call the function to get more users
   if ((cardsContainer.scrollTop + containerHeight === cardsContainer.scrollHeight) && isFetchAllowed) {
     showLoader();
-    setTimeout(fetchUsersData, 500);
+    fetchUsersData();
   }
 });
 
