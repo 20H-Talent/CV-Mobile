@@ -85,6 +85,10 @@ html {
 	}
 }
 
+#star-icon {
+	cursor: pointer;
+}
+
 /*
 PROFILE PAGE CUSTOM STYLES
  */
