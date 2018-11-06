@@ -66,7 +66,7 @@ class SurveysPage {
         <div class="card-header" id="form-header-${randomId}">
           <h5 class="mb-0">
             <button class="btn btn-link w-100 d-flex" style="text-decoration:none;" type="button" data-toggle="collapse" data-target="#collapse-${randomId}" aria-expanded="true" aria-controls="collapse-${randomId}">
-              <span>${survey.header.title}</span><span class="ml-auto ${(this.checkFormFinish(survey.header.endDate) ? 'text-danger' : '')}">${this.convertTimestampToDate(survey.header.endDate)}</span>
+              <span style="max-width:60%; overflow: hidden;">${survey.header.title}</span><span class="ml-auto ${(this.checkFormFinish(survey.header.endDate) ? 'text-danger' : '')}">${this.convertTimestampToDate(survey.header.endDate)}</span>
             </button>
           </h5>
         </div>
