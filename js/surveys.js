@@ -45,7 +45,8 @@ class SurveysPage {
     });
 
     orderedSurveys.forEach( (survey, index) => {
-      if (survey.header.endDate > Date.now()) {
+      let surveyDate = new Date(survey.header.endDate).getTime()
+      if (surveyDate > Date.now()) {
         formCards.push(this.generateFormCard(survey, index));
       }
     })
@@ -100,8 +101,8 @@ class SurveysPage {
 
         inputTemplate = (`
           <div class="form-group">
-            <label for="input-text-${randomTextID}">${input.title}</label>
-            <input type="text" class="form-control" id="input-text-${randomTextID}" aria-describedby="textHelp" >
+            <label for="input-text-${randomTextID}">${input.label}</label>
+            <input type="text" class="form-control" name="${input.name}" id="input-text-${randomTextID}" aria-describedby="textHelp" >
           </div>
         `);
         break;
@@ -111,21 +112,21 @@ class SurveysPage {
 
         inputTemplate = (`
         <div class="form-group">
-          <label for="input-number-${randomNumberID}">${input.title}</label>
-          <input type="text" class="form-control" id="input-number-${randomNumberID}" aria-describedby="textHelp" >
+          <label for="input-number-${randomNumberID}">${input.label}</label>
+          <input type="text" class="form-control" name="${input.name}" id="input-number-${randomNumberID}" aria-describedby="textHelp" >
         </div>
       `);
         break;
 
       case 'select':
         let selectOptions = [];
-        input.values.forEach( value => selectOptions.push(`<option value="${value}">${value}</option>`));
+        input.values.forEach( value => selectOptions.push(`<option value="${value.value}">${value.label}</option>`));
         let randomSelectID = this.generateRandomId();
 
         inputTemplate = (`
         <div class="form-group">
-          <label for="input-select-${randomSelectID}">${input.title}</label>
-          <select class="form-control" id="input-select-${randomSelectID}">
+          <label for="input-select-${randomSelectID}">${input.label}</label>
+          <select class="form-control" name="${input.name}" id="input-select-${randomSelectID}">
           ${selectOptions.join('')}
           </select>
         </div>
@@ -133,20 +134,20 @@ class SurveysPage {
         break;
       case 'checkbox':
         let checkboxOptions = [];
-        input.values.forEach( value => {
+        input.values.forEach( (value, index) => {
           let randomID = this.generateRandomId();
 
           checkboxOptions.push((`
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="${value}" id="input-checkbox-${randomID}">
-            <label class="form-check-label" for="input-checkbox-${randomID}">${value}</label>
+            <input class="form-check-input" type="checkbox" name="${input.name}" value="${value.value}" id="input-checkbox-${randomID}">
+            <label class="form-check-label" for="input-checkbox-${randomID}">${value.label}</label>
           </div>
           `))
         });
 
         inputTemplate = (`
           <div class="form-group">
-            <label>${input.title}</label>
+            <label>${input.label}</label>
             ${checkboxOptions.join('')}
           </div>
         `);
@@ -159,15 +160,15 @@ class SurveysPage {
 
           radioOptions.push((`
           <div class="form-check">
-            <input class="form-radio-input" type="radio" name="¿?" value="${value}" id="input-radio-${randomID}">
-            <label class="form-radio-label" for="input-radio-${randomID}">${value}</label>
+            <input class="form-radio-input" type="radio" name="${input.name}" value="${value.value}" id="input-radio-${randomID}">
+            <label class="form-radio-label" for="input-radio-${randomID}">${value.label}</label>
           </div>
           `))
         });
 
         inputTemplate = (`
           <div class="form-group">
-            <label>${input.title}</label>
+            <label>${input.label}</label>
             ${radioOptions.join('')}
           </div>
         `);
