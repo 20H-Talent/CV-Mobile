@@ -72,21 +72,24 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
         getLangFilterAdvancedSearch(user)
       );
     });
-      $("form").hide();
-      $(".goback-btn").show();
-      cardsContainer.classList.remove('d-none');
+    console.log(inputCountry.value);
+    $("form").hide();
+    $(".goback-btn").show();
+    cardsContainer.classList.remove('d-none');
+    renderBadgets();
 
-      filteredUser.forEach( user => {
-        cardsContainer.innerHTML += renderCards(user);
-        
+    filteredUser.forEach( user => {
+      cardsContainer.innerHTML += renderCards(user);
+
       $(".goback-btn").click(function(){
         $(".goback-btn").hide();
         $("form").show();
         cardsContainer.innerHTML = '';
         cardsContainer.classList.add('d-none');
+
       });
-      });
-});
+    });
+  });
 })
 
 
@@ -110,8 +113,6 @@ function renderCards(filteredUser) {
     experience,
     profilePicture,
   } = filteredUser;
-
-  console.log(filteredUser)
   var template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
@@ -145,14 +146,14 @@ function renderSkill(skill) {
   var skillTemplate =
     '<div class="form-check col-12">' +
     '<input class="form-check-input check-skill" type="checkbox" value="' +
-    skill.name +
+    skill._id +
     '" name="' +
     skill.name +
     '"id="' +
-    skill.name +
+    skill._id +
     '">' +
     '<label class="form-check-label" for="' +
-    skill.name +
+    skill._id+
     '">' +
     skill.label +
     "</label>" +
@@ -166,13 +167,6 @@ $.ajax({
   data.forEach(function(language) {
     document.getElementById("langs_container").innerHTML += renderLanguage(language);
   });
-  // const inputLang = document.querySelectorAll(".check-lang");
-  // var langArr = [];
-  // inputLang.forEach(function(lang) {
-  //   if (lang.checked == true) {
-  //     langArr.push(lang.value);
-  //   }
-  // });
 });
 
 function renderLanguage(language) {
@@ -180,18 +174,54 @@ function renderLanguage(language) {
     ' <div class="form-check col-12">' +
     //Operador ternario
     '<input class="form-check-input check-lang" type="checkbox" value="' +
-    language.value +
+    language._id +
     '" id="' +
-    language.name +
+    language._id +
     '"' +
     (language.default ? "checked" : "") +
     ">" +
     '<label class="form-check-label" for="' +
-    language.name +
+    language._id +
     '">' +
     language.label +
     "</label>" +
     "</div>";
   return languageTemplate;
 }
+
+function renderBadgets() {
+  var badgetTemplate = [];
+
+  if( inputName.value !== '' ) {
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputName.value + '<i class="material-icons">cancel</i></span>') ;
+  }
+
+  if( inputUsername.value !== '' ) {
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputUsername.value + '<i class="material-icons">cancel</i></span>') ;
+  }
+
+  if( inputCity.value !== '' ) {
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputCity.value + '<i class="material-icons">cancel</i></span>') ;
+  }
+
+  if( inputCountry.value !== '' ) {
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputCountry.value + '<i class="material-icons">cancel</i></span>') ;
+  }
+
+  if( inputJobTitle.value !== '' ) {
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputJobTitle.value + '<i class="material-icons">cancel</i></span>') ;
+  }
+
+  if( inputCompany.value !== '' ) {
+  badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputCompany.value+ '<i class="material-icons">cancel</i></span>') ;
+  }
+
+  if( inputExperience.value !== '' ) {
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputExperience.value + '<i class="material-icons">cancel</i></span>') ;
+  }
+
+  var userBadget = badgetTemplate.join('')
+  $('#badgetContainer').html(userBadget);
+}
+
 
