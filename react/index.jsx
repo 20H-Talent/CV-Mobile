@@ -1,3 +1,7 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(document.querySelector('#root'), <h1>Hello World</h1>);
+ReactDOM.render(
+	<h1>Hello World</h1>,
+	document.querySelector('#main-container')
+);

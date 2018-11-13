@@ -4,7 +4,7 @@ module.exports = {
   mode: 'development',
   entry: "./react/index.jsx",
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
   module: {
@@ -14,5 +14,10 @@ module.exports = {
         use: { loader: 'babel-loader' }
       },
     ]
+  },
+  devServer: {
+    contentBase: 'index.html',
+    compress: true,
+    port: 9000
   }
 }
