@@ -78,7 +78,7 @@ class SurveysPage {
           <p class="m-0">${survey.header.description}</p>
         </div>
           <div class="card-body">
-            <form>
+            <form id="${survey._id}">
               ${inputArray.join('')}
               <div class="fluid-container pt-4">
                 <button class="btn btn-primary">Submit</button>
@@ -96,28 +96,6 @@ class SurveysPage {
     let inputTemplate;
 
     switch (input.type) {
-      case 'text':
-        let randomTextID = this.generateRandomId();
-
-        inputTemplate = (`
-          <div class="form-group">
-            <label for="input-text-${randomTextID}">${input.label}</label>
-            <input type="text" class="form-control" name="${input.name}" id="input-text-${randomTextID}" aria-describedby="textHelp" >
-          </div>
-        `);
-        break;
-
-      case 'number':
-        let randomNumberID = this.generateRandomId();
-
-        inputTemplate = (`
-        <div class="form-group">
-          <label for="input-number-${randomNumberID}">${input.label}</label>
-          <input type="text" class="form-control" name="${input.name}" id="input-number-${randomNumberID}" aria-describedby="textHelp" >
-        </div>
-      `);
-        break;
-
       case 'select':
         let selectOptions = [];
         input.values.forEach( value => selectOptions.push(`<option value="${value.value}">${value.label}</option>`));
@@ -138,7 +116,7 @@ class SurveysPage {
           let randomID = this.generateRandomId();
 
           checkboxOptions.push((`
-          <div class="form-check">
+          <div class="form-check" id="group-checkbox-${randomID}">
             <input class="form-check-input" type="checkbox" name="${input.name}" value="${value.value}" id="input-checkbox-${randomID}">
             <label class="form-check-label" for="input-checkbox-${randomID}">${value.label}</label>
           </div>
@@ -159,7 +137,7 @@ class SurveysPage {
           let randomID = this.generateRandomId();
 
           radioOptions.push((`
-          <div class="form-check">
+          <div class="form-check" id="group-radio-${randomID}">
             <input class="form-radio-input" type="radio" name="${input.name}" value="${value.value}" id="input-radio-${randomID}">
             <label class="form-radio-label" for="input-radio-${randomID}">${value.label}</label>
           </div>
@@ -217,8 +195,6 @@ class SurveysPage {
     e.preventDefault();
     const form = e.target;
     const inputsList = {
-      text: [],
-      number: [],
       select: [],
       checkbox: [],
       radio: []
@@ -227,23 +203,49 @@ class SurveysPage {
     for (let key in inputsList) {
       switch (key) {
         case 'select':
-          form.querySelectorAll(key).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
+          form.querySelectorAll(key).forEach( input => {
+            let question = document.querySelector(`label[for="${input.id}"]`).textContent;
+            inputsList[key].push({question, answer: input.value});
+          });
           break;
         case 'checkbox':
-          form.querySelectorAll(`[type="${key}"]`).forEach( input => { input.checked ? inputsList[key].push({name: input.name, value: input.value}) : null });
+          form.querySelectorAll(`[type="${key}"]`).forEach( input => {
+            let inputParent = input.parentNode.parentNode;
+            let question = inputParent.querySelector('label').textContent;
+            input.checked ? inputsList[key].push({question, answer: input.value}) : null
+          });
           break;
         case 'radio':
-          form.querySelectorAll(`[type="${key}"]`).forEach( input => { input.checked ? inputsList[key].push({name: input.name, value: input.value}) : null });
+          form.querySelectorAll(`[type="${key}"]`).forEach( input => {
+            let inputParent = input.parentNode.parentNode;
+            let question = inputParent.querySelector('label').textContent;
+            input.checked ? inputsList[key].push({question, answer: input.value}) : null
+          });
           break;
         default:
-          form.querySelectorAll(`[type="${key}"]`).forEach( input => inputsList[key].push({name: input.name, value: input.value}));
           break;
       }
     }
 
-    const { text, number, select, checkbox, radio } = inputsList;
-    const formBody = text.concat(number.concat(select.concat(checkbox.concat(radio))));
-    console.log(formBody);
+    const { select, checkbox, radio } = inputsList;
+    const allAnswers = [ ...select, ...checkbox, ...radio];
+
+    const formData = {
+      questions: allAnswers.map( answer => answer.question),
+      answers: allAnswers.map( answer => answer.answer)
+    }
+
+    fetch(`https://cv-mobile-api.herokuapp.com/api/summaries/${form.id}`, {
+      body: JSON.stringify(formData),
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then( () => {
+      // Success message
+      // Reload window
+      window.location.reload()
+    }).catch( err => console.log(err));
   }
 
   renderPage() {
