@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app.jsx';
+import Reports from './components/reports.jsx';
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<Reports />, document.querySelector('#root'));
