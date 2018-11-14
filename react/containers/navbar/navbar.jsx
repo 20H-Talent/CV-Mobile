@@ -6,6 +6,31 @@ let navStyle = {
 	minHeight: '56px'
 };
 
+const cvLinks = [
+	'../index.html',
+	'./profile.html',
+	'./search.html',
+	'./surveys.html',
+	'#',
+	'#'
+];
+const cvTexts = [
+	'Home',
+	'My Profile',
+	'Advanced Search',
+	'Surveys',
+	'Reports',
+	'Log In'
+];
+
+const navItems = cvLinks.map((link, index) => {
+	return (
+		<NavItem eventKey={index + 1} href={link} key={'navitem-' + index}>
+			{cvTexts[index]}
+		</NavItem>
+	);
+});
+
 const navbar = () => {
 	return (
 		<Navbar inverse collapseOnSelect style={navStyle}>
@@ -21,26 +46,7 @@ const navbar = () => {
 				<Navbar.Toggle />
 			</Navbar.Header>
 			<Navbar.Collapse style={{ borderColor: 'transparent' }}>
-				<Nav>
-					<NavItem eventKey={1} href="../index.html">
-						Home
-					</NavItem>
-					<NavItem eventKey={2} href="./profile.html">
-						My Profile
-					</NavItem>
-					<NavItem eventKey={3} href="./search.html">
-						Advanced Search
-					</NavItem>
-					<NavItem eventKey={4} href="./surveys.html">
-						Surveys
-					</NavItem>
-					<NavItem eventKey={5} href="#" active>
-						Reports
-					</NavItem>
-					<NavItem eventKey={6} href="#">
-						Log In
-					</NavItem>
-				</Nav>
+				<Nav>{navItems}</Nav>
 			</Navbar.Collapse>
 		</Navbar>
 	);
