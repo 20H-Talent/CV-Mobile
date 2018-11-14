@@ -26,6 +26,7 @@
 	"homepage": "https://github.com/20H-Talent/CV-Mobile#readme",
 	"dependencies": {
 		"react": "^16.6.3",
+		"react-bootstrap": "^0.32.4",
 		"react-dom": "^16.6.3"
 	},
 	"devDependencies": {
