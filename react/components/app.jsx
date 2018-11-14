@@ -6,7 +6,7 @@ class App extends Component {
 		return (
 			<React.Fragment>
 				<Navbar />
-				<h1>hello welcome</h1>
+				<h1>Welcome to cv app</h1>
 			</React.Fragment>
 		);
 	}
