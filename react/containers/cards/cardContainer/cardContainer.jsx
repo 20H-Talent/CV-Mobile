@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const cardContainer = styled.div`
-	padding: 20px;
-	padding-bottom: 10px;
+	padding: 18px;
 	margin-bottom: 20px;
 	border-radius: 5px;
 	box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
