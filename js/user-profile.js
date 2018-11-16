@@ -211,7 +211,7 @@ function toggleSkillSearch(order) {
 
 function handleSkillSearch(e) {
   // grab the value to search
-  let searchTerm = e.target.value;
+  let searchTerm = e.target.value.toLowerCase;
   let size = searchTerm.length;
   // fetch the skills from the server
   if (size > 0) {
@@ -219,9 +219,8 @@ function handleSkillSearch(e) {
     .then( response => response.json() )
     .then( response => {
       let serverSkills = response.slice(0);
-
       // filter the skills by name
-      let filteredSkills = serverSkills.filter( skill => skill.value.slice(0, size) === searchTerm.toLowerCase() );
+      let filteredSkills = serverSkills.filter( skill => skill.label.slice(0, size) === searchTerm.toLowerCase() );
 
       // render the coincidences in the #skill-result container
       if (filteredSkills.length > 0) {
@@ -235,12 +234,12 @@ function handleSkillSearch(e) {
     document.querySelector('#skill-result').innerHTML = '';
   }
 }
-
+//************************************************************* */
 function skillResultTemplate(skill, order) {
   let listItem = document.createElement('li');
   listItem.classList = `skill-result fluid-container d-flex p-2 bg-light border`;
   listItem.innerHTML = skill.label;
-  listItem.dataset.value = skill.value;
+  listItem.dataset.value = skill._id;//**** */
   listItem.dataset.bg = order % 2 === 0 ? 'even' : 'odd';
   listItem.style.cursor = 'pointer';
 
@@ -271,7 +270,7 @@ function removeResultHover(e) {
   target.classList.remove('text-white')
   target.classList.add('bg-light')
 }
-
+//****************************************************************************************** */
 function addNewSkill(e) {
   const skillValue = e.target.dataset.value;
   const isSkillRepeated = editedUserInfo.skills.includes(skillValue);
