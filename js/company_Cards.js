@@ -2,7 +2,7 @@ var cardsContainer = document.getElementById("cards-container");
 var example = 'example';
 function exportCards() {
     $.ajax({
-        url: "https://cv-mobile-api.herokuapp.com/api/company"
+        url: "https://cv-mobile-api.herokuapp.com/api/companies"
     }).done(function (data) {
         console.log(data);
         var i;
