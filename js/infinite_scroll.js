@@ -89,7 +89,7 @@ function checkIfUserIsNew(user) {
 
 // Create an html card template with the user data
 function renderCard(user) {
-  const { name, username, jobTitle, company, email, _id, location, profilePicture, highlight, newUser } = user;
+  const { name, username, jobTitle, company, email, _id, address, profilePicture, highlight, newUser } = user;
 
   var template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
@@ -104,7 +104,7 @@ function renderCard(user) {
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span' + (highlight ? highlight.includes('username') ? ' class="bg-warning"' : '' : '') + '>' + username + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span' + (highlight ? highlight.includes('email') ? ' class="bg-warning"' : '' : '') + '>' + email + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span' + (highlight ? highlight.includes('company') ? ' class="bg-warning"' : '' : '') + '>' + company + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span' + (highlight ? highlight.includes('location') ? ' class="bg-warning"' : '' : '') + '>' + location.city + ', ' + location.country + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span' + (highlight ? highlight.includes('address') ? ' class="bg-warning"' : '' : '') + '>' + address.city + ', ' + address.country + '</span></p>' +
     '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'

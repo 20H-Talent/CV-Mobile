@@ -5,7 +5,7 @@ const inputCountry = document.getElementById("country");
 const inputExperience = document.getElementById("experience");
 const inputCompany = document.getElementById("company");
 const inputJobTitle = document.getElementById("job-title");
-// const cardsContainer = document.getElementById('cards-container');
+
 
 //Imprimir los checkboxes de lang que están checked
 function getLangFilterAdvancedSearch(user) {
@@ -63,20 +63,24 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
       return (
         inputName.value.toLowerCase() === user.name.slice(0, inputName.value.length).toLowerCase() &&
         inputUsername.value.toLowerCase() === user.username.slice(0, inputUsername.value.length).toLowerCase() &&
-        inputCity.value.toLowerCase() === user.location.city.slice(0, inputCity.value.length).toLowerCase() &&
-        inputCountry.value.toLowerCase() === user.location.country.slice(0, inputCountry.value.length).toLowerCase() &&
-        inputJobTitle.value.toLowerCase() === user.jobTitle.slice(0, inputJobTitle.value.length).toLowerCase() &&
+        user.address.city ? inputCity.value.toLowerCase() === user.address.city.slice(0, inputCity.value.length).toLowerCase() : null &&
+        inputCountry.value.toLowerCase() === user.address.country.slice(0, inputCountry.value.length).toLowerCase() &&
+        user.jobTitle ? inputJobTitle.value.toLowerCase() === user.jobTitle.slice(0, inputJobTitle.value.length).toLowerCase() : null &&
         inputCompany.value.toLowerCase() === user.company.slice(0, inputCompany.value.length).toLowerCase() &&
-        inputExperience.value.toLowerCase() === user.experience &&
+        inputExperience.value !== 'Choose an option' ? inputExperience.value.toLowerCase() === user.experience : null &&
         getSkillFilterAdvancedSearch(user) &&
         getLangFilterAdvancedSearch(user)
       );
     });
-    console.log(inputCountry.value);
     $("form").hide();
     $(".goback-btn").show();
     cardsContainer.classList.remove('d-none');
     renderBadgets();
+
+    const cancelIcon = document.querySelectorAll(".cancelIcon");
+    cancelIcon.forEach(function(cancel){
+      cancel.addEventListener("click", deleteBadge);
+    });
 
     filteredUser.forEach( user => {
       cardsContainer.innerHTML += renderCards(user);
@@ -86,7 +90,14 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
         $("form").show();
         cardsContainer.innerHTML = '';
         cardsContainer.classList.add('d-none');
-
+        let badges = document.querySelectorAll('.badge');
+        badges.forEach(function(badge){
+          badge.remove();
+        let inputs = document.querySelectorAll('input')
+        inputs.forEach(function(input){
+          input.value = ''
+        })
+        })
       });
     });
   });
@@ -109,7 +120,7 @@ function renderCards(filteredUser) {
     languages,
     skills,
     _id,
-    location,
+    address,
     experience,
     profilePicture,
   } = filteredUser;
@@ -122,7 +133,7 @@ function renderCards(filteredUser) {
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span>' + username + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span>' + email + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span>' + company + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span>' + location.city + ', ' + location.country + '</span></p>' +
+    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span>' + address.city + ', ' + address.country + '</span></p>' +
     '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'
@@ -189,35 +200,73 @@ function renderLanguage(language) {
   return languageTemplate;
 }
 
+function deleteBadge(e) {
+  const inputTarget = e.target.dataset.input;
+  
+  e.target.parentElement.remove();
+
+  switch (inputTarget){
+    case 'name' :
+      inputName.value = '';
+      console.log(inputName)
+      break;
+    case 'username' :
+      inputUsername.value = '';
+      console.log(inputUsername)
+      break;
+    case 'city' :
+      inputCity.value = '';
+      console.log(inputCity)
+      break;
+    case 'country' :
+      inputCountry.value = '';
+      console.log(inputCountry)
+    case 'jobTitle' :
+      inputJobTitle.value = '';
+      console.log(inputJobTitle)
+      break;
+    case 'company' :
+      inputCompany.value = '';
+      console.log(inputCompany)
+      break;
+    case 'experience' :
+      inputExperience.value = '';
+      console.log(inputExperience)
+  }
+    cardsContainer.innerHTML = '';
+      $( "#searchbtn" ).trigger( "click")
+    };
+//}
+
 function renderBadgets() {
   var badgetTemplate = [];
 
   if( inputName.value !== '' ) {
-    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputName.value + '<i class="material-icons">cancel</i></span>') ;
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center" >' + inputName.value + '<i class="material-icons cancelIcon" data-input="name">cancel</i></span>') ;
   }
 
   if( inputUsername.value !== '' ) {
-    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputUsername.value + '<i class="material-icons">cancel</i></span>') ;
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center" >' + inputUsername.value + '<i class="material-icons cancelIcon" data-input="username">cancel</i></span>') ;
   }
 
   if( inputCity.value !== '' ) {
-    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputCity.value + '<i class="material-icons">cancel</i></span>') ;
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center" >' + inputCity.value + '<i class="material-icons cancelIcon" data-input="city">cancel</i></span>') ;
   }
 
   if( inputCountry.value !== '' ) {
-    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputCountry.value + '<i class="material-icons">cancel</i></span>') ;
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center" >' + inputCountry.value + '<i class="material-icons cancelIcon" data-input="country">cancel</i></span>') ;
   }
 
   if( inputJobTitle.value !== '' ) {
-    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputJobTitle.value + '<i class="material-icons">cancel</i></span>') ;
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputJobTitle.value + '<i class="material-icons cancelIcon" data-input="jobTitle">cancel</i></span>') ;
   }
 
   if( inputCompany.value !== '' ) {
-  badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputCompany.value+ '<i class="material-icons">cancel</i></span>') ;
+  badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center" >' + inputCompany.value+ '<i class="material-icons cancelIcon" data-input="company">cancel</i></span>') ;
   }
 
-  if( inputExperience.value !== '' ) {
-    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputExperience.value + '<i class="material-icons">cancel</i></span>') ;
+  if( inputExperience.value !== '' && inputExperience.value !== 'Choose an option' ) {
+    badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputExperience.value + '<i class="material-icons cancelIcon" data-input="experience">cancel</i></span>') ;
   }
 
   var userBadget = badgetTemplate.join('')
