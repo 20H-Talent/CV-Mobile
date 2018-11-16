@@ -37,7 +37,7 @@ function renderCards(userFav) {
         languages,
         skills,
         _id,
-        location,
+        address,
         experience,
         profilePicture,
     } = userFav
@@ -51,7 +51,7 @@ function renderCards(userFav) {
         '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span>' + username + '</span></p>' +
         '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span>' + email + '</span></p>' +
         '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span>' + company + '</span></p>' +
-        '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span>' + location.city + ', ' + location.country + '</span></p>' +
+        '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span>' + address.city + ', ' + address.country + '</span></p>' +
         '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
         '</div>' +
         '</div>'
