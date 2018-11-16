@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Grid, Col } from 'react-bootstrap';
 // Custom components
-import Navbar from '../containers/navbar/navbar.jsx';
-import SummaryCard from '../containers/cards/summaryCard/summaryCard.jsx';
+import SummaryCard from '../../containers/cards/summaryCard/summaryCard.jsx';
 
 class Reports extends Component {
 	constructor() {
@@ -21,20 +21,33 @@ class Reports extends Component {
 	}
 
 	render() {
+		if (this.state.loadError) {
+			return (
+				<Col xs={12} md={10}>
+					<h2>Sorry there was an error fetching the data</h2>
+				</Col>
+			);
+		}
 		return (
 			<React.Fragment>
-				<Navbar />
 				<Grid>
 					<Col xs={12} md={10}>
 						<h3 style={{ marginBottom: '30px' }}>Reports</h3>
 						{this.state.summaries.map((sum, index) =>
 							sum.title ? (
-								<SummaryCard
-									title={sum.title}
-									icon="person"
-									iconText={sum.totalAnswers}
+								<Link
+									to={{
+										pathname: '/html/reports.html/chart',
+										search: `?origin=${sum.origin}`
+									}}
 									key={`summary-${index}`}
-								/>
+								>
+									<SummaryCard
+										title={sum.title}
+										icon="person"
+										iconText={sum.totalAnswers}
+									/>
+								</Link>
 							) : null
 						)}
 					</Col>
