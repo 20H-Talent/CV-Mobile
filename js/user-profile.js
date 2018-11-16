@@ -63,7 +63,7 @@ function createBadges(skills, editMode) {
       '<h5 class="mr-2">' +
       '<span class="badge badge-pill badge-success py-2 px-3  badge-skill d-flex align-items-center">' +
       (editMode ? `<span data-skill="${skill}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : '') +
-      `${skill}</span></h5>`
+      `${skill.label}</span></h5>`
     );
   });
 

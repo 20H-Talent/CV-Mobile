@@ -24,25 +24,25 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" href="../index.html">Home</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="profile.html">My Profile</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href=".search.html">Advanced Search</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="company.html">Company</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="surveys.html">Surveys</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="reports.html">Reports</a>
-      </li>
-      <li class="nav-item">
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./profile.html">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./search.html">Advanced Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./company.html">Company</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./surveys.html">Surveys</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./reports.html">Reports</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="#">Log in</a>
-      </li>
+        </li>
       </ul>
     </div>
   </nav>
@@ -70,7 +70,8 @@
       <div class="container">
         <div class="row">
           <div class="container d-flex justify-content-center position-relative">
-            <img class="img rounded-circle" id="userImg" style="width: 200px; height: 200px; object-fit: contain;" onerror="imgError(this)">
+            <img class="img rounded-circle" id="userImg" style="width: 200px; height: 200px; object-fit: contain;"onerror="imgError(this)">
+              
             <div id="profileBackdrop" class="position-absolute bg-light d-none justify-content-center align-items-center"
               style="width: 150px; height: 150px; border-radius: 50%; top:50%; left:50%; background:#fff; opacity:0.6; transform: translate(-50%, -50%);">
             </div>
@@ -78,7 +79,7 @@
               style="width: 150px; height: 150px; top: 50%; left:50%; transform: translate(-50%, -50%);">
               <i class="material-icons" style="font-size:2rem;">add_a_photo</i>
             </label>
-            <input type="file" id="picture-input" name="picture-input" accept="image/png, image/jpeg" class="position-absolute d-none"
+            <input type="file" id="picture-input" name="logoURL" accept="image/png, image/jpeg" class="position-absolute d-none"
               placeholder="hello">
           </div>
         </div>
@@ -87,10 +88,7 @@
             <h2 class="text-center user-info" id="name"></h2>
             <h6 class="text-center text-muted mb-4 user-info" id="jobTitle"></h6>
             <ul class="list-group mt-4 mb-4">
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">person</i>
-                <p class="m-0 w-100 user-info" id="username"></p>
-              </li>
+              
               <li class="container my-2 d-flex">
                 <i class="material-icons mr-3">email</i>
                 <p class="m-0 w-100 user-info" id="email"></p>
@@ -107,10 +105,7 @@
                 <i class="material-icons mr-3">phone</i>
                 <p class="m-0 w-100 user-info" id="phone"></p>
               </li>
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">translate</i>
-                <p class="m-0 w-100 user-info" id="languages"></p>
-              </li>
+             
               <li class="container my-2 d-flex" id="li-location">
                 <i class="material-icons mr-3">public</i>
                 <p class="m-0 w-100 user-info" id="location"></p>
@@ -120,12 +115,24 @@
                 <p class="m-0 w-100 user-info " id="location-country"></p>
               </li>
               <li class="container my-2 d-none " id="li-location-city">
-                <i class="material-icons mr-3">public</i>
+                <i class="material-icons mr-3">location_city</i>
                 <p class="m-0 w-100 user-info " id="location-city"></p>
               </li>
               <li class="container my-2  d-none" id="li-location-street">
-                <i class="material-icons mr-3">public</i>
+                <i class="material-icons mr-3">directions_car</i>
                 <p class="m-0 w-100 user-info " id="location-street"></p>
+              </li>
+              <li class="container my-2  d-none" id="li-CIF">
+                <i class="material-icons mr-3">directions_car</i>
+                <p class="m-0 w-100 user-info " id="CIF"></p>
+              </li>
+              <li class="container my-2  d-none" id="li-bio">
+                <i class="material-icons mr-3">directions_car</i>
+                <p class="m-0 w-100 user-info " id="bio"></p>
+              </li>
+              <li class="container my-2  d-none" id="li-zipcode">
+                <i class="material-icons mr-3">directions_car</i>
+                <p class="m-0 w-100 user-info " id="zipcode"></p>
               </li>
             </ul>
           </div>
