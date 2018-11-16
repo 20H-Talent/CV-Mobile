@@ -17,7 +17,11 @@ var inputImg = document.getElementById("picture-input");
 var CIF = document.getElementById("CIF");
 var bio = document.getElementById("bio");
 
+var docType=document.getElementById("docType");
+var jobOffers=document.getElementById("jobOffers");
+var socialUrls=document.getElementById("socialUrls");
 
+var docNumber=document.getElementById("docNumber");
 var zipcode = document.getElementById("zipcode");
 
 
@@ -27,7 +31,6 @@ var liCountry = document.getElementById("li-location-country");
 var liCity = document.getElementById("li-location-city");
 var liStreet = document.getElementById("li-location-street");
 var liCIF = document.getElementById("li-CIF");
-var liBio = document.getElementById("li-bio");
 var liZipcode = document.getElementById("li-zipcode");
 var dataf = "";
 
@@ -54,9 +57,15 @@ function fillData(data) {
     city.innerHTML = data.address.city;
     street.innerHTML = data.address.street;
 
-    zipcode = data.address.street;
-    bio = data.bio;
-    CIF = data.CIF;
+    zipcode.innerHTML = data.address.street;
+    bio.innerHTML = data.bio;
+    CIF.innerHTML = data.CIF;
+
+    docType.innerHTML = data.docType;
+    jobOffers.innerHTML = data.jobOffers;
+    socialUrls.innerHTML = data.socialUrls;
+
+    docNumber.innerHTML=data.docNumber;
 }
 function imgError(image) {
     image.onerror = "";
@@ -90,6 +99,17 @@ $('#edit-btn').click(function editCompany() {
 
     country.setAttribute('contenteditable', true);
     nameCompany.setAttribute('contenteditable', true);
+    docType.setAttribute('contenteditable', true);
+
+    jobOffers.setAttribute('contenteditable', true);
+    socialUrls.setAttribute('contenteditable', true);
+    docNumber.setAttribute('contenteditable', true);
+
+    bio.setAttribute('contenteditable', true);
+    CIF.setAttribute('contenteditable', true);
+    zipcode.setAttribute('contenteditable', true);
+
+
     inputImg.classList.remove("d-none");
 
     liLocatiFull.classList.add("d-none");
@@ -99,7 +119,6 @@ $('#edit-btn').click(function editCompany() {
 
     liZipcode.classList.remove("d-none");
     liCIF.classList.remove("d-none");
-    liBio.classList.remove("d-none");
 
     liLocatiFull.classList.remove("d-flex");
     liStreet.classList.add("d-flex");
@@ -107,11 +126,6 @@ $('#edit-btn').click(function editCompany() {
     liCountry.classList.add("d-flex");
 
 
-    liZipcode.classList.add("d-flex");
-    liCIF.classList.add("d-flex");
-    liBio.classList.add("d-flex");
-
-    document.getElementById("need-company").setAttribute('contenteditable', true);
     document.getElementById("save").classList.remove("d-none");
     document.getElementById("cancel").classList.remove("d-none");
     document.getElementById("edit").classList.add("d-none");
@@ -130,6 +144,14 @@ $("#save").click(function confirEditCompany() {
     city.setAttribute('contenteditable', false);
     country.setAttribute('contenteditable', false);
     nameCompany.setAttribute('contenteditable', false);
+    docType.setAttribute('contenteditable', false);
+    jobOffers.setAttribute('contenteditable', false);
+    socialUrls.setAttribute('contenteditable', false);
+    docNumber.setAttribute('contenteditable', false);
+    bio.setAttribute('contenteditable', false);
+    CIF.setAttribute('contenteditable', false);
+    zipcode.setAttribute('contenteditable', false);
+
     inputImg.classList.add("d-none");
 
     liLocatiFull.classList.add("d-flex");
@@ -140,11 +162,7 @@ $("#save").click(function confirEditCompany() {
 
     liZipcode.classList.add("d-none");
     liCIF.classList.add("d-none");
-    liBio.classList.add("d-none");
 
-    liZipcode.classList.remove("d-flex");
-    liCIF.classList.remove("d-flex");
-    liBio.classList.remove("d-flex");
 
     liLocatiFull.classList.remove("d-none");
     liStreet.classList.add("d-none");
@@ -160,11 +178,13 @@ $("#save").click(function confirEditCompany() {
     var companynew = createRequestBody();
     console.log(companynew)
     fetch(`https://cv-mobile-api.herokuapp.com/api/companies/${companyID}`, {
-        method: 'PUT',
+        method: 'put',
         body:  JSON.stringify(companynew)
+        
       }).then(res => res.json())
     .then(response => {
         console.log(response);
+
 });
 
     document.getElementById("need-company").setAttribute('contenteditable', false);
@@ -182,22 +202,20 @@ $("#cancel").click(function cancelEditCompany(){
     phone.setAttribute('contenteditable', false);
     street.setAttribute('contenteditable', false);
     city.setAttribute('contenteditable', false);
+    docNumber.setAttribute('contenteditable', false);
 
     country.setAttribute('contenteditable', false);
     nameCompany.setAttribute('contenteditable', false);
+    docType.setAttribute('contenteditable', false);
+    jobOffers.setAttribute('contenteditable', false);
+    socialUrls.setAttribute('contenteditable', false);
+    bio.setAttribute('contenteditable', false);
+    CIF.setAttribute('contenteditable', false);
+    zipcode.setAttribute('contenteditable', false);
 
-    nameCompany.innerHTML = dataf.name;
-    email.innerHTML = dataf.email;
-    website.innerHTML = dataf.website;
-    works.innerHTML = dataf.employees;
-    phone.innerHTML = dataf.phone;
-    document.getElementById("userImg").src = dataf.logoURL;
-    inputImg.classList.add("d-none");
-   
-    locatiFull.innerHTML = dataf.address.country + ' . ' + dataf.address.city + ' . ' + dataf.address.street;
-    country.innerHTML = dataf.address.country;
-    city.innerHTML = dataf.address.city;
-    street.innerHTML = dataf.address.street;
+
+    fillData(dataf);
+
 
     document.getElementById("save").classList.add("d-none");
     document.getElementById("cancel").classList.add("d-none");
@@ -301,19 +319,23 @@ function createRequestBody(){
    
     let formData = {
         address:{
-            country:country,
-            street:street,
-            city:city,
-            zipcode:dataf.zipcode
+            country:country.innerText,
+            street:street.innerText,
+            city:city.innerText,
+            zipcode:dataf.zipcode.innerText
         },
-        name:nameCompany.innerText,
+        bio:bio.innerText,
+        docNumber:docNumber.innerText,
+        docType:docType.innerText,
         email:email.innerText,
-        website:website.innerText,
         employees:works.innerText,
-        phone:phone.innerText,
+        jobOffers:jobOffers.innerText,
         logoURL:newPicture,
+        name:nameCompany.innerText,
+        phone:phone.innerText,
+        socialUrls:socialUrls.innerText,
+        website:website.innerText,
     }
 
     return formData;
 }
-
