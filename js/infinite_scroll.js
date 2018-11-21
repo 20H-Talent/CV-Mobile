@@ -16,28 +16,21 @@ function fetchUsersData() {
     $.ajax({
       url: `https://cv-mobile-api.herokuapp.com/api/users/pages/${currentUsersPage}`
     }).done((data) => {
+      // Render all the users received
+      data.map( (user) => {
+        user.highlight = [];
+        checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
+        const card = renderCard(user);
+        cardsContainer.innerHTML += card;
+        loadedUsers.push(user);
+      });
       if (data.length === 10) {
-        data.map( (user) => {
-          user.highlight = [];
-          checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
-          const card = renderCard(user);
-          cardsContainer.innerHTML += card;
-          loadedUsers.push(user);
-        });
         // Add one to the current page of users for the next request if the page has 10 users
         currentUsersPage++;
 
       } else if (data.length < 10) {
-
-        if (data[0]._id !== loadedUsers[loadedUsers.length - 1]._id) {
-          data.map( (user) => {
-            checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
-            const card = renderCard(user);
-            cardsContainer.innerHTML += card;
-            loadedUsers.push(user);
-          });
-          isFetchAllowed = false;
-        }
+        // If the page received has less than 10 users deactivate infinite scroll
+        isFetchAllowed = false;
       }
       const starIcons = document.querySelectorAll("#star-icon");
       starIcons.forEach(function(star){
