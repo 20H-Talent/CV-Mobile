@@ -463,3 +463,9 @@ function handleTextChange(e) {
     }
   }
 }
+
+function handleImageError(image) {
+  image.onerror = "";
+  image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
+  return true;
+}
