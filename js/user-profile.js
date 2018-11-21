@@ -1,7 +1,7 @@
 // Get the user's id from the url search parameter
 const userID = window.location.search.split('=')[1];
 let originalUserInfo = '';
-let editedUserInfo = '';
+let editedUserInfo = {};
 
 window.onload = fetchUserInfo(userID, renderUSerInfo);
 
@@ -12,14 +12,14 @@ function fetchUserInfo(id, callback) {
   .then( userData => {
     // Save a copy of the user info for editin mode comparison
     originalUserInfo = {...userData};
-    editedUserInfo = {...userData};
+    editedUserInfo.skills = userData.skills;
     callback ? callback(originalUserInfo) : null;
   });
 }
 
 function renderUSerInfo(user) {
   // Set image src
-  userImg.src = user.profilePicture;
+  userImg.src = user.avatar;
   userImg.alt = user.name + ' picture';
   userImg.style.backgroundColor = '#999';
   // Print user's name
@@ -39,9 +39,10 @@ function renderUSerInfo(user) {
   document.querySelector('#experience').innerHTML = user.experience !== undefined ? user.experience : ' ';
   // Print user's langs
   $('#languages').replaceWith(`<p class="m-0 w-100 user-info" id="languages"></p>`);
-  document.querySelector('#languages').innerHTML = user.languages.join(', ');
+  let userLangs = user.languages.map(lang => lang.label)
+  document.querySelector('#languages').innerHTML = userLangs.join(', ');
   // Print user's location
-  document.querySelector('#location').innerHTML = user.location.city + ', ' + user.location.country;
+  document.querySelector('#address').innerHTML = user.address.city + ', ' + user.address.country;
   // Print user's skills
   document.querySelector('#skills').innerHTML = (
     '<div class="fluid-container w-100 d-flex flex-wrap" id="badgeContainer">' +
@@ -54,7 +55,6 @@ function renderUSerInfo(user) {
     );
 }
 
-
 function createBadges(skills, editMode) {
   const skillBadges = [];
 
@@ -62,14 +62,13 @@ function createBadges(skills, editMode) {
     skillBadges.push(
       '<h5 class="mr-2">' +
       '<span class="badge badge-pill badge-success py-2 px-3  badge-skill d-flex align-items-center">' +
-      (editMode ? `<span data-skill="${skill}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : '') +
+      (editMode ? `<span data-skill="${skill._id}" onClick="removeSkill(this)"><i class="material-icons mr-2" style="font-size:1.2rem;">close</i></span>` : '') +
       `${skill.label}</span></h5>`
     );
   });
 
   return skillBadges.join('');
 }
-
 
 // Edit mode state
 let editModeStatus = false;
@@ -117,8 +116,7 @@ function toggleDropdown() {
 
 function changeForSelect(property, options, multiple) {
   const optionsArray = [];
-
-    options.map( option => optionsArray.push(returnOptionElement(option)));
+  options.map( option => optionsArray.push(returnOptionElement(option, property)));
 
   $(`#${property}`).replaceWith(
     `<select class="w-100 user-info border" id="${property}" style="border:none; color: #05c643;" ${multiple ? 'multiple' : ''}>` +
@@ -126,9 +124,31 @@ function changeForSelect(property, options, multiple) {
     `</select>`
   );
 
-  function returnOptionElement(option) {
-    return `<option value="${option.value}" ${originalUserInfo[property].includes(option.value) || originalUserInfo[property] === option.value ? 'selected' : ''}>${option.label}</option>`;
+  function returnOptionElement(option, property) {
+    let optionTemplate = '';
+    if (property === 'languages') {
+      let selected = checkUserOptions(option._id, property) ? 'selected' : null;
+      optionTemplate = `<option value="${option._id}" data-type="${property}" ${selected}>${option.label}</option>`;
+    } else if (property === 'experience') {
+      let selected = checkUserOptions(option, property) ? 'selected' : null;
+      optionTemplate = `<option value="${option.label}" data-type="${property}" ${selected}>${option.label}</option>`;
+    }
+    return optionTemplate;
   }
+}
+
+function checkUserOptions(option, property) {
+  let shouldSelected = false;
+  if (property === 'languages') {
+    originalUserInfo.languages.forEach( userLang => {
+      if (option === userLang._id) {
+        shouldSelected = true;
+      }
+    })
+  } else if (property === 'experience') {
+    originalUserInfo.experience === option.label ? shouldSelected = true : null
+  }
+  return shouldSelected;
 }
 
 function openEditMode() {
@@ -182,7 +202,6 @@ function openEditMode() {
   toggleSkillSearch('show');
 };
 
-
 function renderSkillsEditMode(skills) {
   return document.querySelector('#badgeContainer').innerHTML = createBadges(skills, true);
 }
@@ -194,7 +213,6 @@ function toggleFileUploader() {
   document.querySelector('#pictureLabel').classList.toggle('d-none');
   document.querySelector('#pictureLabel').classList.toggle('d-flex');
 }
-
 
 function toggleSkillSearch(order) {
   let skillSearch = document.querySelector('#skill-search');
@@ -211,7 +229,7 @@ function toggleSkillSearch(order) {
 
 function handleSkillSearch(e) {
   // grab the value to search
-  let searchTerm = e.target.value.toLowerCase;
+  let searchTerm = e.target.value.toLowerCase();
   let size = searchTerm.length;
   // fetch the skills from the server
   if (size > 0) {
@@ -220,8 +238,7 @@ function handleSkillSearch(e) {
     .then( response => {
       let serverSkills = response.slice(0);
       // filter the skills by name
-      let filteredSkills = serverSkills.filter( skill => skill.label.slice(0, size) === searchTerm.toLowerCase() );
-
+      let filteredSkills = serverSkills.filter( skill => skill.label.toLowerCase().slice(0, size) === searchTerm.toLowerCase() );
       // render the coincidences in the #skill-result container
       if (filteredSkills.length > 0) {
         document.querySelector('#skill-result').innerHTML = '';
@@ -234,20 +251,17 @@ function handleSkillSearch(e) {
     document.querySelector('#skill-result').innerHTML = '';
   }
 }
-//************************************************************* */
+
 function skillResultTemplate(skill, order) {
   let listItem = document.createElement('li');
   listItem.classList = `skill-result fluid-container d-flex p-2 bg-light border`;
   listItem.innerHTML = skill.label;
-  listItem.dataset.value = skill._id;//**** */
+  listItem.dataset.value = skill._id;
+  listItem.dataset.label = skill.label;
+  listItem.dataset.type = skill.type;
   listItem.dataset.bg = order % 2 === 0 ? 'even' : 'odd';
   listItem.style.cursor = 'pointer';
 
-  let enterSkill = document.createElement('i');
-  enterSkill.classList = 'material-icons ml-auto'
-  enterSkill.innerHTML = 'add_circle';
-
-  listItem.appendChild(enterSkill);
   listItem.addEventListener('click', addNewSkill);
   listItem.addEventListener('mouseenter', addResultHover);
   listItem.addEventListener('mouseleave', removeResultHover);
@@ -270,13 +284,25 @@ function removeResultHover(e) {
   target.classList.remove('text-white')
   target.classList.add('bg-light')
 }
-//****************************************************************************************** */
+
 function addNewSkill(e) {
   const skillValue = e.target.dataset.value;
-  const isSkillRepeated = editedUserInfo.skills.includes(skillValue);
+  let isSkillRepeated = false;
+  let skillToAdd = {
+    _id: skillValue,
+    label: e.target.dataset.label,
+    type: e.target.dataset.type
+  }
+  editedUserInfo.skills.forEach(skill => {
+    if (skillValue === skill._id){
+      isSkillRepeated = true;
+    }
+  });
 
   if (!isSkillRepeated) {
-    editedUserInfo.skills.push(skillValue);
+    editedUserInfo.skills !== undefined
+    ? editedUserInfo.skills.push(skillToAdd)
+    : editedUserInfo.skills = [skillToAdd];
     renderSkillsEditMode(editedUserInfo.skills)
   } else {
     console.warn('[ERROR]: the user already has that skill.');
@@ -285,10 +311,11 @@ function addNewSkill(e) {
 
 function removeSkill(element) {
   const valuetoRemove = element.dataset.skill;
-  const { skills } = editedUserInfo;
+  const { skills } = originalUserInfo;
   let skillIndex = skills.indexOf(valuetoRemove);
   skills.splice( skillIndex, 1);
 
+  editedUserInfo.skills = skills
   renderSkillsEditMode(skills);
 }
 
@@ -313,11 +340,12 @@ function saveProfileChanges() {
   if (editModeStatus) {
     document.querySelectorAll('.edited').forEach( el => {
       switch (el.id) {
-        case 'location':
+        case 'address':
           editedUserInfo[el.id] = {
             city: el.textContent.split(', ')[0],
             country: el.textContent.split(', ')[1],
-            state: editedUserInfo.location.state
+            street: originalUserInfo.address.street,
+            zipcode: originalUserInfo.address.zipcode
           }
           break;
 
@@ -327,36 +355,30 @@ function saveProfileChanges() {
       }
     });
 
-    let newPicture = document.querySelector('#picture-input').files[0];
-
-    let formData = new FormData();
-
-    formData.append('name', editedUserInfo.name);
-    formData.append('username', editedUserInfo.username);
-    formData.append('jobTitle', editedUserInfo.jobTitle);
-    formData.append('email', editedUserInfo.email);
-    formData.append('website', editedUserInfo.website);
-    formData.append('city', editedUserInfo.location.city);
-    formData.append('state', editedUserInfo.location.state);
-    formData.append('country', editedUserInfo.location.country);
-    formData.append('languages', JSON.stringify(editedUserInfo.languages));
-    formData.append('skills', JSON.stringify(editedUserInfo.skills));
-    formData.append('company', editedUserInfo.company);
-    formData.append('experience', editedUserInfo.experience);
-    formData.append('birthDate', editedUserInfo.birthDate);
-    formData.append('gender', editedUserInfo.gender);
-    formData.append('profilePicture', newPicture);
-
     // Send the data to the server
     fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
       method: 'PUT',
-      body: formData
+      body: JSON.stringify(editedUserInfo),
+      headers: { "Content-Type": "application/json; charset=utf-8"}
     }).then( res => res.json())
-    .then( updatedUser => {
-      originalUserInfo = {...updatedUser};
-      closeEditMode();
-    });
+      .then( updatedUser => {
+        originalUserInfo = {...updatedUser};
+        sendNewPicture();
+        closeEditMode();
+      });
+    }
   }
+
+  function sendNewPicture() {
+    const imageInput = document.querySelector('#picture-input');
+    let imageData = new FormData();
+    imageData.append('img', imageInput.files[0]);
+    fetch(`https://cv-mobile-api.herokuapp.com/api/files/upload/user/${userID}`, {
+      method: 'POST',
+      body: imageData,
+    })
+    .then(res => res.json())
+    .then(res => console.log(res))
 }
 
 function removeConfirmation() {
