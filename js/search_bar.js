@@ -12,7 +12,7 @@ searchInput.addEventListener("keyup", function(e) {
   }
 
   function filterByData(input, reference, store, user, coincidence) {
-    if (reference.toLowerCase().includes(input.toLowerCase())) {
+    if (reference && reference.toLowerCase().includes(input.toLowerCase())) {
       user.highlight.includes(coincidence) ? '' : user.highlight.push(coincidence);
       store.push(user);
     } else {
