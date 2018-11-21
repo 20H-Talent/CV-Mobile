@@ -1,7 +1,7 @@
 // Get the user's id from the url search parameter
 const userID = window.location.search.split('=')[1];
 let originalUserInfo = '';
-let editedUserInfo = '';
+let editedUserInfo = {};
 
 window.onload = fetchUserInfo(userID, renderUSerInfo);
 
@@ -12,7 +12,6 @@ function fetchUserInfo(id, callback) {
   .then( userData => {
     // Save a copy of the user info for editin mode comparison
     originalUserInfo = {...userData};
-    editedUserInfo = {...userData};
     callback ? callback(originalUserInfo) : null;
   });
 }
@@ -39,9 +38,10 @@ function renderUSerInfo(user) {
   document.querySelector('#experience').innerHTML = user.experience !== undefined ? user.experience : ' ';
   // Print user's langs
   $('#languages').replaceWith(`<p class="m-0 w-100 user-info" id="languages"></p>`);
-  document.querySelector('#languages').innerHTML = user.languages.join(', ');
+  let userLangs = user.languages.map(lang => lang.label)
+  document.querySelector('#languages').innerHTML = userLangs.join(', ');
   // Print user's location
-  document.querySelector('#location').innerHTML = user.location.city + ', ' + user.location.country;
+  document.querySelector('#address').innerHTML = user.address.city + ', ' + user.address.country;
   // Print user's skills
   document.querySelector('#skills').innerHTML = (
     '<div class="fluid-container w-100 d-flex flex-wrap" id="badgeContainer">' +
@@ -117,8 +117,7 @@ function toggleDropdown() {
 
 function changeForSelect(property, options, multiple) {
   const optionsArray = [];
-
-    options.map( option => optionsArray.push(returnOptionElement(option)));
+  options.map( option => optionsArray.push(returnOptionElement(option, property)));
 
   $(`#${property}`).replaceWith(
     `<select class="w-100 user-info border" id="${property}" style="border:none; color: #05c643;" ${multiple ? 'multiple' : ''}>` +
@@ -126,9 +125,31 @@ function changeForSelect(property, options, multiple) {
     `</select>`
   );
 
-  function returnOptionElement(option) {
-    return `<option value="${option.value}" ${originalUserInfo[property].includes(option.value) || originalUserInfo[property] === option.value ? 'selected' : ''}>${option.label}</option>`;
+  function returnOptionElement(option, property) {
+    let optionTemplate = '';
+    if (property === 'languages') {
+      let selected = checkUserOptions(option._id, property) ? 'selected' : null;
+      optionTemplate = `<option value="${option._id}" data-type="${property}" ${selected}>${option.label}</option>`;
+    } else if (property === 'experience') {
+      let selected = checkUserOptions(option, property) ? 'selected' : null;
+      optionTemplate = `<option value="${option.label}" data-type="${property}" ${selected}>${option.label}</option>`;
+    }
+    return optionTemplate;
   }
+}
+
+function checkUserOptions(option, property) {
+  let shouldSelected = false;
+  if (property === 'languages') {
+    originalUserInfo.languages.forEach( userLang => {
+      if (option === userLang._id) {
+        shouldSelected = true;
+      }
+    })
+  } else if (property === 'experience') {
+    originalUserInfo.experience === option.label ? shouldSelected = true : null
+  }
+  return shouldSelected;
 }
 
 function openEditMode() {
@@ -313,11 +334,12 @@ function saveProfileChanges() {
   if (editModeStatus) {
     document.querySelectorAll('.edited').forEach( el => {
       switch (el.id) {
-        case 'location':
+        case 'address':
           editedUserInfo[el.id] = {
             city: el.textContent.split(', ')[0],
             country: el.textContent.split(', ')[1],
-            state: editedUserInfo.location.state
+            street: originalUserInfo.address.street,
+            zipcode: originalUserInfo.address.zipcode
           }
           break;
 
@@ -327,35 +349,18 @@ function saveProfileChanges() {
       }
     });
 
-    let newPicture = document.querySelector('#picture-input').files[0];
-
-    let formData = new FormData();
-
-    formData.append('name', editedUserInfo.name);
-    formData.append('username', editedUserInfo.username);
-    formData.append('jobTitle', editedUserInfo.jobTitle);
-    formData.append('email', editedUserInfo.email);
-    formData.append('website', editedUserInfo.website);
-    formData.append('city', editedUserInfo.location.city);
-    formData.append('state', editedUserInfo.location.state);
-    formData.append('country', editedUserInfo.location.country);
-    formData.append('languages', JSON.stringify(editedUserInfo.languages));
-    formData.append('skills', JSON.stringify(editedUserInfo.skills));
-    formData.append('company', editedUserInfo.company);
-    formData.append('experience', editedUserInfo.experience);
-    formData.append('birthDate', editedUserInfo.birthDate);
-    formData.append('gender', editedUserInfo.gender);
-    formData.append('profilePicture', newPicture);
 
     // Send the data to the server
     fetch(`https://cv-mobile-api.herokuapp.com/api/users/${userID}`, {
       method: 'PUT',
-      body: formData
+      body: JSON.stringify(editedUserInfo),
+      headers: { "Content-Type": "application/json; charset=utf-8"}
     }).then( res => res.json())
-    .then( updatedUser => {
-      originalUserInfo = {...updatedUser};
-      closeEditMode();
-    });
+      .then( updatedUser => {
+        console.log(updatedUser)
+        originalUserInfo = {...updatedUser};
+        closeEditMode();
+      });
   }
 }
 

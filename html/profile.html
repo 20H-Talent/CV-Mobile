@@ -1,144 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>CV App</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+			integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+			crossorigin="anonymous"
+		/>
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+		<!-- Custom CSS styles -->
+		<link rel="stylesheet" href="../css/styles.css" />
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CV App</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-    crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Custom CSS styles -->
-  <link rel="stylesheet" href="../css/styles.css">
-</head>
+	<body>
+		<nav
+			class="navbar navbar-expand-lg header-top fixed-top navbar-dark bg-dark"
+		>
+			<a class="navbar-brand" href="../index.html">CV App</a>
+			<button
+				class="navbar-toggler"
+				type="button"
+				data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent"
+				aria-expanded="false"
+				aria-label="Toggle navigation"
+			>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../index.html">Home</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="./profile.html">My Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./favourite.html">My favorite</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./search.html">Advanced Search</a>
+					</li>
+					<li class="nav-item ">
+						<a class="nav-link" href="./company.html">Company</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./surveys.html">Surveys</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./reports.html">Reports</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Log in</a></li>
+				</ul>
+			</div>
+		</nav>
 
-<body>
-  <nav class="navbar navbar-expand-lg header-top fixed-top navbar-dark bg-dark">
-    <a class="navbar-brand" href="../index.html">CV App</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="../index.html">Home</a>
-      </li>
-      <li class="nav-item active">
-          <a class="nav-link" href="./profile.html">My Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./favourite.html">My favorite</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="./search.html">Advanced Search</a>
-      </li>
-      <li class="nav-item ">
-          <a class="nav-link" href="./company.html">Company</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="./surveys.html">Surveys</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="./reports.html">Reports</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="#">Log in</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <!------ Include the above in your HEAD tag ---------->
-  <main class="container" id="cards-container">
-    <div class="w-100 position-relative pt-5 pb-4 card shadow">
-      <i class="material-icons position-absolute" id="edit">more_horiz</i>
-      <i class="material-icons position-absolute d-none" id="save">check</i>
-      <i class="material-icons position-absolute d-none" id="cancel">close</i>
-      <!-- <i class="material-icons position-absolute d-none text-danger" id="remove">delete</i> -->
-      <div class="fluid-container position-absolute bg-light flex-column w-50 d-none" id="edit-options" style="z-index:999;right:35px;top:25px;">
-        <button class="container py-2" id="edit-btn">Edit profile</button>
-        <button class="container py-2 text-danger" id="delete-btn">Delete profile</button>
-      </div>
-      <div id="loader" class="bg-secondary d-none p-4" style="width: 250px; height: 150px; font-size:1.12rem;">
-        <p class="text-white">Are you sure you want to delete this user?</p>
-        <div class="row">
-          <div class="container d-flex justify-content-between">
-            <button class="btn btn-link text-light" id="delete-cancel">Cancel</button>
-            <button class="btn btn-danger" id="delete-confirm">Delete</button>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="container d-flex justify-content-center position-relative">
-            <img class="img" id="userImg" style="width: 200px; height: 200px; object-fit: contain; border-radius: 50%;">
-            <div id="profileBackdrop" class="position-absolute bg-light d-none justify-content-center align-items-center"
-              style="width: 150px; height: 150px; border-radius: 50%; top:50%; left:50%; background:#fff; opacity:0.6; transform: translate(-50%, -50%);">
-            </div>
-            <label for="picture-input" id="pictureLabel" class="m-0 position-absolute d-none justify-content-center align-items-center"
-              style="width: 150px; height: 150px; top: 50%; left:50%; transform: translate(-50%, -50%);">
-              <i class="material-icons" style="font-size:2rem;">add_a_photo</i>
-            </label>
-            <input type="file" id="picture-input" name="picture-input" accept="image/png, image/jpeg" class="position-absolute d-none"
-              placeholder="hello">
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
-            <h2 class="text-center user-info" id="name"></h2>
-            <h6 class="text-center text-muted mb-4 user-info" id="jobTitle"></h6>
-            <ul class="list-group mt-4 mb-4">
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">person</i>
-                <p class="m-0 w-100 user-info" id="username"></p>
-              </li>
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">email</i>
-                <p class="m-0 w-100 user-info" id="email"></p>
-              </li>
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">link</i>
-                <p class="m-0 w-100 user-info" id="website"></p>
-              </li>
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">work</i>
-                <p class="m-0 w-100 user-info" id="company"></p>
-              </li>
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">today</i>
-                <p class="m-0 w-100 user-info" id="experience"></p>
-              </li>
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">translate</i>
-                <p class="m-0 w-100 user-info" id="languages"></p>
-              </li>
-              <li class="container my-2 d-flex">
-                <i class="material-icons mr-3">public</i>
-                <p class="m-0 w-100 user-info" id="location"></p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="row">
-          <div class="container mb-3 px-4">
-            <h4>Skills</h4>
-          </div>
-          <div class="container d-flex flex-wrap position relative px-4" id="skills"></div>
-        </div>
-      </div>
-    </div>
-  </main>
-  <!-- Bootstrap scripts -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
-  <script src="../js/user-profile.js"></script>
-  <script src="../js/user_favourite.js"></script>
-</body>
-
+		<!-- ---- Include the above in your HEAD tag -------- -->
+		<main class="container" id="cards-container">
+			<div class="w-100 position-relative pt-5 pb-4 card shadow">
+				<i class="material-icons position-absolute" id="edit">more_horiz</i>
+				<i class="material-icons position-absolute d-none" id="save">check</i>
+				<i class="material-icons position-absolute d-none" id="cancel">close</i>
+				<!--
+					<i class="material-icons position-absolute d-none text-danger" id="remove">delete</i>
+				-->
+				<div
+					class="fluid-container position-absolute bg-light flex-column w-50 d-none"
+					id="edit-options"
+					style="z-index:999;right:35px;top:25px;"
+				>
+					<button class="container py-2" id="edit-btn">Edit profile</button>
+					<button class="container py-2 text-danger" id="delete-btn">
+						Delete profile
+					</button>
+				</div>
+				<div
+					id="loader"
+					class="bg-secondary d-none p-4"
+					style="width: 250px; height: 150px; font-size:1.12rem;"
+				>
+					<p class="text-white">Are you sure you want to delete this user?</p>
+					<div class="row">
+						<div class="container d-flex justify-content-between">
+							<button class="btn btn-link text-light" id="delete-cancel">
+								Cancel
+							</button>
+							<button class="btn btn-danger" id="delete-confirm">Delete</button>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div
+							class="container d-flex justify-content-center position-relative"
+						>
+							<img
+								class="img"
+								id="userImg"
+								style="width: 200px; height: 200px; object-fit: contain; border-radius: 50%;"
+							/>
+							<div
+								id="profileBackdrop"
+								class="position-absolute bg-light d-none justify-content-center align-items-center"
+								style="width: 150px; height: 150px; border-radius: 50%; top:50%; left:50%; background:#fff; opacity:0.6; transform: translate(-50%, -50%);"
+							></div>
+							<form id="file-upload-form" method="POST">
+								<label
+									for="picture-input"
+									id="pictureLabel"
+									class="m-0 position-absolute d-none justify-content-center align-items-center"
+									style="width: 150px; height: 150px; top: 50%; left:50%; transform: translate(-50%, -50%);"
+								>
+									<i class="material-icons" style="font-size:2rem;"
+										>add_a_photo</i
+									>
+								</label>
+								<input
+									type="file"
+									id="picture-input"
+									name="picture-input"
+									accept="image/png, image/jpeg"
+									class="position-absolute d-none"
+									placeholder="hello"
+								/>
+							</form>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
+							<h2 class="text-center user-info" id="name"></h2>
+							<h6
+								class="text-center text-muted mb-4 user-info"
+								id="jobTitle"
+							></h6>
+							<ul class="list-group mt-4 mb-4">
+								<li class="container my-2 d-flex">
+									<i class="material-icons mr-3">person</i>
+									<p class="m-0 w-100 user-info" id="username"></p>
+								</li>
+								<li class="container my-2 d-flex">
+									<i class="material-icons mr-3">email</i>
+									<p class="m-0 w-100 user-info" id="email"></p>
+								</li>
+								<li class="container my-2 d-flex">
+									<i class="material-icons mr-3">link</i>
+									<p class="m-0 w-100 user-info" id="website"></p>
+								</li>
+								<li class="container my-2 d-flex">
+									<i class="material-icons mr-3">work</i>
+									<p class="m-0 w-100 user-info" id="company"></p>
+								</li>
+								<li class="container my-2 d-flex">
+									<i class="material-icons mr-3">today</i>
+									<p class="m-0 w-100 user-info" id="experience"></p>
+								</li>
+								<li class="container my-2 d-flex">
+									<i class="material-icons mr-3">translate</i>
+									<p class="m-0 w-100 user-info" id="languages"></p>
+								</li>
+								<li class="container my-2 d-flex">
+									<i class="material-icons mr-3">public</i>
+									<p class="m-0 w-100 user-info" id="address"></p>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="container mb-3 px-4"><h4>Skills</h4></div>
+						<div
+							class="container d-flex flex-wrap position relative px-4"
+							id="skills"
+						></div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- Bootstrap scripts -->
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"
+		></script>
+		<script src="../js/user-profile.js"></script>
+		<script src="../js/user_favourite.js"></script>
+	</body>
 </html>
