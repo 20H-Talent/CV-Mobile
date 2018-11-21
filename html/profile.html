@@ -112,7 +112,11 @@
 								class="position-absolute bg-light d-none justify-content-center align-items-center"
 								style="width: 150px; height: 150px; border-radius: 50%; top:50%; left:50%; background:#fff; opacity:0.6; transform: translate(-50%, -50%);"
 							></div>
-							<form id="file-upload-form" method="POST">
+							<form
+								id="file-upload-form"
+								method="POST"
+								enctype="multipart/form-data"
+							>
 								<label
 									for="picture-input"
 									id="pictureLabel"
@@ -126,7 +130,7 @@
 								<input
 									type="file"
 									id="picture-input"
-									name="picture-input"
+									name="img"
 									accept="image/png, image/jpeg"
 									class="position-absolute d-none"
 									placeholder="hello"
