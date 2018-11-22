@@ -1,12 +1,15 @@
 module.exports = {
-    "extends": "airbnb",
-    "globals": {
-        "window": true,
-        "document": true,
-        "$": true
-    },
+    "extends": [
+        "airbnb",
+        "prettier",
+        "prettier/react"
+    ],
     "env": {
         "browser": true,
-        "node": true
-    }
+        "node": true,
+        jquery: true
+    },
+    "plugins": [
+        "prettier"
+    ]
 };
