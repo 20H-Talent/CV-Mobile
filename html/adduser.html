@@ -29,11 +29,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="../index.html">Home</a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a class="nav-link" href="./profile.html">My Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./search.html">Advanced Search</a>
+                        <a class="nav-link" href="./favourite.html">My favorite</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=".search.html">Advanced Search</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="./company.html">Company</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./surveys.html">Surveys</a>
@@ -42,7 +48,7 @@
                         <a class="nav-link" href="./reports.html">Reports</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log out</a>
+                        <a class="nav-link" href="#">Log in</a>
                     </li>
                 </ul>
             </div>
@@ -88,29 +94,34 @@
                         <strong>it is required </strong> Email
                     </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
-                        <label for="city" class="col-2 d-flex">City<p class="text-danger mb-1">*</p></label>
+                        <label for="city" class="col-2 d-flex">City</label>
                         <input type="text" class="form-control data location  col-8 required" id="city" name="city"
                             aria-describedby="basic-addon1">
                     </div>
-                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong>City
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">
+                        <label for="phone" class="col-2 d-flex">phone</label>
+                        <input type="number" class="form-control data location  col-8 required" id="phone" name="phone"
+                            aria-describedby="basic-addon1">
                     </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
-                        <label for="state" class="col-2 d-flex">State<p class="text-danger mb-1">*</p></label>
-                        <input type="text" class="form-control data location col-8 required" id="state" name="state"
+                        <label for="street" class="col-2 d-flex">street</label>
+                        <input type="text" class="form-control data location col-8 required" id="street" name="street"
                             aria-describedby="basic-addon1">
                     </div>
                     <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong> State
+                        <strong>it is required </strong> street
                     </div>
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
                         <label for="Country" class="col-2 d-flex">Country<p class="text-danger mb-1">*</p></label>
                         <input type="text" class="form-control data location  col-8 required" id="Country" name="country"
                             aria-describedby="basic-addon1">
                     </div>
-                    <div class="alert alert-warning alert-dismissible fade show alert-text d-none mb-4" role="alert">
-                        <strong>it is required </strong> Country
+                    <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
+                        <label for="zipcode" class="col-2 d-flex">zipcode</label>
+                        <input type="number" class="form-control data location  col-8 required" id="zipcode" name="zipcode"
+                            aria-describedby="basic-addon1">
                     </div>
+                    
 
                     <div class="input-group input-group-sm mb-4 d-flex justify-content-between  font-weight-bold">
                         <label for="Company" class="col-2">Company</label>
@@ -122,14 +133,19 @@
                         <input type="text" class="form-control order2 data  col-8" id="jobTitle" name="jobTitle"
                             aria-describedby="basic-addon1">
                     </div>
-                    <label for="skills" class="w-100 col-4 mb-0 d-flex font-weight-bold">Skills
-                        <p class="text-danger mb-1">*</p>
-                    </label>
+                    <p class="w-100 col-4 mb-0 d-flex font-weight-bold">Skills*
+                    </p>
                     <div class="d-flex justify-content-center " id="substituteskill">
-
+                        <select class="input-group input-group-sm mb-4 d-flex align-items-center font-weight-bold border border-secondary p-2  col-11" multiple>
+                            <optgroup label="language" id="skill-language"></optgroup>
+                            <optgroup id="skill-library" label="library" ></optgroup>
+                            <optgroup label="framework" id="skill-framework"></optgroup>
+                            <optgroup label="databas" id="skill-database"></optgroup>
+                            <optgroup label="tool" id="skill-tool"> </optgroup>
+                        </select>
                     </div>
                     <div class="alert alert-warning alert-dismissible fade show d-none mb-4" role="alert" id="alert-skills">
-                        <strong>it is required </strong> Skills
+                            
                     </div>
                     <div class="d-flex justify-content-center flex-column mb-5" id="substitutelangue">
 

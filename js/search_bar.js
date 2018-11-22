@@ -1,5 +1,5 @@
-
-searchInput.addEventListener("keyup", function(e) {
+const navInput = document.querySelector('input[name="search-term"]');
+navInput.addEventListener('keyup', (e) => {
   const searchTerm = searchInput.value;
 
   // User data separated for type
@@ -8,15 +8,15 @@ searchInput.addEventListener("keyup", function(e) {
     jobTitle: [],
     username: [],
     email: [],
-    company: []
-  }
+    company: [],
+  };
 
   function filterByData(input, reference, store, user, coincidence) {
-    if (reference.toLowerCase().includes(input.toLowerCase())) {
+    if (reference && reference.toLowerCase().includes(input.toLowerCase())) {
       user.highlight.includes(coincidence) ? '' : user.highlight.push(coincidence);
       store.push(user);
     } else {
-      let position = user.highlight.indexOf(coincidence);
+      const position = user.highlight.indexOf(coincidence);
       user.highlight.includes(coincidence) && position !== -1 ? user.highlight.splice(position, 1) : '';
     }
   }
@@ -25,14 +25,14 @@ searchInput.addEventListener("keyup", function(e) {
     const userArray = [];
 
     for (key in filteredResults) {
-      filteredResults[key].forEach( user => {
+      filteredResults[key].forEach((user) => {
         if (userArray.indexOf(user) == -1) {
           userArray.push(user);
         }
       });
     }
 
-    userArray.forEach( user => {
+    userArray.forEach((user) => {
       const card = renderCard(user);
       cardsContainer.innerHTML += card;
     });
@@ -45,25 +45,24 @@ searchInput.addEventListener("keyup", function(e) {
     cardsContainer.innerHTML = '';
 
     // Filter the users and store the results on the arrays above
-    loadedUsers.forEach( user => {
+    loadedUsers.forEach((user) => {
       // Save user data inside an object for future comparison
       const userData = {
         name: user.name,
         jobTitle: user.jobTitle,
         username: user.username,
         email: user.email,
-        company: user.company
-      }
+        company: user.company,
+      };
 
       // Grab each userData property and filter it into the searchResult object
-      for (let dataType in userData) {
+      for (const dataType in userData) {
         filterByData(searchTerm, userData[dataType], filteredResults[dataType], user, dataType);
       }
     });
 
     // Once the users have been filtered render them into the DOM
     renderFilteredResults();
-
   } else {
     // Allow infinite scroll again
     isFetchAllowed = true;
@@ -79,7 +78,8 @@ searchInput.addEventListener("keyup", function(e) {
 });
 
 // Compress the navbar after submiting the search form
-navForm.addEventListener('submit', function(e) {
+const navForm = document.querySelector('#nav-form');
+navForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   // Change navbarList properties to hide it

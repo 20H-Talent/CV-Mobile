@@ -15,7 +15,7 @@
 
 <body>
   <nav class="navbar navbar-expand-lg header-top fixed-top navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">CV App</a>
+    <a class="navbar-brand" href="./index.html">CV App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="border-color:transparent; outline:none;">
       <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,13 @@
           <a class="nav-link" href="./html/profile.html">My Profile</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="./html/favourite.html">My favorite</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="./html/search.html">Advanced Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./html/company.html">Company</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./html/surveys.html">Surveys</a>
@@ -40,8 +46,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Log in</a>
         </li>
+
       </ul>
-      <form class="form-inline my-2 my-lg-0" id="navForm">
+      <form class="form-inline my-2 my-lg-0" id="nav-form">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search-term"
           id="nav-input">
         <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
@@ -60,9 +67,11 @@
     </div>
   </div>
   <!-- Floating action button -->
-  <button id="floating-action-button" class="btn btn-primary position-fixed d-flex shadow" style="bottom:40px; right:25px; width:60px; height: 60px; border-radius:50%;">
-    <i class="m-auto material-icons" style="font-size: 2.2rem;">add</i>
-  </button>
+  <a>
+    <button id="floating-action-button" class="btn btn-primary position-fixed d-flex shadow" style="bottom:40px; right:25px; width:60px; height: 60px; border-radius:50%;">
+      <i class="m-auto material-icons" style="font-size: 2.2rem;">add</i>
+    </button>
+  </a>
   <!-- Bootstrap scripts -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
@@ -74,6 +83,7 @@
   <script src="./js/splash-screen.js"></script>
   <script src="./js/infinite_scroll.js"></script>
   <script src="./js/search_bar.js"></script>
+  <script src="./js/user_favourite"></script>
 </body>
 
 </html>
