@@ -5,7 +5,8 @@ const inputCountry = document.getElementById("country");
 const inputExperience = document.getElementById("experience");
 const inputCompany = document.getElementById("company");
 const inputJobTitle = document.getElementById("job-title");
-
+const inputSkills = document.getElementsByClassName("check-skill");
+const inputLangs = document.getElementsByClassName("check-lang");
 
 //Imprimir los checkboxes de lang que están checked
 function getLangFilterAdvancedSearch(user) {
@@ -36,7 +37,6 @@ function getSkillFilterAdvancedSearch(user) {
     if (skillChecks[i].checked == true) {
       skillArr.push(skillChecks[i].value);
     }
-    //Comparar los lang que están en el array con los que el array del user
   }
   var checkUserSkills = [];
   skillArr.forEach(function(skill) {
@@ -93,9 +93,13 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
         let badges = document.querySelectorAll('.badge');
         badges.forEach(function(badge){
           badge.remove();
-        let inputs = document.querySelectorAll('input')
+        let inputs = document.querySelectorAll('input');
         inputs.forEach(function(input){
           input.value = ''
+        let checkboxes = document.querySelectorAll('.check');
+        checkboxes.forEach(function(checkbox){
+          checkbox.checked = false;
+        })
         })
         })
       });
@@ -134,7 +138,7 @@ function renderCards(filteredUser) {
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span>' + email + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span>' + company + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span>' + address.city + ', ' + address.country + '</span></p>' +
-    '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
+    '<a href="./profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'
     // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">today</i> <span' + (highlight.includes('experience') ? ' class="bg-warning"' : '') + '>' + experience + '</span></p>' +
@@ -156,7 +160,7 @@ $.ajax({
 function renderSkill(skill) {
   var skillTemplate =
     '<div class="form-check col-12">' +
-    '<input class="form-check-input check-skill" type="checkbox" value="' +
+    '<input class="form-check-input check-skill check" type="checkbox" value="' +
     skill._id +
     '" name="' +
     skill.name +
@@ -184,7 +188,7 @@ function renderLanguage(language) {
   var languageTemplate =
     ' <div class="form-check col-12">' +
     //Operador ternario
-    '<input class="form-check-input check-lang" type="checkbox" value="' +
+    '<input class="form-check-input check-lang check" type="checkbox" value="' +
     language._id +
     '" id="' +
     language._id +
@@ -208,33 +212,43 @@ function deleteBadge(e) {
   switch (inputTarget){
     case 'name' :
       inputName.value = '';
-      console.log(inputName)
       break;
     case 'username' :
       inputUsername.value = '';
-      console.log(inputUsername)
       break;
     case 'city' :
       inputCity.value = '';
-      console.log(inputCity)
       break;
     case 'country' :
       inputCountry.value = '';
-      console.log(inputCountry)
     case 'jobTitle' :
       inputJobTitle.value = '';
-      console.log(inputJobTitle)
       break;
     case 'company' :
       inputCompany.value = '';
-      console.log(inputCompany)
       break;
     case 'experience' :
       inputExperience.value = '';
-      console.log(inputExperience)
+      break;
+    case 'skills' :
+    let skillsCopy = [...inputSkills];
+    skillsCopy.forEach(function(skill){
+      if (skill.id == e.target.dataset.id){
+        skill.checked = false;
+      }
+        
+      });
+      break;
+    case  'langs' :
+    let langsCopy = [...inputLangs];
+      langsCopy.forEach(function(lang){
+        if (lang.id == e.target.dataset.id ){
+          lang.checked = false;
+        }
+      });
   }
     cardsContainer.innerHTML = '';
-      $( "#searchbtn" ).trigger( "click")
+    $( "#searchbtn" ).trigger( "click")
     };
 //}
 
@@ -268,9 +282,23 @@ function renderBadgets() {
   if( inputExperience.value !== '' && inputExperience.value !== 'Choose an option' ) {
     badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputExperience.value + '<i class="material-icons cancelIcon" data-input="experience">cancel</i></span>') ;
   }
+  // Esto copia los contenidos de inputSkill dentro de un array nuevecito mi hermano.
+  // Y por eso no se puede hacer un forEach en un NodeList
+  let skillsCopy = [...inputSkills];
+  skillsCopy.forEach(function(skill){
+    if (skill.checked) {
+      badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + skill.nextSibling.textContent + '<i class="material-icons cancelIcon" data-input="skills" data-id="' + skill.id + '">cancel</i></span>') ;
+    }
+  });
+
+  let langsCopy = [...inputLangs];
+  langsCopy.forEach(function(lang){
+    if (lang.checked) {
+      badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + lang.nextSibling.textContent + '<i class="material-icons cancelIcon" data-input="langs" data-id="' + lang.id + '">cancel</i></span>') ;
+    }
+  });
+
 
   var userBadget = badgetTemplate.join('')
   $('#badgetContainer').html(userBadget);
 }
-
-
