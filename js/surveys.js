@@ -1,35 +1,39 @@
 class SurveysPage {
-  constructor() {
+  constructor() {
     this._url = 'https://cv-mobile-api.herokuapp.com/api/surveys';
-    this._surveys;
+    this._surveys = [];
   }
 
   get surveys() {
     return this._surveys;
   }
 
+  set surveys(data) {
+    this._surveys = data;
+  }
+
   get numOfSurveys() {
     return this._surveys.length;
   }
 
-  getDataFromApi(url) {
+  getDataFromApi(url) {
     fetch(url)
       .then( res => res.json())
       .then( data => {
-        this._surveys = data;
+        this.surveys = data;
         this.renderPage();
       })
       .catch( err => console.log(err.message));
   }
 
   generatePageStructure() {
-    let pageStructure = (`
+    const pageStructure = (`
         <div class="container w-100">
           <h4 class="pt-5 pb-4 pl-2">Available surveys</h4>
           <p class="d-flex" style="font-size:0.9rem; padding: 0 35px;"><span>Title</span><span class="ml-auto text-right">End date</span></p>
         </div>
         <div class="container w-100">
-          ${this.generateAccordion(this._surveys)}
+          ${this.generateAccordion(this.surveys)}
         </div>
     `);
 
@@ -37,32 +41,32 @@ class SurveysPage {
   }
 
   generateAccordion(surveysArr) {
-    let formCards = [];
-    let orderedSurveys = surveysArr.sort( (a, b) => {
+    const formCards = [];
+    const orderedSurveys = surveysArr.sort( (a, b) => {
       if (a.header.endDate > b.header.endDate) return 1;
       if (a.header.endDate < b.header.endDate) return -1;
       return 0;
     });
 
     orderedSurveys.forEach( (survey, index) => {
-      let surveyDate = new Date(survey.header.endDate).getTime()
+      const surveyDate = new Date(survey.header.endDate).getTime()
       if (surveyDate > Date.now()) {
         formCards.push(this.generateFormCard(survey, index));
       }
     })
 
-    let accordionTemplate = `<div class="accordion mb-4" id="accordion-surveys">${formCards.join('')}</div>`;
+    const accordionTemplate = `<div class="accordion mb-4" id="accordion-surveys">${formCards.join('')}</div>`;
 
     return accordionTemplate;
   }
 
-  generateFormCard(survey, index) {
-    let inputArray = [];
+  generateFormCard(survey) {
+    const inputArray = [];
     survey.elements.forEach( element => inputArray.push(this.generateInput(element)));
 
-    let randomId = Math.floor(Math.random() * 5000);
+    const randomId = Math.floor(Math.random() * 5000);
 
-    let formTemplate = (
+    const formTemplate = (
       `<div class="card shadow">
         <div class="card-header" id="form-header-${randomId}">
           <h5 class="mb-0">
@@ -94,12 +98,16 @@ class SurveysPage {
 
   generateInput(input) {
     let inputTemplate;
+    const selectOptions = [];
+    const checkboxOptions = [];
+    const radioOptions = [];
+    // Generate an id for the case select
+    const randomSelectID = this.generateRandomId();
 
     switch (input.type) {
       case 'select':
-        let selectOptions = [];
+
         input.values.forEach( value => selectOptions.push(`<option value="${value.value}">${value.label}</option>`));
-        let randomSelectID = this.generateRandomId();
 
         inputTemplate = (`
         <div class="form-group">
@@ -111,9 +119,8 @@ class SurveysPage {
       `);
         break;
       case 'checkbox':
-        let checkboxOptions = [];
-        input.values.forEach( (value, index) => {
-          let randomID = this.generateRandomId();
+        input.values.forEach( (value) => {
+          const randomID = this.generateRandomId();
 
           checkboxOptions.push((`
           <div class="form-check" id="group-checkbox-${randomID}">
@@ -131,10 +138,8 @@ class SurveysPage {
         `);
         break;
       case 'radio':
-        let radioOptions = [];
-
         input.values.forEach( value => {
-          let randomID = this.generateRandomId();
+          const randomID = this.generateRandomId();
 
           radioOptions.push((`
           <div class="form-check" id="group-radio-${randomID}">
@@ -159,23 +164,22 @@ class SurveysPage {
     return inputTemplate;
   }
 
-  generateRandomId() {
-    let randomId = Math.floor(Math.random() * 5000);
+  static generateRandomId() {
+    const randomId = Math.floor(Math.random() * 5000);
     return randomId;
   }
 
-  checkFormFinish(date) {
-    let timeLimit = 172800000;
+  static checkFormFinish(date) {
+    const timeLimit = 172800000;
     if (date - Date.now() < timeLimit) {
       return true;
-    } else {
-      return false;
     }
+      return false;
   }
 
-  convertTimestampToDate(timestamp) {
-    let fullDate = new Date(timestamp);
-    let monthArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'];
+  static convertTimestampToDate(timestamp) {
+    const fullDate = new Date(timestamp);
+    const monthArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'];
     let stringDay = fullDate.getDate().toString();
 
     if (stringDay[stringDay.length - 1] == 1) {
@@ -191,7 +195,7 @@ class SurveysPage {
     return `${stringDay} ${monthArr[fullDate.getMonth()]}`;
   }
 
-  sendFormData(e) {
+  static sendFormData(e) {
     e.preventDefault();
     const form = e.target;
     const inputsList = {
@@ -200,32 +204,34 @@ class SurveysPage {
       radio: []
     };
 
-    for (let key in inputsList) {
+    Object.keys(inputsList).forEach(key => {
       switch (key) {
         case 'select':
           form.querySelectorAll(key).forEach( input => {
-            let question = document.querySelector(`label[for="${input.id}"]`).textContent;
+            const question = document.querySelector(`label[for="${input.id}"]`).textContent;
             inputsList[key].push({question, answer: input.value});
           });
           break;
         case 'checkbox':
           form.querySelectorAll(`[type="${key}"]`).forEach( input => {
-            let inputParent = input.parentNode.parentNode;
-            let question = inputParent.querySelector('label').textContent;
-            input.checked ? inputsList[key].push({question, answer: input.value}) : null
+            const inputParent = input.parentNode.parentNode;
+            const question = inputParent.querySelector('label').textContent;
+            if (input.checked) inputsList[key].push({question, answer: input.value});
           });
           break;
         case 'radio':
           form.querySelectorAll(`[type="${key}"]`).forEach( input => {
-            let inputParent = input.parentNode.parentNode;
-            let question = inputParent.querySelector('label').textContent;
-            input.checked ? inputsList[key].push({question, answer: input.value}) : null
+            const inputParent = input.parentNode.parentNode;
+            const question = inputParent.querySelector('label').textContent;
+            if (input.checked) inputsList[key].push({question, answer: input.value});
           });
           break;
         default:
           break;
       }
-    }
+    })
+
+
 
     const { select, checkbox, radio } = inputsList;
     const allAnswers = [ ...select, ...checkbox, ...radio];
@@ -243,7 +249,6 @@ class SurveysPage {
       }
     }).then( () => {
       // Success message
-      // Reload window
       window.location.reload()
     }).catch( err => console.log(err));
   }

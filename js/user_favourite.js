@@ -1,8 +1,6 @@
 const cardsContainer = document.querySelector('#cards-container');
 const idUserFav = localStorage.getItem('favStorage')
 
-
-console.log(localStorage.getItem('favStorage'));
 function fetchUsersData() {
     $.ajax({
     url: "https://cv-mobile-api.herokuapp.com/api/users"
@@ -18,16 +16,15 @@ function fetchUsersData() {
                 renderFav();
             // } else {
             //     cardsContainer.innerHTML = "<div class='media-body'><p>You have not save any profile</p></div>"
-            }  
+            }
         })
     });
 };
 
-
 fetchUsersData();
 
 function renderCards(userFav) {
-    
+
     const {
         name,
         username,
