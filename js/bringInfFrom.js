@@ -72,17 +72,30 @@ class AddUserForm {
         experience: document.querySelector('option:checked').value,
         gender: document.querySelector('input[type=radio]:checked').value,
         skills: this.getCheckedCheckboxes('skills'),
-        langs: this.getCheckedCheckboxes('langs')
+        languages: this.getCheckedCheckboxes('langs')
       }
 
       fetch('https://cv-mobile-api.herokuapp.com/api/users', {
         method: 'POST',
         body: JSON.stringify(this.userData),
         headers: { "Content-Type": "application/json; charset=utf-8"}
-      }).then(res => {console.log(res)});
+      })
+      .then(res => res.json())
+      .then(res => { this.sendUserAvatar(res._id) })
+      .catch( err => console.log(err));
     }
 
-    // sendUserAvatar() {}
+    sendUserAvatar(userID) {
+      const formBody = new FormData();
+      formBody.append('img', document.querySelector('#avatar-input').files[0]);
+
+      fetch(`https://cv-mobile-api.herokuapp.com/api/files/upload/user/${userID}`, {
+        method: 'POST',
+        body: formBody,
+      })
+      .then(() => console.log('sent successfuly'))
+      .catch(err => console.log(err))
+    }
 
     init() {
       this.getApiInfoFrom(this.skillsURL, 'skills', this.renderSkillOptions.bind(this));
