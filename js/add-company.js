@@ -1,54 +1,72 @@
+var confidocType = "";
+var email = document.getElementById("email");
+var phone = document.getElementById("phone");
+var city = document.getElementById("city");
+
+var docNumber = document.getElementById("docNumber")
+var namecompany =document.getElementById("namecompany");
+var country = document.getElementById("Country");
+var street = document.getElementById("street");
+
+var website = document.getElementById("website");
+var employees = document.getElementById("employees");
+var logoURL = document.getElementById("logoURL");
+
+var numberType = document.getElementById("numberType");
+var bio = document.getElementById("bio");
+
+var NIF = document.getElementById("NIF");
+var CIF = document.getElementById("CIF");
+
+var zipcode = document.getElementById("zipcode");
 
 
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
-const city = document.getElementById("city");
+function Recort() {
+   if(NIF.checked){
+    confidocType = "nif"
+   }else if(CIF.checked){
+    confidocType ="cif"
+   }
+}
 
-const name = document.getElementById("Name");
-const country = document.getElementById("Country");
-const street = document.getElementById("street");
-
-const website = document.getElementById("website");
-const employees = document.getElementById("employees");
-const logoURL = document.getElementById("logoURL");
-
-const CIF = document.getElementById("CIF");
-const bio = document.getElementById("bio");
-const zipcode = document.getElementById("zipcode");
-
-
-
-$("form").on("submit",function () {
-        var companyNew = createRequestBody();
-        console.log(companyNew);
-        fetch('https://cv-mobile-api.herokuapp.com/api/company', {
-            method: 'POST',
-            body: companyNew
-        })
-            .then(res => res.json())
-            .then(response => console.log(response));
-
-        compiErrorData.classList.add("d-none");
-    
-});
 
 function createRequestBody() {
-    let formData = new FormData();
-    console.log(name.value);
 
-    formData.append('CIF', CIF.value);
-    formData.append('bio', bio.value);
-    formData.append('name', name.value);
-    formData.append('city', city.value);
-    formData.append('email', email.value);
-    formData.append('phone', phone.value);
-    formData.append('street', street.value);
-    formData.append('country', country.value);
-    formData.append('zipcode', zipcode.value);
-    formData.append('website', website.value);
-    formData.append('logoURL', logoURL.files[0]);
-    formData.append('employees', employees.value);
-
+    let formData = {
+        address: {
+            country: country.value,
+            street: street.value,
+            city: city.value,
+            zipcode: zipcode.value,
+        },
+        bio: bio.value,
+        docNumber:docNumber.value,
+        docType: confidocType,
+        name: namecompany.value,
+        email: email.value,
+        phone: phone.value,
+        website: website.value,
+        employees: employees.value,
+    }
     return formData;
 }
+
+$("form").on("submit",function () {
+    Recort()
+    console.log("Enviando")
+    var companyNew = createRequestBody();
+    console.log(companyNew)
+    fetch('https://cv-mobile-api.herokuapp.com/api/companies', {
+        method: 'POST',
+        body: JSON.stringify(companyNew),
+        headers: { "Content-Type": "application/json; chaset=utf-8" }
+    })
+        .then(res => res.json())
+        .then(response => console.log(response));
+
+
+});
+
+
+
 

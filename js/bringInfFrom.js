@@ -88,123 +88,114 @@ $("#send").click(function () {
     // it var(n,s) is because calc the "input" required that are filled
     //n is the input filled
     //s is the skill no checks
-   
-        for (i = 0; i < data.length; i++) {
-            if (data[i].name == "languages[]") {
-                var e;
-                //here unite the language in a array 
-                for (e = 0; e < checkboxLanguages.length; e++) {
-                    if (checkboxLanguages[e].checked) {
-                        languages.push(checkboxLanguages[e].attributes.value.nodeValue);
-                    }
-                }
 
-
-                //here take the check active the gender
-            } else if (data[i].classList == "gender data  mr-1 ") {
-                var e;
-                for (e = 0; e < checkgender.length; e++) {
-                    if (checkgender[e].checked) {
-                        var gender = checkgender[e].attributes.id.nodeValue;
-                    }
+    for (i = 0; i < data.length; i++) {
+        if (data[i].name == "languages[]") {
+            var e;
+            //here unite the language in a array 
+            for (e = 0; e < checkboxLanguages.length; e++) {
+                if (checkboxLanguages[e].checked) {
+                    languages.push(checkboxLanguages[e].attributes.value.nodeValue);
                 }
-            } else if (data[i].id == "Experience") {
-                var e;
-                var experience = '';
-                for (e = 0; e < seletdEspe.length; e++) {
-                    if (seletdEspe[e].selected) {
-                        experience += seletdEspe[e].value;
-                    }
-                }
-            } else if (data[i].id == "Name") {
-                var name = data[i].value;
-            } else if (data[i].id == "userName") {
-                var userName = data[i].value;
-            } else if (data[i].id == "email") {
-                var email = data[i].value;
-            } else if (data[i].id == "city") {
-                var city = data[i].value;
-            } else if (data[i].id == "street") {
-                var street = data[i].value;
-            } else if (data[i].id == "Company") {
-                var company = data[i].value;
-            } else if (data[i].id == "jobTitle") {
-                var jobTitle = data[i].value;
-            } else if (data[i].id == "website") {
-                var website = data[i].value;
-            } else if (data[i].id == "birthDate") {
-                var birthDate = data[i].value;
-            }else if (data[i].id == "Country") {
-                var country = data[i].value;
-            }else if (data[i].id == "zipcode") {
-                var zipcode = data[i].value;
-            }else if (data[i].id == "phone") {
-                var phone = data[i].value;
             }
+
+
+            //here take the check active the gender
+        } else if (data[i].classList == "gender data  mr-1 ") {
+            var e;
+            for (e = 0; e < checkgender.length; e++) {
+                if (checkgender[e].checked) {
+                    var gender = checkgender[e].attributes.id.nodeValue;
+                }
+            }
+        } else if (data[i].id == "Experience") {
+            var e;
+            var experience = '';
+            for (e = 0; e < seletdEspe.length; e++) {
+                if (seletdEspe[e].selected) {
+                    experience += seletdEspe[e].value;
+                }
+            }
+        } else if (data[i].id == "Name") {
+            var name = data[i].value;
+        } else if (data[i].id == "userName") {
+            var userName = data[i].value;
+        } else if (data[i].id == "email") {
+            var email = data[i].value;
+        } else if (data[i].id == "city") {
+            var city = data[i].value;
+        } else if (data[i].id == "street") {
+            var street = data[i].value;
+        } else if (data[i].id == "Company") {
+            var company = data[i].value;
+        } else if (data[i].id == "jobTitle") {
+            var jobTitle = data[i].value;
+        } else if (data[i].id == "website") {
+            var website = data[i].value;
+        } else if (data[i].id == "birthDate") {
+            var birthDate = data[i].value;
+        } else if (data[i].id == "Country") {
+            var country = data[i].value;
+        } else if (data[i].id == "zipcode") {
+            var zipcode = data[i].value;
+        } else if (data[i].id == "phone") {
+            var phone = data[i].value;
         }
-
-        
-        //here unite the Skill in a array
-        var e;
-        for (e = 0; e < checkboxSkil.length; e++) {
-
-            if (checkboxSkil[e].selected) {
-
-                skills.push(checkboxSkil[e].attributes.value.nodeValue);
-            }
-        };
-        console.log(skills);
-
-       
-       
-
-        //the constructor of the data user
-        function createRequestBody() {
-
-        //It's to object of address
-           
-
-            let usernew = {
-                address:{
-                    country:country,
-                    city:city,
-                    street:street,
-                    zipcode:zipcode
-                },
-                languages:languages,
-                skills:JSON.stringify(skills),
-                name:name,
-                userName:userName,
-                email:email,
-                phone:phone,
-                gender:gender,
-                company:company,
-                jobTitle:jobTitle,
-                website:website,
-                birthDate:birthDate,
-                experience:experience,
-                avatar:profilePicture.files[0]
-            }
+    }
 
 
+    //here unite the Skill in a array
+    var e;
+    for (e = 0; e < checkboxSkil.length; e++) {
 
+        if (checkboxSkil[e].selected) {
 
-
-
-            return usernew;
-
-           
+            skills.push(checkboxSkil[e].attributes.value.nodeValue);
         }
-        //here create the object
-        var usernew = createRequestBody();
-        console.log(usernew)
-        fetch('https://cv-mobile-api.herokuapp.com/api/users', {
-            method: 'POST',
-            body: JSON.stringify(usernew)
-        })
-            .then(res => res.json())
-            .then(response => {
-                console.log(response);
-            })
-    
+    };
+
+
+
+
+
+    //the constructor of the data user
+    function createRequestBody() {
+        let usernew = {
+            name: name,
+            username: userName,
+            email: email,
+            phone: phone,
+            gender: gender,
+            address: {
+                country: country,
+                city: city,
+                street: street,
+                zipcode: zipcode
+            },
+            company: company,
+            jobTitle: jobTitle,
+            languages: languages,
+            skills: skills,
+            experience: experience,
+            website: website,
+            birthDate: birthDate
+        }
+        return usernew;
+    }
+    //here create the object
+    var usernew = createRequestBody();
+    console.log(usernew)
+    fetch('https://cv-mobile-api.herokuapp.com/api/users/', {
+        method: 'POST',
+        body: JSON.stringify({username: 'Elon Musk',
+    email: 'elonmusk@gmail.com',
+    userId: 1
+    }),
+    headers:{"Content-Type":"application/json; chaset=utf-8"}
+    })
+        .then(res => res.json())
+        .then(response => console.log(response))
+        .catch(error => console.log(error.message));
+
 });
+
