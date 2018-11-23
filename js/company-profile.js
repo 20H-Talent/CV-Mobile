@@ -17,11 +17,12 @@ var inputImg = document.getElementById("picture-input");
 var CIF = document.getElementById("CIF");
 var bio = document.getElementById("bio");
 
-var docType=document.getElementById("docType");
-var jobOffers=document.getElementById("jobOffers");
-var socialUrls=document.getElementById("socialUrls");
+var docType = document.getElementById("docType");
+var jobOffers = document.getElementById("jobOffers");
+var socialName = document.getElementById("socialName");
+var socialUrls = document.getElementById("socialUrl");
 
-var docNumber=document.getElementById("docNumber");
+var docNumber = document.getElementById("docNumber");
 var zipcode = document.getElementById("zipcode");
 
 
@@ -51,7 +52,7 @@ function fillData(data) {
     works.innerHTML = data.employees;
     phone.innerHTML = data.phone;
     document.getElementById("userImg").src = data.logoURL;
-   
+
     locatiFull.innerHTML = data.address.country + ' . ' + data.address.city + ' . ' + data.address.street;
     country.innerHTML = data.address.country;
     city.innerHTML = data.address.city;
@@ -63,16 +64,17 @@ function fillData(data) {
 
     docType.innerHTML = data.docType;
     jobOffers.innerHTML = data.jobOffers;
-    socialUrls.innerHTML = data.socialUrls;
+    socialName.innerHTML = data.socialUrls.platform;
+    socialUrls.innerHTML =data.socialUrls.url
 
-    docNumber.innerHTML=data.docNumber;
+    docNumber.innerHTML = data.docNumber;
 }
 function imgError(image) {
     image.onerror = "";
     image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
     console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
     return true;
-  }
+}
 dataCompany(companyID);
 // "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png"
 
@@ -80,12 +82,12 @@ dataCompany(companyID);
 let isDropdownOpen = false;
 $("#edit").click(function editDelete() {
     isDropdownOpen = !isDropdownOpen;
-    if(isDropdownOpen){
+    if (isDropdownOpen) {
         document.getElementById("edit-options").classList.remove("d-none");
-    }else{
+    } else {
         document.getElementById("edit-options").classList.add("d-none");
     }
-    
+
 })
 
 $('#edit-btn').click(function editCompany() {
@@ -102,6 +104,7 @@ $('#edit-btn').click(function editCompany() {
     docType.setAttribute('contenteditable', true);
 
     jobOffers.setAttribute('contenteditable', true);
+    socialName.setAttribute('contenteditable', true);
     socialUrls.setAttribute('contenteditable', true);
     docNumber.setAttribute('contenteditable', true);
 
@@ -130,7 +133,7 @@ $('#edit-btn').click(function editCompany() {
     document.getElementById("cancel").classList.remove("d-none");
     document.getElementById("edit").classList.add("d-none");
     document.getElementById("edit-options").classList.add("d-none");
-    
+
 
 });
 
@@ -146,6 +149,7 @@ $("#save").click(function confirEditCompany() {
     nameCompany.setAttribute('contenteditable', false);
     docType.setAttribute('contenteditable', false);
     jobOffers.setAttribute('contenteditable', false);
+    socialName.setAttribute('contenteditable', false);
     socialUrls.setAttribute('contenteditable', false);
     docNumber.setAttribute('contenteditable', false);
     bio.setAttribute('contenteditable', false);
@@ -172,28 +176,26 @@ $("#save").click(function confirEditCompany() {
     locatiFull.innerHTML = country.innerText + ' . ' + city.innerText + ' . ' + street.innerText;
 
 
-    
 
-   
+
+
     var companynew = createRequestBody();
     console.log(companynew)
     fetch(`https://cv-mobile-api.herokuapp.com/api/companies/${companyID}`, {
         method: 'put',
-        body:  JSON.stringify(companynew)
-        
-      }).then(res => res.json())
-    .then(response => {
-        console.log(response);
+        body: JSON.stringify(companynew),
+        headers: { "Content-Type": "application/json; chaset=utf-8" }
+    })
+        .then(res => res.json())
+        .then(response => console.log(response));
 
-});
 
-    document.getElementById("need-company").setAttribute('contenteditable', false);
     document.getElementById("save").classList.add("d-none");
     document.getElementById("cancel").classList.add("d-none");
     document.getElementById("edit").classList.remove("d-none");
 
 });
-$("#cancel").click(function cancelEditCompany(){
+$("#cancel").click(function cancelEditCompany() {
 
     email.setAttribute('contenteditable', false);
     website.setAttribute('contenteditable', false);
@@ -208,6 +210,7 @@ $("#cancel").click(function cancelEditCompany(){
     nameCompany.setAttribute('contenteditable', false);
     docType.setAttribute('contenteditable', false);
     jobOffers.setAttribute('contenteditable', false);
+    socialName.setAttribute('contenteditable', false);
     socialUrls.setAttribute('contenteditable', false);
     bio.setAttribute('contenteditable', false);
     CIF.setAttribute('contenteditable', false);
@@ -224,8 +227,8 @@ $("#cancel").click(function cancelEditCompany(){
 
     var i;
     var edited = document.getElementsByClassName("edited");
-    var editedall =edited;
-    for(i = 0;i<=editedall.length;i++){
+    var editedall = edited;
+    for (i = 0; i <= editedall.length; i++) {
         edited[i].classList.remove("edited");
     }
 
@@ -242,9 +245,9 @@ $("#cancel").click(function cancelEditCompany(){
 
 
 $("#delete-btn").click(function questionRemoveCompany() {
-   document.getElementById("loader").classList.remove("d-none");
+    document.getElementById("loader").classList.remove("d-none");
 
-   document.getElementById("edit-options").classList.add("d-none");
+    document.getElementById("edit-options").classList.add("d-none");
 })
 
 
@@ -256,12 +259,12 @@ $("#delete-cancel").click(function cancelRemoveCompany() {
 $("#delete-confirm").click(function confirRemoveCompany() {
     fetch(`https://cv-mobile-api.herokuapp.com/api/companies/${companyID}`, {
         method: 'DELETE'
-      })
-      .then(data => data.json())
-      .then(response => {
-        console.log(response);
-        window.location.pathname = '/index.html';
-      });
+    })
+        .then(data => data.json())
+        .then(response => {
+            console.log(response);
+            window.location.pathname = '/index.html';
+        });
 })
 
 
@@ -314,28 +317,32 @@ $(".user-info").keyup(function detectChanges() {
 
 
 
-function createRequestBody(){
+function createRequestBody() {
     let newPicture = document.querySelector('#picture-input').files[0];
-   
+
     let formData = {
-        address:{
-            country:country.innerText,
-            street:street.innerText,
-            city:city.innerText,
-            zipcode:dataf.zipcode.innerText
+        address: {
+            country: country.innerText,
+            street: street.innerText,
+            city: city.innerText,
+            zipcode: dataf.zipcode
         },
-        bio:bio.innerText,
-        docNumber:docNumber.innerText,
-        docType:docType.innerText,
-        email:email.innerText,
-        employees:works.innerText,
-        jobOffers:jobOffers.innerText,
-        logoURL:newPicture,
-        name:nameCompany.innerText,
-        phone:phone.innerText,
-        socialUrls:socialUrls.innerText,
-        website:website.innerText,
+        bio: bio.innerText,
+        docNumber: docNumber.innerText,
+        docType: docType.innerText,
+        email: email.innerText,
+        //jobOffers:[jobOffers.innerHTML],
+        employees: works.innerText,
+        name: nameCompany.innerText,
+        phone: phone.innerText,
+        socialUrls: {
+            _id: "5bf7c8ba53abff001b0647c2",
+            platform: socialName.innerHTML,
+            url: socialUrls.innerHTML
+        },
+        website: website.innerText,
     }
+
 
     return formData;
 }
