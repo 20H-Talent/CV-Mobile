@@ -1,3 +1,34 @@
+class FormHelpers {
+  static createCheckbox(item) {
+    return (
+    `<div class="form-check mb-2" style="width:30%;">
+      <input class="form-check-input" type="checkbox" value="${item._id}" id="checkbox-${item.label}">
+      <label class="form-check-label" for="checkbox-${item.label}">${item.label}</label>
+    </div>`);
+  }
+
+  static getCheckedCheckboxes(group) {
+    const parent = document.querySelector(`#${group}-container`);
+    const checkboxes = parent.querySelectorAll('input[type=checkbox]:checked');
+    const checkboxesValues = [];
+    checkboxes.forEach(check => checkboxesValues.push(check.value));
+    return checkboxesValues;
+  }
+
+  static displayMessage(success, message) {
+    const formModal = document.querySelector('#form-message');
+    formModal.classList.add(success ? 'alert-success' : 'alert-danger');
+    formModal.classList.add('d-flex');
+    formModal.classList.remove('d-none');
+    formModal.textContent = message;
+    // Wait 3 seconds and reload the page
+    window.setTimeout(() => {
+      formModal.classList.remove('d-flex');
+      formModal.classList.add('d-none');
+    }, 5000);
+  }
+}
+
 class AddUserForm {
     constructor(form, avatarForm, skillsURL, langURL, defSkills, defLangs) {
       this.form = form;
@@ -21,34 +52,27 @@ class AddUserForm {
       .then(() => callback())
     }
 
-    createCheckbox(item) {
-      return (
-      `<div class="form-check mb-2" style="width:30%;">
-        <input class="form-check-input" type="checkbox" value="${item._id}" id="checkbox-${item.label}">
-        <label class="form-check-label" for="checkbox-${item.label}">${item.label}</label>
-      </div>`);
-    }
-
     renderSkillOptions() {
       const skillsContainer = document.querySelector('#skills-container')
       this.skills.map(skill => {
-        skillsContainer.innerHTML += this.createCheckbox(skill);
+        skillsContainer.innerHTML += FormHelpers.createCheckbox(skill);
       })
     }
 
     renderLangOptions() {
       const langsContainer = document.querySelector('#langs-container');
       this.langs.map(lang => {
-        langsContainer.innerHTML += this.createCheckbox(lang)
+        langsContainer.innerHTML += FormHelpers.createCheckbox(lang)
       })
     }
 
-    getCheckedCheckboxes(group) {
-      const parent = document.querySelector(`#${group}-container`);
-      const checkboxes = parent.querySelectorAll('input[type=checkbox]:checked');
-      const checkboxesValues = [];
-      checkboxes.forEach(check => checkboxesValues.push(check.value));
-      return checkboxesValues;
+    handleImageInput(e) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.avatarForm.querySelector('#avatar-input-img').src = event.target.result;
+      }
+      reader.readAsDataURL(e.target.files[0]);
+
     }
 
     sendUserForm(e) {
@@ -58,21 +82,21 @@ class AddUserForm {
         name: document.querySelector('#inputName').value,
         username: document.querySelector('#inputUsername').value,
         email: document.querySelector('#inputEmail').value,
-        phone: document.querySelector('#inputPhone').value,
-        website: document.querySelector('#inputWebsite').value,
-        birthDate: document.querySelector('#inputBirthDate').value,
+        phone: document.querySelector('#inputPhone').value || null,
+        website: document.querySelector('#inputWebsite').value || null,
+        birthDate: document.querySelector('#inputBirthDate').value || null,
         address: {
           country: document.querySelector('#inputCountry').value,
-          city: document.querySelector('#inputCity').value,
-          street: document.querySelector('#inputStreet').value,
-          zipcode: document.querySelector('#inputZip').value,
+          city: document.querySelector('#inputCity').value || null,
+          street: document.querySelector('#inputStreet').value || null,
+          zipcode: document.querySelector('#inputZip').value || null,
         },
-        jobTitle: document.querySelector('#inputJobTitle').value,
-        company: document.querySelector('#inputCompany').value,
-        experience: document.querySelector('option:checked').value,
-        gender: document.querySelector('input[type=radio]:checked').value,
-        skills: this.getCheckedCheckboxes('skills'),
-        languages: this.getCheckedCheckboxes('langs')
+        jobTitle: document.querySelector('#inputJobTitle').value || null,
+        company: document.querySelector('#inputCompany').value || null,
+        experience: document.querySelector('option:checked').value || null,
+        gender: document.querySelector('input[type=radio]:checked').value || null,
+        skills: FormHelpers.getCheckedCheckboxes('skills'),
+        languages: FormHelpers.getCheckedCheckboxes('langs')
       }
 
       fetch('https://cv-mobile-api.herokuapp.com/api/users', {
@@ -81,25 +105,35 @@ class AddUserForm {
         headers: { "Content-Type": "application/json; charset=utf-8"}
       })
       .then(res => res.json())
-      .then(res => { this.sendUserAvatar(res._id) })
-      .catch( err => console.log(err));
+      .then(res => {
+        this.userId = res._id;
+        this.sendUserAvatar();
+      })
+      .catch( err => FormHelpers.displayMessage(false, err));
     }
 
-    sendUserAvatar(userID) {
-      const formBody = new FormData();
-      formBody.append('img', document.querySelector('#avatar-input').files[0]);
+    sendUserAvatar() {
+      if (this.userId) {
+        const formBody = new FormData();
+        const imageInput = document.querySelector('#avatar-input').files[0];
+        formBody.append('img', imageInput);
 
-      fetch(`https://cv-mobile-api.herokuapp.com/api/files/upload/user/${userID}`, {
-        method: 'POST',
-        body: formBody,
-      })
-      .then(() => console.log('sent successfuly'))
-      .catch(err => console.log(err))
+        if (imageInput) {
+          fetch(`https://cv-mobile-api.herokuapp.com/api/files/upload/user/${this.userId}`, {
+            method: 'POST',
+            body: formBody,
+          })
+          .then(() => FormHelpers.displayMessage(true, 'User successfully created'))
+          .catch(err => FormHelpers.displayMessage(false, err));
+        }
+        FormHelpers.displayMessage(true, 'User successfully created')
+      }
     }
 
     init() {
       this.getApiInfoFrom(this.skillsURL, 'skills', this.renderSkillOptions.bind(this));
       this.getApiInfoFrom(this.langURL, 'langs', this.renderLangOptions.bind(this));
+      document.querySelector('#avatar-input').addEventListener('input', this.handleImageInput.bind(this));
     }
 }
 

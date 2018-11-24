@@ -56,10 +56,12 @@
     <div class="container pt-5 pb-5 pr-1 pl-1">
       <div class="container mt-5 position-relative" style="height:150px;">
         <form id="avatar-form" method="POST" enctype="multipart/form-data">
-          <label for="avatar-input" id="pictureLabel" class="m-0 bg-light position-absolute d-flex justify-content-center align-items-center"
-            style="width: 150px; height: 150px; top: 50%; left:50%; transform: translate(-50%, -50%); border-radius:50%;">
-            <i class="material-icons" style="font-size:2rem;">add_a_photo</i>
+          <label for="avatar-input" id="pictureLabel" class="m-0 position-absolute d-flex justify-content-center align-items-center"
+            style="width: 150px; height: 150px; top: 50%; left:50%; transform: translate(-50%, -50%);">
+            <i class="material-icons d-flex justify-content-center align-items-center" style="font-size:2rem; z-index:9; width:100%; height:100%;border-radius:50%; background:rgba(200,200,200,0.3)">add_a_photo</i>
+            <img id="avatar-input-img" src="" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; position: absolute;">
           </label>
+
           <input type="file" id="avatar-input" name="img" accept="image/png, image/jpeg" class="position-absolute d-none" />
         </form>
       </div>
@@ -87,7 +89,7 @@
           <div class="form-group">
             <label for="inputPhone" class="font-weight-bold">Phone number</label>
             <input type="tel" class="form-control" id="inputPhone" name="phone" aria-describedby="phoneHelp"
-              placeholder="Enter phone number" required>
+              placeholder="Enter phone number">
           </div>
           <!-- website -->
           <div class="form-group">
@@ -179,6 +181,11 @@
           <input type="submit" value="Send" class="btn btn-primary ">
         </div>
       </form>
+    </div>
+    <!-- modal container to display messages to the user -->
+    <div id="form-message" class="alert alert-success d-none" style="position:fixed; top:10%; left:50%; transform:translateX(-50%); width:90%;"
+      role="alert">
+      A simple success alert—check it out!
     </div>
   </main>
   <footer></footer>
