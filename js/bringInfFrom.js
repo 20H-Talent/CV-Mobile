@@ -25,6 +25,7 @@ class FormHelpers {
     window.setTimeout(() => {
       formModal.classList.remove('d-flex');
       formModal.classList.add('d-none');
+      window.location.reload();
     }, 5000);
   }
 }
