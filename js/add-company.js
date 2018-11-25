@@ -75,7 +75,7 @@ $("#send").click(function SendData() {
         && employees.value !== "" && namecompany.value !== "" && phone.value !== "" && platform.value !== "" 
         && url.value !== "" && website.value !== "") {
          
-           if(test()){
+    
         console.log("Enviando")
         var companyNew = createRequestBody();
         console.log(companyNew)
