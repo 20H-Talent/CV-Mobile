@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     chart: "./react/indexChart.jsx",
     survey: "./react/indexSurvey.jsx",
+    offers: "./react/indexOffers.jsx"
   },
   output: {
     path: path.join(__dirname, "dist"),
