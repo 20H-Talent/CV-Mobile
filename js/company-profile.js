@@ -40,6 +40,7 @@ function dataCompany(companyID) {
     $.ajax({
         url: "https://cv-mobile-api.herokuapp.com/api/companies/" + companyID
     }).done(function (data) {
+        console.log(data);
         fillData(data);
         dataf = data;
     });
@@ -64,8 +65,8 @@ function fillData(data) {
 
     docType.innerHTML = data.docType;
     jobOffers.innerHTML = data.jobOffers;
-    socialName.innerHTML = data.socialUrls.platform;
-    socialUrls.innerHTML =data.socialUrls.url
+    socialName.innerHTML = data.socialUrls[0].platform;
+    socialUrls.innerHTML =data.socialUrls[0].url
 
     docNumber.innerHTML = data.docNumber;
 }
@@ -139,61 +140,64 @@ $('#edit-btn').click(function editCompany() {
 
 $("#save").click(function confirEditCompany() {
 
-    email.setAttribute('contenteditable', false);
-    website.setAttribute('contenteditable', false);
-    works.setAttribute('contenteditable', false);
-    phone.setAttribute('contenteditable', false);
-    street.setAttribute('contenteditable', false);
-    city.setAttribute('contenteditable', false);
-    country.setAttribute('contenteditable', false);
-    nameCompany.setAttribute('contenteditable', false);
-    docType.setAttribute('contenteditable', false);
-    jobOffers.setAttribute('contenteditable', false);
-    socialName.setAttribute('contenteditable', false);
-    socialUrls.setAttribute('contenteditable', false);
-    docNumber.setAttribute('contenteditable', false);
-    bio.setAttribute('contenteditable', false);
-    CIF.setAttribute('contenteditable', false);
-    zipcode.setAttribute('contenteditable', false);
+    if( docType.innerText=="nif"||docType.innerText=="cif"||docType.innerText=="NIF"||docType.innerText=="CIF"||
+        docType.innerText=="Nif"||docType.innerText=="Cif"){
 
-    inputImg.classList.add("d-none");
+        email.setAttribute('contenteditable', false);
+        website.setAttribute('contenteditable', false);
+        works.setAttribute('contenteditable', false);
+        phone.setAttribute('contenteditable', false);
+        street.setAttribute('contenteditable', false);
+        city.setAttribute('contenteditable', false);
+        country.setAttribute('contenteditable', false);
+        nameCompany.setAttribute('contenteditable', false);
+        docType.setAttribute('contenteditable', false);
+        jobOffers.setAttribute('contenteditable', false);
+        socialName.setAttribute('contenteditable', false);
+        socialUrls.setAttribute('contenteditable', false);
+        docNumber.setAttribute('contenteditable', false);
+        bio.setAttribute('contenteditable', false);
+        CIF.setAttribute('contenteditable', false);
+        zipcode.setAttribute('contenteditable', false);
+    
+        document.getElementById("save").classList.add("d-none");
+        document.getElementById("cancel").classList.add("d-none");
+        document.getElementById("edit").classList.remove("d-none");
 
-    liLocatiFull.classList.add("d-flex");
-    liStreet.classList.remove("d-flex");
-    liCity.classList.remove("d-flex");
-    liCountry.classList.remove("d-flex");
+        inputImg.classList.add("d-none");
+    
+        liLocatiFull.classList.add("d-flex");
+        liStreet.classList.remove("d-flex");
+        liCity.classList.remove("d-flex");
+        liCountry.classList.remove("d-flex");
+    
+    
+        liZipcode.classList.add("d-none");
+        liCIF.classList.add("d-none");
+    
+    
+        liLocatiFull.classList.remove("d-none");
+        liStreet.classList.add("d-none");
+        liCity.classList.add("d-none");
+        liCountry.classList.add("d-none");
+    
+        locatiFull.innerHTML = country.innerText + ' . ' + city.innerText + ' . ' + street.innerText;
+    
+    
+        var companynew = createRequestBody();
+        console.log(companynew)
+        fetch(`https://cv-mobile-api.herokuapp.com/api/companies/${companyID}`, {
+            method: 'put',
+            body: JSON.stringify(companynew),
+            headers: { "Content-Type": "application/json; chaset=utf-8" }
+        })
+            .then(res => res.json())
+            .then(response => console.log(response));
+    }else{
+        alert("There is an error in the type of documentation")
+    }
 
-
-    liZipcode.classList.add("d-none");
-    liCIF.classList.add("d-none");
-
-
-    liLocatiFull.classList.remove("d-none");
-    liStreet.classList.add("d-none");
-    liCity.classList.add("d-none");
-    liCountry.classList.add("d-none");
-
-    locatiFull.innerHTML = country.innerText + ' . ' + city.innerText + ' . ' + street.innerText;
-
-
-
-
-
-    var companynew = createRequestBody();
-    console.log(companynew)
-    fetch(`https://cv-mobile-api.herokuapp.com/api/companies/${companyID}`, {
-        method: 'put',
-        body: JSON.stringify(companynew),
-        headers: { "Content-Type": "application/json; chaset=utf-8" }
-    })
-        .then(res => res.json())
-        .then(response => console.log(response));
-
-
-    document.getElementById("save").classList.add("d-none");
-    document.getElementById("cancel").classList.add("d-none");
-    document.getElementById("edit").classList.remove("d-none");
-
+  
 });
 $("#cancel").click(function cancelEditCompany() {
 
@@ -336,13 +340,11 @@ function createRequestBody() {
         name: nameCompany.innerText,
         phone: phone.innerText,
         socialUrls: {
-            _id: "5bf7c8ba53abff001b0647c2",
+            _id: dataf.socialUrls[0]._id,
             platform: socialName.innerHTML,
             url: socialUrls.innerHTML
         },
         website: website.innerText,
     }
-
-
     return formData;
 }
