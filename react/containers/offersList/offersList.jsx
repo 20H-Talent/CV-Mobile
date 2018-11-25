@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import OfferCard from '../cards/offerCard/offerCard.jsx'
 
 class OffersList extends Component {
@@ -20,13 +21,20 @@ class OffersList extends Component {
 
   render() {
     let offers = this.state.offers.map((offer, index) => (
-      <Col xs={12} md={10} key={`offer-col-${index}`}><OfferCard title={offer.title} position={offer.position} icon={'person'} iconText={offer.vacancies} /></Col>
+      <Col xs={12} md={10} key={`offer-col-${index}`}>
+        <Link to={`/html/offers.html/offer/${offer._id}`} style={{ color: '#000', textDecoration: 'none' }}>
+          <OfferCard
+            offer={offer}
+            icons={['insert_invitation', 'location_on']}
+            iconsText={[offer.contractType, offer.location]} />
+        </Link>
+      </Col>
     ))
 
     return (
       <React.Fragment>
         <Col xs={12} md={10}>
-          <h3 style={{ marginLeft: '15px', marginBottom: '35px' }}>This are the offers</h3>
+          <h3 style={{ marginLeft: '15px', marginBottom: '35px' }}>Open positions</h3>
         </Col>
         <Grid>
           {offers}
