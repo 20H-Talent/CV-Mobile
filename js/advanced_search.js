@@ -8,69 +8,126 @@ const inputJobTitle = document.getElementById("job-title");
 const inputSkills = document.getElementsByClassName("check-skill");
 const inputLangs = document.getElementsByClassName("check-lang");
 
-//Imprimir los checkboxes de lang que están checked
+// Imprimir los checkboxes de lang que están checked
 function getLangFilterAdvancedSearch(user) {
-  var langChecks = document.getElementsByClassName("check-lang");
-  var langArr = [];
-  for (var i = 0; i < langChecks.length; i++) {
+  const langChecks = document.getElementsByClassName("check-lang");
+  const langArr = [];
+  for (let i = 0; i < langChecks.length; i++) {
     if (langChecks[i].checked == true) {
       langArr.push(langChecks[i].value);
     }
   }
-  var checkUserLangs = [];
-  langArr.forEach(function(lang) {
-    //Comprobar que el valor está en el array del usuario
+  const checkUserLangs = [];
+  langArr.forEach((lang) => {
+    // Comprobar que el valor está en el array del usuario
     checkUserLangs.push(user.languages.includes(lang));
   });
   if (checkUserLangs.includes(false)) {
     return false;
-  } else {
-    return true;
   }
+  return true;
 }
 
-//Imprimir los checkboxes de skill que están checked
+// Imprimir los checkboxes de skill que están checked
 function getSkillFilterAdvancedSearch(user) {
-  var skillChecks = document.getElementsByClassName("check-skill");
-  var skillArr = [];
-  for (var i = 0; i < skillChecks.length; i++) {
+  const skillChecks = document.getElementsByClassName("check-skill");
+  const skillArr = [];
+  for (let i = 0; i < skillChecks.length; i++) {
     if (skillChecks[i].checked == true) {
       skillArr.push(skillChecks[i].value);
     }
   }
-  var checkUserSkills = [];
-  skillArr.forEach(function(skill) {
-    //Comprobar que el valor está en el array del usuario
+  const checkUserSkills = [];
+  skillArr.forEach((skill) => {
+    // Comprobar que el valor está en el array del usuario
     checkUserSkills.push(user.skills.includes(skill));
   });
 
   if (checkUserSkills.includes(false)) {
     return false;
-  } else {
-    return true;
   }
+  return true;
 }
 
-document.getElementById("searchbtn").addEventListener("click", function(e) {
+document.getElementById("searchbtn").addEventListener("click", (e) => {
   e.preventDefault();
-  //Ponemos aquí el ajax para hacer la llamada al json cada vez que le demos click al botón search y no cada vez que se inicie la pantalla
+  // Ponemos aquí el ajax para hacer la llamada al json cada vez que le demos click al botón search y no cada vez que se inicie la pantalla
 
   $.ajax({
     url: "https://cv-mobile-api.herokuapp.com/api/users"
-  }).done(function(data) {
-    const filteredUser = data.filter(function(user) {
-      // console.log(getSkillFilterAdvancedSearch(user));
-      return (
-        inputName.value.toLowerCase() === user.name.slice(0, inputName.value.length).toLowerCase() &&
-        inputUsername.value.toLowerCase() === user.username.slice(0, inputUsername.value.length).toLowerCase() &&
-        user.address.city ? inputCity.value.toLowerCase() === user.address.city.slice(0, inputCity.value.length).toLowerCase() : null &&
-        inputCountry.value.toLowerCase() === user.address.country.slice(0, inputCountry.value.length).toLowerCase() &&
-        user.jobTitle ? inputJobTitle.value.toLowerCase() === user.jobTitle.slice(0, inputJobTitle.value.length).toLowerCase() : null &&
-        inputCompany.value.toLowerCase() === user.company.slice(0, inputCompany.value.length).toLowerCase() &&
-        inputExperience.value !== 'Choose an option' ? inputExperience.value.toLowerCase() === user.experience : null &&
-        getSkillFilterAdvancedSearch(user) &&
-        getLangFilterAdvancedSearch(user)
-      );
+  }).done((data) => {
+    const filteredUser = data.filter((user) => {
+      // console.log('istrue',inputExperience.value === user.experience)
+      const checkArray = [];
+
+        if (inputName.value.length > 0) {
+          inputName.value.toLowerCase() === user.name.slice(0, inputName.value.length).toLowerCase()
+            ? checkArray.push(true)
+            : checkArray.push(false);
+        } else {
+          checkArray.push(true);
+        }
+
+        if (inputUsername.value.length > 0) {
+          inputUsername.value.toLowerCase() === user.username.slice(0, inputUsername.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (inputCity.value.length > 0) {
+          inputCity.value.toLowerCase() === user.address.city.slice(0, inputCity.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (inputCountry.value.length > 0) {
+          inputCountry.value.toLowerCase() === user.address.country.slice(0, inputCountry.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (inputJobTitle.value.length > 0 && !user.jobTitle) {
+          false
+        } else if (inputJobTitle.value.length > 0 && user.jobTitle) {
+            inputJobTitle.value.toLowerCase() === user.jobTitle.slice(0, inputJobTitle.value.length).toLowerCase()
+            ? checkArray.push(true)
+            : checkArray.push(false);
+          } 
+
+        if (inputCompany.value.length > 0 && !user.company) {
+          false
+        } else if (inputCompany.value.length > 0) {
+          inputCompany.value.toLowerCase() === user.company.slice(0, inputCompany.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+          }
+
+        if (inputExperience.value.length > 0 && inputExperience.value !== 'Choose an option') {
+          inputExperience.value.toLowerCase() === user.experience.toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (getSkillFilterAdvancedSearch(user)){
+          checkArray.push(true)
+        } else {
+          checkArray.push(false)
+        }
+        
+        if (getLangFilterAdvancedSearch(user)) {
+          checkArray.push(true)
+        } else {
+          checkArray.push(false)
+        }
+        
+        if (checkArray.includes(false)) {
+          return false;
+        } else {
+          return true;
+        }
+        console.log(checkArray);
+
+
     });
     $("form").hide();
     $(".goback-btn").show();
@@ -96,10 +153,10 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
         let inputs = document.querySelectorAll('input');
         inputs.forEach(function(input){
           input.value = ''
+        })
         let checkboxes = document.querySelectorAll('.check');
         checkboxes.forEach(function(checkbox){
           checkbox.checked = false;
-        })
         })
         })
       });
@@ -111,7 +168,7 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
 // when submit button is clicked, the form will hide and the go back button will appear
 
 
-//when go back button is clicked, the form will appear and the go back button will dissapear
+// when go back button is clicked, the form will appear and the go back button will dissapear
   
 
 function renderCards(filteredUser) {
@@ -128,7 +185,7 @@ function renderCards(filteredUser) {
     experience,
     profilePicture,
   } = filteredUser;
-  var template_cards = (
+  const template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
@@ -151,14 +208,14 @@ function renderCards(filteredUser) {
 
 $.ajax({
   url: "https://cv-mobile-api.herokuapp.com/api/skills"
-}).done(function(data) {
-  data.forEach(function(skill) {
+}).done((data) => {
+  data.forEach((skill) => {
     document.getElementById("skill_container").innerHTML += renderSkill(skill);
   });
 });
 
 function renderSkill(skill) {
-  var skillTemplate =
+  const skillTemplate =
     '<div class="form-check col-12">' +
     '<input class="form-check-input check-skill check" type="checkbox" value="' +
     skill._id +
@@ -178,16 +235,15 @@ function renderSkill(skill) {
 
 $.ajax({
   url: "https://cv-mobile-api.herokuapp.com/api/langs"
-}).done(function(data) {
-  data.forEach(function(language) {
+}).done((data) => {
+  data.forEach((language) => {
     document.getElementById("langs_container").innerHTML += renderLanguage(language);
   });
 });
 
 function renderLanguage(language) {
-  var languageTemplate =
+  const languageTemplate =
     ' <div class="form-check col-12">' +
-    //Operador ternario
     '<input class="form-check-input check-lang check" type="checkbox" value="' +
     language._id +
     '" id="' +

@@ -1,5 +1,5 @@
 const cardsContainer = document.querySelector('#cards-container');
-const searchInput = document.getElementById("nav-input");
+const searchInput = document.getElementById('nav-input');
 let stars;
 
 // Request the users data at page loading
@@ -8,57 +8,49 @@ window.onload = fetchUsersData;
 // State variables to control activation of infinite scroll, page of users to request and store of all users requested
 let isFetchAllowed = true;
 let currentUsersPage = 1;
-let loadedUsers = [];
+const loadedUsers = [];
 
 // Initial content load from API
 function fetchUsersData() {
   if (searchInput.value == '') {
     $.ajax({
-      url: `https://cv-mobile-api.herokuapp.com/api/users/pages/${currentUsersPage}`
+      url: `https://cv-mobile-api.herokuapp.com/api/users/pages/${currentUsersPage}`,
     }).done((data) => {
+      // Render all the users received
+      data.map((user) => {
+        user.highlight = [];
+        checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
+        const card = renderCard(user);
+        cardsContainer.innerHTML += card;
+        loadedUsers.push(user);
+      });
       if (data.length === 10) {
-        data.map( (user) => {
-          user.highlight = [];
-          checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
-          const card = renderCard(user);
-          cardsContainer.innerHTML += card;
-          loadedUsers.push(user);
-        });
         // Add one to the current page of users for the next request if the page has 10 users
         currentUsersPage++;
-
       } else if (data.length < 10) {
-
-        if (data[0]._id !== loadedUsers[loadedUsers.length - 1]._id) {
-          data.map( (user) => {
-            checkIfUserIsNew(user) ? user.newUser = true : user.newUser = false;
-            const card = renderCard(user);
-            cardsContainer.innerHTML += card;
-            loadedUsers.push(user);
-          });
-          isFetchAllowed = false;
-        }
+        // If the page received has less than 10 users deactivate infinite scroll
+        isFetchAllowed = false;
       }
-      const starIcons = document.querySelectorAll("#star-icon");
-      starIcons.forEach(function(star){
-        star.addEventListener("click", showStar);
+      const starIcons = document.querySelectorAll('#star-icon');
+      starIcons.forEach((star) => {
+        star.addEventListener('click', showStar);
       });
-      stars = document.querySelectorAll("#star-icon");
+      stars = document.querySelectorAll('#star-icon');
       renderFav();
-          // Hide the loader after the content has loaded
-    hideLoader();
+      // Hide the loader after the content has loaded
+      hideLoader();
     });
   }
 }
 
-//Function to check if the star is clicked or not, and add the selected favourite users into and array
+// Function to check if the star is clicked or not, and add the selected favourite users into and array
 function showStar(e) {
-  //Global variable to save in the favourite local storage. This will try to take favStorage of the local Storage. If not, it will create an empty array
-  let favUsers = JSON.parse(localStorage.getItem('favStorage')) || []
-  const selectedFavUserId = e.target.dataset.id
-  if (e.target.innerHTML === 'star'){
+  // Global variable to save in the favourite local storage. This will try to take favStorage of the local Storage. If not, it will create an empty array
+  const favUsers = JSON.parse(localStorage.getItem('favStorage')) || [];
+  const selectedFavUserId = e.target.dataset.id;
+  if (e.target.innerHTML === 'star') {
     e.target.innerHTML = 'star_border';
-    let userIndex = favUsers.indexOf(selectedFavUserId);
+    const userIndex = favUsers.indexOf(selectedFavUserId);
     favUser = favUsers.splice(userIndex, 1);
     localStorage.setItem('favStorage', JSON.stringify(favUsers));
   } else {
@@ -66,16 +58,16 @@ function showStar(e) {
     favUsers.push(selectedFavUserId);
     localStorage.setItem('favStorage', JSON.stringify(favUsers));
   }
-};
+}
 
-//Function to render the users that have been selected as favourite
-function renderFav(){
-  let favUsers = localStorage.getItem('favStorage') || [];
-  stars.forEach(function(star){
+// Function to render the users that have been selected as favourite
+function renderFav() {
+  const favUsers = localStorage.getItem('favStorage') || [];
+  stars.forEach((star) => {
     if (favUsers.includes(star.dataset.id)) {
       star.innerHTML = 'star';
     }
-  })
+  });
 }
 
 // Function to check if a user has registered for 5 days or less
@@ -89,25 +81,27 @@ function checkIfUserIsNew(user) {
 
 // Create an html card template with the user data
 function renderCard(user) {
-  const { name, username, jobTitle, company, email, _id, address, profilePicture, highlight, newUser } = user;
+  const {
+    name, username, jobTitle, company, email, _id, address, avatar, highlight, newUser,
+  } = user;
 
-  var template_cards = (
-    '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
-    '<i class="material-icons" style="width: 24px;" id="star-icon" data-id="' + _id + '">star_border</i>' +
-    '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">' +
-    '<div class="card-body p-0 mt-2">' +
-    '<h2 class="card-title text-center mb-2">' +
-      '<span' + (highlight ? highlight.includes('name') ? ' class="bg-warning d-flex justify-content-center"' : ' class="d-flex justify-content-center"': '') + '>' + name + '</span>' +
-      (newUser ? ' <span class="badge badge-success px-2 py-1 ml-3 my-auto position-absolute" style="font-size:0.8rem; top:10px; right: 10px;">NEW</span>' : '') +
-    '</h2>' +
-    '<h6 class="card-title text-center text-muted mb-4"><span' + (highlight ? highlight.includes('jobTitle') ? ' class="bg-warning"' : '': '') + '>' + jobTitle + '</span></h6>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span' + (highlight ? highlight.includes('username') ? ' class="bg-warning"' : '' : '') + '>' + username + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span' + (highlight ? highlight.includes('email') ? ' class="bg-warning"' : '' : '') + '>' + email + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span' + (highlight ? highlight.includes('company') ? ' class="bg-warning"' : '' : '') + '>' + company + '</span></p>' +
-    '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span' + (highlight ? highlight.includes('address') ? ' class="bg-warning"' : '' : '') + '>' + address.city + ', ' + address.country + '</span></p>' +
-    '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
-    '</div>' +
-    '</div>'
+  const template_cards = (
+    `${'<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">'
+    + '<i class="material-icons" style="width: 24px;" id="star-icon" data-id="'}${_id }">star_border</i>`
+    + `<img class="card-img-top m-auto" src="${avatar }" alt="${ name} Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">`
+    + '<div class="card-body p-0 mt-2">'
+    + '<h2 class="card-title text-center mb-2">'
+      + `<span${ highlight ? highlight.includes('name') ? ' class="bg-warning d-flex justify-content-center"' : ' class="d-flex justify-content-center"' : ''}>${name }</span>${
+        newUser ? ' <span class="badge badge-success px-2 py-1 ml-3 my-auto position-absolute" style="font-size:0.8rem; top:10px; right: 10px;">NEW</span>' : ''
+      }</h2>`
+    + `<h6 class="card-title text-center text-muted mb-4"><span${highlight ? highlight.includes('jobTitle') ? ' class="bg-warning"' : '' : ''}>${jobTitle}</span></h6>`
+    + `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span${highlight ? highlight.includes('username') ? ' class="bg-warning"' : '' : ''}>${ username}</span></p>`
+    + `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span${highlight ? highlight.includes('email') ? ' class="bg-warning"' : '' : ''}>${ email}</span></p>`
+    + `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span${highlight ? highlight.includes('company') ? ' class="bg-warning"' : '' : '' }>${company}</span></p>`
+    + `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span${highlight ? highlight.includes('address') ? ' class="bg-warning"' : '' : ''}>${address.city}, ${address.country}</span></p>`
+    + `<a href="./html/profile.html?id=${_id }" class="btn btn-primary mt-3">View Profile</a>`
+    + '</div>'
+    + '</div>'
   );
 
   return template_cards;
@@ -115,8 +109,8 @@ function renderCard(user) {
 
 // Handle img error loading resources from a bad endpoint
 function imgError(image) {
-  image.onerror = "";
-  image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
+  image.onerror = '';
+  image.src = 'https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png';
   console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
   return true;
 }
@@ -124,7 +118,7 @@ function imgError(image) {
 function createBadges(skills) {
   const skillBadges = [];
 
-  skills.forEach( skill => {
+  skills.forEach((skill) => {
     skillBadges.push(`<h5 class="mr-2"><span class="badge badge-pill badge-success p-2">${skill}</span></h5>`);
   });
 
@@ -154,10 +148,9 @@ cardsContainer.addEventListener('scroll', () => {
 
 
 // Functionality fot the floating action button
-document.querySelector('#floating-action-button').addEventListener('click', function () {
-  let pathPieces = window.location.pathname.split('/');
+document.querySelector('#floating-action-button').addEventListener('click', () => {
+  const pathPieces = window.location.pathname.split('/');
   pathPieces[pathPieces.length - 1] = '/html/adduser.html';
 
   window.location.pathname = pathPieces.join('');
 });
-
