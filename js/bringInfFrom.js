@@ -1,210 +1,151 @@
-function getDataLangs() {
-    $.ajax({
-        url: "https://cv-mobile-api.herokuapp.com/api/langs"
-    }).done(function (lang) {
-        let textLang = "";
-        var i;
-        for (i = 0; i < lang.length; i++) {
+class FormHelpers {
+  static createCheckbox(item) {
+    return (
+    `<div class="form-check mb-2" style="width:30%;">
+      <input class="form-check-input" type="checkbox" value="${item._id}" id="checkbox-${item.label}">
+      <label class="form-check-label" for="checkbox-${item.label}">${item.label}</label>
+    </div>`);
+  }
 
-            textLang +=
-                '<div class="w-50 d-flex align-items-center"> ' +
-                '<input type="checkbox" name="languages[]" class="languages data mr-2" id="' + lang[i].label + '"value="' + lang[i]._id + '">' +
-                '<label for="' + lang[i].label + '" class="mb-0 mr-2">' + lang[i].label + '</label>' +
-                '</div>';
+  static getCheckedCheckboxes(group) {
+    const parent = document.querySelector(`#${group}-container`);
+    const checkboxes = parent.querySelectorAll('input[type=checkbox]:checked');
+    const checkboxesValues = [];
+    checkboxes.forEach(check => checkboxesValues.push(check.value));
+    return checkboxesValues;
+  }
 
-
-        }
-        var fromlague =
-            '<label for="Laguages" class="col-4 font-weight-bold">Laguages</label>' +
-            '<div class="input-group input-group-sm  font-weight-bold col-11"> '
-            + textLang +
-            '</div>';
-        document.getElementById("substitutelangue").innerHTML = fromlague;
-    });
+  static displayMessage(success, message) {
+    const formModal = document.querySelector('#form-message');
+    formModal.classList.add(success ? 'alert-success' : 'alert-danger');
+    formModal.classList.add('d-flex');
+    formModal.classList.remove('d-none');
+    formModal.textContent = message;
+    // Wait 3 seconds and reload the page
+    window.setTimeout(() => {
+      formModal.classList.remove('d-flex');
+      formModal.classList.add('d-none');
+      window.location.reload();
+    }, 5000);
+  }
 }
-function getDataSkill() {
-    $.ajax({
-        url: "https://cv-mobile-api.herokuapp.com/api/skills"
-    }).done(function (skill) {
-        let textLang = "";
-        let textLibrary = "";
-        let textFramework = "";
-        let textDatabase = "";
-        let textTool = "";
-        var e;
-        for (e = 0; e < skill.length; e++) {
-            if (skill[e].type === "language") {
-                textLang +=
-                    ' <option class="skills data" name="skills[]"' + ' id="' + skill[e].label + '"' + ' value="' + skill[e]._id + '">' +
-                    skill[e].label +
-                    '</option>'
-                    ;
-            } else if (skill[e].type === "library") {
-                textLibrary +=
-                    ' <option class="skills data"  name="skills[]"' + ' id="' + skill[e].label + '"' + ' value="' + skill[e]._id + '">' +
-                    skill[e].label +
-                    '</option>';
-            } else if (skill[e].type === "framework") {
-                textFramework +=
-                    ' <option class="skills data"  name="skills[]"' + ' id="' + skill[e].label + '"' + ' value="' + skill[e]._id + '">' +
-                    skill[e].label +
-                    '</option>';
-            } else if (skill[e].type === "database") {
-                textDatabase +=
-                    ' <option class="skills data"  name="skills[]"' + ' id="' + skill[e].label + '"' + ' value="' + skill[e]._id + '">' +
-                    skill[e].label +
-                    '</option>';
-            } else if (skill[e].type === "tool") {
-                textTool +=
-                    ' <option class="skills data"  name="skills[]"' + ' id="' + skill[e].label + '"' + ' value="' + skill[e]._id + '">' +
-                    skill[e].label +
-                    '</option>';
-            }
 
+class AddUserForm {
+    constructor(form, avatarForm, skillsURL, langURL, defSkills, defLangs) {
+      this.form = form;
+      this.avatarForm = avatarForm;
+      this.skillsURL = skillsURL;
+      this.langURL = langURL;
+      this.skills = defSkills;
+      this.langs = defLangs;
+      this.userData = {};
+    }
+
+    getApiInfoFrom(url, store, callback) {
+      fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        if (store === 'skills') {
+          this.skills = res;
         }
-        document.getElementById("skill-language").innerHTML = textLang;
-        document.getElementById("skill-library").innerHTML = textLibrary;
-        document.getElementById("skill-framework").innerHTML = textFramework;
-        document.getElementById("skill-database").innerHTML = textDatabase;
-        document.getElementById("skill-tool").innerHTML = textTool;
-    });
+        this.langs  = res;
+      })
+      .then(() => callback())
+    }
 
-}
-getDataLangs();
-getDataSkill();
-var alertText = document.getElementsByClassName("alert-text");
-var alertGeder = document.getElementById("gender-Alert");
-var alertSkills = document.getElementById("alert-skills");
-$("#send").click(function () {
-    var languages = [];
-    var skills = [];
-    var data = document.getElementsByClassName("data");
-    var profilePicture = document.getElementById("image");
-    var checkboxSkil = document.getElementsByClassName("skills");
-    var seletdEspe = document.getElementsByClassName("experience");
-    var checkgender = document.getElementsByClassName("gender");
-    var checkboxLanguages = document.getElementsByClassName("languages");
-    var i;
-    // it var(n,s) is because calc the "input" required that are filled
-    //n is the input filled
-    //s is the skill no checks
-   
-        for (i = 0; i < data.length; i++) {
-            if (data[i].name == "languages[]") {
-                var e;
-                //here unite the language in a array 
-                for (e = 0; e < checkboxLanguages.length; e++) {
-                    if (checkboxLanguages[e].checked) {
-                        languages.push(checkboxLanguages[e].attributes.value.nodeValue);
-                    }
-                }
+    renderSkillOptions() {
+      const skillsContainer = document.querySelector('#skills-container')
+      this.skills.map(skill => {
+        skillsContainer.innerHTML += FormHelpers.createCheckbox(skill);
+      })
+    }
 
+    renderLangOptions() {
+      const langsContainer = document.querySelector('#langs-container');
+      this.langs.map(lang => {
+        langsContainer.innerHTML += FormHelpers.createCheckbox(lang)
+      })
+    }
 
-                //here take the check active the gender
-            } else if (data[i].classList == "gender data  mr-1 ") {
-                var e;
-                for (e = 0; e < checkgender.length; e++) {
-                    if (checkgender[e].checked) {
-                        var gender = checkgender[e].attributes.id.nodeValue;
-                    }
-                }
-            } else if (data[i].id == "Experience") {
-                var e;
-                var experience = '';
-                for (e = 0; e < seletdEspe.length; e++) {
-                    if (seletdEspe[e].selected) {
-                        experience += seletdEspe[e].value;
-                    }
-                }
-            } else if (data[i].id == "Name") {
-                var name = data[i].value;
-            } else if (data[i].id == "userName") {
-                var userName = data[i].value;
-            } else if (data[i].id == "email") {
-                var email = data[i].value;
-            } else if (data[i].id == "city") {
-                var city = data[i].value;
-            } else if (data[i].id == "street") {
-                var street = data[i].value;
-            } else if (data[i].id == "Company") {
-                var company = data[i].value;
-            } else if (data[i].id == "jobTitle") {
-                var jobTitle = data[i].value;
-            } else if (data[i].id == "website") {
-                var website = data[i].value;
-            } else if (data[i].id == "birthDate") {
-                var birthDate = data[i].value;
-            }else if (data[i].id == "Country") {
-                var country = data[i].value;
-            }else if (data[i].id == "zipcode") {
-                var zipcode = data[i].value;
-            }else if (data[i].id == "phone") {
-                var phone = data[i].value;
-            }
-        }
+    handleImageInput(e) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.avatarForm.querySelector('#avatar-input-img').src = event.target.result;
+      }
+      reader.readAsDataURL(e.target.files[0]);
 
-        
-        //here unite the Skill in a array
-        var e;
-        for (e = 0; e < checkboxSkil.length; e++) {
+    }
 
-            if (checkboxSkil[e].selected) {
+    sendUserForm(e) {
+      e.preventDefault();
 
-                skills.push(checkboxSkil[e].attributes.value.nodeValue);
-            }
-        };
-        console.log(skills);
+      this.userData = {
+        name: document.querySelector('#inputName').value,
+        username: document.querySelector('#inputUsername').value,
+        email: document.querySelector('#inputEmail').value,
+        phone: document.querySelector('#inputPhone').value || null,
+        website: document.querySelector('#inputWebsite').value || null,
+        birthDate: document.querySelector('#inputBirthDate').value || null,
+        address: {
+          country: document.querySelector('#inputCountry').value,
+          city: document.querySelector('#inputCity').value || null,
+          street: document.querySelector('#inputStreet').value || null,
+          zipcode: document.querySelector('#inputZip').value || null,
+        },
+        jobTitle: document.querySelector('#inputJobTitle').value || null,
+        company: document.querySelector('#inputCompany').value || null,
+        experience: document.querySelector('option:checked').value || null,
+        gender: document.querySelector('input[type=radio]:checked').value || null,
+        skills: FormHelpers.getCheckedCheckboxes('skills'),
+        languages: FormHelpers.getCheckedCheckboxes('langs')
+      }
 
-       
-       
+      fetch('https://cv-mobile-api.herokuapp.com/api/users', {
+        method: 'POST',
+        body: JSON.stringify(this.userData),
+        headers: { "Content-Type": "application/json; charset=utf-8"}
+      })
+      .then(res => res.json())
+      .then(res => {
+        this.userId = res._id;
+        this.sendUserAvatar();
+      })
+      .catch( err => FormHelpers.displayMessage(false, err));
+    }
 
-        //the constructor of the data user
-        function createRequestBody() {
+    sendUserAvatar() {
+      if (this.userId) {
+        const formBody = new FormData();
+        const imageInput = document.querySelector('#avatar-input').files[0];
+        formBody.append('img', imageInput);
 
-        //It's to object of address
-           
-
-            let usernew = {
-                address:{
-                    country:country,
-                    city:city,
-                    street:street,
-                    zipcode:zipcode
-                },
-                languages:languages,
-                skills:JSON.stringify(skills),
-                name:name,
-                userName:userName,
-                email:email,
-                phone:phone,
-                gender:gender,
-                company:company,
-                jobTitle:jobTitle,
-                website:website,
-                birthDate:birthDate,
-                experience:experience,
-                avatar:profilePicture.files[0]
-            }
-
-
-
-
-
-
-            return usernew;
-
-           
-        }
-        //here create the object
-        var usernew = createRequestBody();
-        console.log(usernew)
-        fetch('https://cv-mobile-api.herokuapp.com/api/users', {
+        if (imageInput) {
+          fetch(`https://cv-mobile-api.herokuapp.com/api/files/upload/user/${this.userId}`, {
             method: 'POST',
-            body: JSON.stringify(usernew)
-        })
-            .then(res => res.json())
-            .then(response => {
-                console.log(response);
-            })
-    
-});
+            body: formBody,
+          })
+          .then(() => FormHelpers.displayMessage(true, 'User successfully created'))
+          .catch(err => FormHelpers.displayMessage(false, err));
+        }
+        FormHelpers.displayMessage(true, 'User successfully created')
+      }
+    }
+
+    init() {
+      this.getApiInfoFrom(this.skillsURL, 'skills', this.renderSkillOptions.bind(this));
+      this.getApiInfoFrom(this.langURL, 'langs', this.renderLangOptions.bind(this));
+      document.querySelector('#avatar-input').addEventListener('input', this.handleImageInput.bind(this));
+    }
+}
+
+// Resources for the form constructor
+const skillsURL = 'https://cv-mobile-api.herokuapp.com/api/skills';
+const langsURL = 'https://cv-mobile-api.herokuapp.com/api/langs';
+const userForm = document.querySelector('#user-form')
+const avatarForm = document.querySelector('#avatar-form')
+
+
+// Creating a form instance and initialiting it
+const formController = new AddUserForm(userForm, avatarForm, skillsURL, langsURL, [], []);
+window.onload = formController.init();
+userForm.addEventListener('submit', formController.sendUserForm.bind(formController))
