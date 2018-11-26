@@ -104,7 +104,17 @@ $("#send").click(function SendData() {
             headers: { "Content-Type": "application/json; chaset=utf-8" }
         })
             .then(res => res.json())
-            .then(response => console.log(response));
+            .then(response => {
+                const companyImage = new FormData();
+                companyImage.append('img', logoURL.files[0]);
+
+                fetch(`https://cv-mobile-api.herokuapp.com/api/files/upload/company/${response._id}`, {
+                    method: 'POST',
+                    body: companyImage
+                })
+                .then(res => res.json())
+                .then(res => console.log(res))
+            });
 
 
     } else {

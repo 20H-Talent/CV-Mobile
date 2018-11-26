@@ -24,7 +24,7 @@ function renderCard(data) {
     };
     var card = (
         '<div class="card shadow m-3 p-4"  style="width: 90%; height: auto;">'+
-        '<img class="card-img-top m-auto" src="' + data.logoURL + '" alt="'+data.name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;object-fit:cover;" onerror="imgError(this)">' +
+        '<img class="card-img-top m-auto" src="' + data.logo + '" alt="'+data.name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;object-fit:cover;" onerror="imgError(this)">' +
         '<div class="card-body p-0 mt-2">' +
         '<h5 class="card-title text-center mb-2">' +
         data.name +

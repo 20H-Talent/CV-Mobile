@@ -56,7 +56,7 @@ function fillData(data) {
     website.innerHTML = data.website;
     works.innerHTML = data.employees;
     phone.innerHTML = data.phone;
-    document.getElementById("userImg").src = data.logoURL;
+    document.getElementById("userImg").src = data.logo;
 
     locatiFull.innerHTML = data.address.country + ' . ' + data.address.city + ' . ' + data.address.street;
     country.innerHTML = data.address.country;
@@ -213,7 +213,19 @@ $("#save").click(function confirEditCompany() {
                 headers: { "Content-Type": "application/json; chaset=utf-8" }
             })
                 .then(res => res.json())
-                .then(response => console.log(response));
+                .then(response => {
+                    const companyImage = new FormData();
+                    companyImage.append('img', inputImg.files[0]);
+    
+                    fetch(`https://cv-mobile-api.herokuapp.com/api/files/upload/company/${response._id}`, {
+                        method: 'POST',
+                        body: companyImage
+                    })
+                    .then(res => res.json())
+                    .then(res => console.log(res))
+                });
+
+
         } else {
             alert("The data Name,email,country and number of documentation are obligatory ")
         }
