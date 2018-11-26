@@ -1,5 +1,8 @@
 var confidocType = "";
 var data = document.getElementsByClassName("data");
+var moreSocial = document.getElementById("moreSocial");
+var formDiv = document.getElementById("socialUrls");
+var socialUrls = [];
 
 var email = document.getElementById("email");
 var phone = document.getElementById("phone");
@@ -23,6 +26,10 @@ var CIF = document.getElementById("CIF");
 var zipcode = document.getElementById("zipcode");
 var platform = document.getElementById("platform");
 var url = document.getElementById("url");
+
+
+var platformAll = document.getElementsByClassName("platform");
+var urlAll = document.getElementsByClassName("url");
 
 function Recort() {
     if (NIF.checked) {
@@ -49,33 +56,45 @@ function createRequestBody() {
         employees: employees.value,
         name: namecompany.value,
         phone: phone.value,
-        socialUrls: {
-            _id: "5bf7c8ba53abff001b0647c2",
-            platform: platform.value,
-            url: url.value
-        },
+        socialUrls: socialUrls,
         website: website.value,
     }
     return formData;
 }
-function test(){
-    let testEnd = true;
-    for(var i = 0;i<=data.length-1;i++){
-        console.log(i)
-            data[i].value
-        
-       
+
+$("#moreSocial").click(function moreSocial() {
+    formDiv.innerHTML += '<div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">' +
+        ' <label for="platform" class="col-2 d-flex">platform</label>' +
+        '<input type="text" class="form-control order2 data  col-8 platform" name="platform" aria-describedby="basic-addon1">' +
+        ' </div>' +
+        '<div class="input-group input-group-sm mb-4 d-flex justify-content-between font-weight-bold">' +
+        '<label for="url" class="col-2 d-flex">url</label>' +
+        '<input type="text" class="form-control order2 data  col-8 url"  name="url" aria-describedby="basic-addon1">' +
+        '</div>'
+})
+function arraySocial() {
+    for (var i = 0; i < platformAll.length; i++) {
+        if (!(platformAll[i].value == "") && !(urlAll[i].value == "")) {
+            socialUrls.push({
+                platform: platformAll[i].value,
+                url: urlAll[i].value
+            })
+        }
     }
-    return testEnd;
 }
+
+
+
+
+
+
+
 $("#send").click(function SendData() {
     Recort();
-    if (country.value !== "" && street.value !== "" && city.value !== "" && zipcode.value !== ""
-        && bio.value !== "" && docNumber.value !== "" && email.value !== "" && confidocType !== "" 
-        && employees.value !== "" && namecompany.value !== "" && phone.value !== "" && platform.value !== "" 
-        && url.value !== "" && website.value !== "") {
-         
-    
+    arraySocial();
+    if (country.value !== "" && docNumber.value !== "" && email.value !== "" && confidocType !== "" && namecompany.value !== "" ) {
+
+
         console.log("Enviando")
         var companyNew = createRequestBody();
         console.log(companyNew)
@@ -88,8 +107,9 @@ $("#send").click(function SendData() {
             .then(response => console.log(response));
 
 
-    }else{
-        alert("Please fill all data")
+    } else {
+        alert("Please fill all data");
+
     }
 
 });
