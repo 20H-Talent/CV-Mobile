@@ -7504,7 +7504,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n\tvalue: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n\tvalue: true\n});\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar Icon = function Icon(props) {\n\treturn _react2.default.createElement(\n\t\t\"i\",\n\t\t{ className: \"material-icons\" },\n\t\tprops.icon\n\t);\n};\n\nexports.default = Icon;\n\n//# sourceURL=webpack:///./react/containers/icons/icon.jsx?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n\tvalue: true\n});\n\nvar _react = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n\nvar _react2 = _interopRequireDefault(_react);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar Icon = function Icon(props) {\n\treturn _react2.default.createElement(\n\t\t\"i\",\n\t\t{ className: \"material-icons\", style: { fontSize: props.size } },\n\t\tprops.icon\n\t);\n};\n\nexports.default = Icon;\n\n//# sourceURL=webpack:///./react/containers/icons/icon.jsx?");
 
 /***/ }),
 

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Grid, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import OfferCard from '../cards/offerCard/offerCard.jsx'
+import FloatingButton from '../floatingButton/floatingButton.jsx'
+import Icon from '../icons/icon.jsx'
 
 class OffersList extends Component {
   constructor() {
@@ -17,6 +19,10 @@ class OffersList extends Component {
       .then(res => res.json())
       .then(res => this.setState({ offers: res }))
       .catch(() => this.setState({ loadError: true }))
+  }
+
+  handleFloatingButton() {
+    this.props.history.push('/html/offers.html/create');
   }
 
   render() {
@@ -39,6 +45,9 @@ class OffersList extends Component {
         <Grid>
           {offers}
         </Grid>
+        <FloatingButton onClick={this.handleFloatingButton.bind(this)}>
+          <Icon icon="add" size="3.5rem" />
+        </FloatingButton>
       </React.Fragment>
     )
   }

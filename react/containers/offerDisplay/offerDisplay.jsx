@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col, Button, Alert } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 import OfferTitle from './offerTitle/offerTitle.jsx'
 import OfferSubtitle from './offerSubtitle/offerSubtitle.jsx'
 import OfferParagraph from './offerParagraph/offerParagraph.jsx'
 import UnorderedList from './unorderedList/unorderedList.jsx'
 import IconWithText from '../icons/iconWithText.jsx'
+import Icon from '../icons/icon.jsx'
 
 
 class OfferDisplay extends Component {
@@ -43,11 +45,19 @@ class OfferDisplay extends Component {
             <Alert
               bsStyle="success"
               onDismiss={this.handleAlertDismiss.bind(this)}
-              style={{ position: 'fixed', top: '10%', zIndex: '9', width: '90%', fontSize: '1.4rem' }}
+              style={{ position: 'fixed', top: '5%', zIndex: '9', width: '90%', fontSize: '1.6rem' }}
             >
               Good luck! Soon you will be contacted by the company.
             </Alert>
           ) : null}
+        </Row>
+        <Row style={{ marginTop: '20px', marginBottom: '25px' }}>
+          <Col xs={12} md={10}>
+            <Link to="/html/offers.html" style={{ display: 'flex', alignItems: 'center', fontSize: '1.5rem', color: '#333' }}>
+              <Icon icon="arrow_back" size="2.5rem" />
+              <span style={{ marginLeft: '15px' }}>Go Back</span>
+            </Link>
+          </Col>
         </Row>
         <Row>
           <Col xs={12} md={10}>
@@ -68,6 +78,12 @@ class OfferDisplay extends Component {
           <Col xs={12} md={10}>
             <OfferSubtitle style={{ marginBottom: '20px', color: '#000' }} >Description:</OfferSubtitle>
             <OfferParagraph>{this.state.offerData.description}</OfferParagraph>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: '30px' }} >
+          <Col xs={12} md={10}>
+            <OfferSubtitle style={{ marginBottom: '20px', color: '#000' }} >Responsabilities:</OfferSubtitle>
+            <OfferParagraph>{this.state.offerData.responsabilities}</OfferParagraph>
           </Col>
         </Row>
         <Row style={{ marginBottom: '30px' }}>
