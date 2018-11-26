@@ -26,6 +26,10 @@ class OfferCreator extends Component {
     e.preventDefault();
     let { company, companyEmail, title, contractType, location, description, responsabilities, whatWeLookFor, whatWeOffer } = this.state;
 
+    if (company && companyEmail && title && contractType && location && description && responsabilities && whatWeLookFor && whatWeOffer) {
+
+    }
+
     fetch('https://cv-mobile-api.herokuapp.com/api/offers', {
       method: 'POST',
       body: JSON.stringify({
@@ -68,6 +72,7 @@ class OfferCreator extends Component {
 
   handleInputChange(e) {
     const inputName = e.target.name;
+    let { company, companyEmail, title, contractType, location, description, responsabilities } = this.state;
     this.setState({ [inputName]: e.target.value });
   }
 
@@ -242,8 +247,12 @@ class OfferCreator extends Component {
                   </React.Fragment>
                 ))
               }
-              <Button bsStyle="success" onClick={() => this.addListItem('whatWeLookFor')}>Add skill</Button>
-              <Button bsStyle="danger" onClick={() => this.removeListItem('whatWeLookFor')}>Remove skill</Button>
+              <Button bsStyle="success" onClick={() => this.addListItem('whatWeLookFor')} style={{ marginRight: '20px' }}>
+                Add
+              </Button>
+              <Button bsStyle="danger" onClick={() => this.removeListItem('whatWeLookFor')}>
+                Remove
+              </Button>
             </FormGroup>
             <FormGroup style={{ marginBottom: '20px' }}>
               <ControlLabel style={
@@ -272,10 +281,16 @@ class OfferCreator extends Component {
                   </React.Fragment>
                 ))
               }
-              <Button bsStyle="success" onClick={() => this.addListItem('whatWeOffer')}>Add benefit</Button>
-              <Button bsStyle="danger" onClick={() => this.removeListItem('whatWeOffer')}>Remove benefit</Button>
+              <Button bsStyle="success" onClick={() => this.addListItem('whatWeOffer')} style={{ marginRight: '20px' }}>
+                Add
+              </Button>
+              <Button bsStyle="danger" onClick={() => this.removeListItem('whatWeOffer')}>
+                Remove
+              </Button>
             </FormGroup>
-            <Button type="submit" bsStyle="primary" style={{ margin: '35px 0' }}>Submit</Button>
+            <Button type="submit" bsStyle="primary" style={{ margin: '35px 0' }}>
+              Submit
+            </Button>
           </form>
         </Col>
       </Grid>
