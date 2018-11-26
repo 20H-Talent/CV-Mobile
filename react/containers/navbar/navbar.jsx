@@ -9,15 +9,21 @@ let navStyle = {
 const cvLinks = [
 	'../index.html',
 	'./profile.html',
+	'./favourite.html',
 	'./search.html',
+	'./company.html',
+	'./offers.html',
 	'./surveys.html',
-	'#',
+	'./reports.html',
 	'#'
 ];
 const cvTexts = [
 	'Home',
 	'My Profile',
+	'Favourites',
 	'Advanced Search',
+	'Companies',
+	'Job Offers',
 	'Surveys',
 	'Reports',
 	'Log In'

@@ -17,18 +17,18 @@ function renderUSerInfo(user) {
   // Print user's email
   document.querySelector('#email').innerHTML = user.email;
   // Print user's website
-  document.querySelector('#website').innerHTML = user.website !== undefined ? user.website : ' ';
+  document.querySelector('#website').innerHTML = user.website ? user.website : ' ';
   // Print user's username
-  document.querySelector('#company').innerHTML = user.company !== undefined ? user.company : ' ';
+  document.querySelector('#company').innerHTML = user.company ? user.company : ' ';
   // Print user's experience
   $('#experience').replaceWith('<p class="m-0 w-100 user-info" id="experience"></p>');
-  document.querySelector('#experience').innerHTML = user.experience !== undefined ? user.experience : ' ';
+  document.querySelector('#experience').innerHTML = user.experience ? user.experience : ' ';
   // Print user's langs
   $('#languages').replaceWith('<p class="m-0 w-100 user-info" id="languages"></p>');
   const userLangs = user.languages.map(lang => lang.label);
   document.querySelector('#languages').innerHTML = userLangs.join(', ');
   // Print user's location
-  document.querySelector('#address').innerHTML = `${user.address.city}, ${user.address.country}`;
+  document.querySelector('#address').innerHTML = `${(user.address.city ? user.address.city : '')}, ${user.address.country}`;
   // Print user's skills
   document.querySelector('#skills').innerHTML = (
     `<div class="fluid-container w-100 d-flex flex-wrap" id="badgeContainer">${
