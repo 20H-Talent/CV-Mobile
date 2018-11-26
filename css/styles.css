@@ -84,6 +84,7 @@ html {
 	}
 }
 
+/* FAVORITE USER PAGE CUSTOM STYLES */
 #star-icon {
 	cursor: pointer;
 }
@@ -108,6 +109,11 @@ PROFILE PAGE CUSTOM STYLES
 	right: 10px;
 }
 
-#deleteBadget {
-	font-size: 15px;
+/* ADVANCED SEARCH CUSTOM STYLES */
+.badge {
+	margin-top: 2em;
+}
+
+.cancelIcon {
+	font-size: 1.4em;
 }

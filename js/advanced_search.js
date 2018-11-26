@@ -5,72 +5,129 @@ const inputCountry = document.getElementById("country");
 const inputExperience = document.getElementById("experience");
 const inputCompany = document.getElementById("company");
 const inputJobTitle = document.getElementById("job-title");
+const inputSkills = document.getElementsByClassName("check-skill");
+const inputLangs = document.getElementsByClassName("check-lang");
 
-
-//Imprimir los checkboxes de lang que están checked
+// Imprimir los checkboxes de lang que están checked
 function getLangFilterAdvancedSearch(user) {
-  var langChecks = document.getElementsByClassName("check-lang");
-  var langArr = [];
-  for (var i = 0; i < langChecks.length; i++) {
+  const langChecks = document.getElementsByClassName("check-lang");
+  const langArr = [];
+  for (let i = 0; i < langChecks.length; i++) {
     if (langChecks[i].checked == true) {
       langArr.push(langChecks[i].value);
     }
   }
-  var checkUserLangs = [];
-  langArr.forEach(function(lang) {
-    //Comprobar que el valor está en el array del usuario
+  const checkUserLangs = [];
+  langArr.forEach((lang) => {
+    // Comprobar que el valor está en el array del usuario
     checkUserLangs.push(user.languages.includes(lang));
   });
   if (checkUserLangs.includes(false)) {
     return false;
-  } else {
-    return true;
   }
+  return true;
 }
 
-//Imprimir los checkboxes de skill que están checked
+// Imprimir los checkboxes de skill que están checked
 function getSkillFilterAdvancedSearch(user) {
-  var skillChecks = document.getElementsByClassName("check-skill");
-  var skillArr = [];
-  for (var i = 0; i < skillChecks.length; i++) {
+  const skillChecks = document.getElementsByClassName("check-skill");
+  const skillArr = [];
+  for (let i = 0; i < skillChecks.length; i++) {
     if (skillChecks[i].checked == true) {
       skillArr.push(skillChecks[i].value);
     }
-    //Comparar los lang que están en el array con los que el array del user
   }
-  var checkUserSkills = [];
-  skillArr.forEach(function(skill) {
-    //Comprobar que el valor está en el array del usuario
+  const checkUserSkills = [];
+  skillArr.forEach((skill) => {
+    // Comprobar que el valor está en el array del usuario
     checkUserSkills.push(user.skills.includes(skill));
   });
 
   if (checkUserSkills.includes(false)) {
     return false;
-  } else {
-    return true;
   }
+  return true;
 }
 
-document.getElementById("searchbtn").addEventListener("click", function(e) {
+document.getElementById("searchbtn").addEventListener("click", (e) => {
   e.preventDefault();
-  //Ponemos aquí el ajax para hacer la llamada al json cada vez que le demos click al botón search y no cada vez que se inicie la pantalla
+  // Ponemos aquí el ajax para hacer la llamada al json cada vez que le demos click al botón search y no cada vez que se inicie la pantalla
 
   $.ajax({
     url: "https://cv-mobile-api.herokuapp.com/api/users"
-  }).done(function(data) {
-    const filteredUser = data.filter(function(user) {
-      // console.log(getSkillFilterAdvancedSearch(user));
-      return (
-        inputName.value.toLowerCase() === user.name.slice(0, inputName.value.length).toLowerCase() &&
-        inputUsername.value.toLowerCase() === user.username.slice(0, inputUsername.value.length).toLowerCase() &&
-        user.address.city ? inputCity.value.toLowerCase() === user.address.city.slice(0, inputCity.value.length).toLowerCase() : null &&
-        inputCountry.value.toLowerCase() === user.address.country.slice(0, inputCountry.value.length).toLowerCase() &&
-        user.jobTitle ? inputJobTitle.value.toLowerCase() === user.jobTitle.slice(0, inputJobTitle.value.length).toLowerCase() : null &&
-        inputCompany.value.toLowerCase() === user.company.slice(0, inputCompany.value.length).toLowerCase() &&
-        inputExperience.value !== 'Choose an option' ? inputExperience.value.toLowerCase() === user.experience : null &&
-        getSkillFilterAdvancedSearch(user) &&
-        getLangFilterAdvancedSearch(user)
-      );
+  }).done((data) => {
+    const filteredUser = data.filter((user) => {
+      // console.log('istrue',inputExperience.value === user.experience)
+      const checkArray = [];
+
+        if (inputName.value.length > 0) {
+          inputName.value.toLowerCase() === user.name.slice(0, inputName.value.length).toLowerCase()
+            ? checkArray.push(true)
+            : checkArray.push(false);
+        } else {
+          checkArray.push(true);
+        }
+
+        if (inputUsername.value.length > 0) {
+          inputUsername.value.toLowerCase() === user.username.slice(0, inputUsername.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (inputCity.value.length > 0) {
+          inputCity.value.toLowerCase() === user.address.city.slice(0, inputCity.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (inputCountry.value.length > 0) {
+          inputCountry.value.toLowerCase() === user.address.country.slice(0, inputCountry.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (inputJobTitle.value.length > 0 && !user.jobTitle) {
+          false
+        } else if (inputJobTitle.value.length > 0 && user.jobTitle) {
+            inputJobTitle.value.toLowerCase() === user.jobTitle.slice(0, inputJobTitle.value.length).toLowerCase()
+            ? checkArray.push(true)
+            : checkArray.push(false);
+          } 
+
+        if (inputCompany.value.length > 0 && !user.company) {
+          false
+        } else if (inputCompany.value.length > 0) {
+          inputCompany.value.toLowerCase() === user.company.slice(0, inputCompany.value.length).toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+          }
+
+        if (inputExperience.value.length > 0 && inputExperience.value !== 'Choose an option') {
+          inputExperience.value.toLowerCase() === user.experience.toLowerCase()
+          ? checkArray.push(true)
+          : checkArray.push(false);
+        }
+
+        if (getSkillFilterAdvancedSearch(user)){
+          checkArray.push(true)
+        } else {
+          checkArray.push(false)
+        }
+        
+        if (getLangFilterAdvancedSearch(user)) {
+          checkArray.push(true)
+        } else {
+          checkArray.push(false)
+        }
+        
+        if (checkArray.includes(false)) {
+          return false;
+        } else {
+          return true;
+        }
+        console.log(checkArray);
+
+
     });
     $("form").hide();
     $(".goback-btn").show();
@@ -93,9 +150,13 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
         let badges = document.querySelectorAll('.badge');
         badges.forEach(function(badge){
           badge.remove();
-        let inputs = document.querySelectorAll('input')
+        let inputs = document.querySelectorAll('input');
         inputs.forEach(function(input){
           input.value = ''
+        })
+        let checkboxes = document.querySelectorAll('.check');
+        checkboxes.forEach(function(checkbox){
+          checkbox.checked = false;
         })
         })
       });
@@ -107,7 +168,7 @@ document.getElementById("searchbtn").addEventListener("click", function(e) {
 // when submit button is clicked, the form will hide and the go back button will appear
 
 
-//when go back button is clicked, the form will appear and the go back button will dissapear
+// when go back button is clicked, the form will appear and the go back button will dissapear
   
 
 function renderCards(filteredUser) {
@@ -124,7 +185,7 @@ function renderCards(filteredUser) {
     experience,
     profilePicture,
   } = filteredUser;
-  var template_cards = (
+  const template_cards = (
     '<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">' +
     '<img class="card-img-top m-auto" src="' + profilePicture + '" alt="' + name + ' Profile picture" style="height:150px; width:150px; border-radius:50%;">' +
     '<div class="card-body p-0 mt-2">' +
@@ -134,7 +195,7 @@ function renderCards(filteredUser) {
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span>' + email + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span>' + company + '</span></p>' +
     '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span>' + address.city + ', ' + address.country + '</span></p>' +
-    '<a href="./html/profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
+    '<a href="./profile.html?id=' + _id + '" class="btn btn-primary mt-3">View Profile</a>' +
     '</div>' +
     '</div>'
     // '<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">today</i> <span' + (highlight.includes('experience') ? ' class="bg-warning"' : '') + '>' + experience + '</span></p>' +
@@ -147,16 +208,16 @@ function renderCards(filteredUser) {
 
 $.ajax({
   url: "https://cv-mobile-api.herokuapp.com/api/skills"
-}).done(function(data) {
-  data.forEach(function(skill) {
+}).done((data) => {
+  data.forEach((skill) => {
     document.getElementById("skill_container").innerHTML += renderSkill(skill);
   });
 });
 
 function renderSkill(skill) {
-  var skillTemplate =
+  const skillTemplate =
     '<div class="form-check col-12">' +
-    '<input class="form-check-input check-skill" type="checkbox" value="' +
+    '<input class="form-check-input check-skill check" type="checkbox" value="' +
     skill._id +
     '" name="' +
     skill.name +
@@ -174,17 +235,16 @@ function renderSkill(skill) {
 
 $.ajax({
   url: "https://cv-mobile-api.herokuapp.com/api/langs"
-}).done(function(data) {
-  data.forEach(function(language) {
+}).done((data) => {
+  data.forEach((language) => {
     document.getElementById("langs_container").innerHTML += renderLanguage(language);
   });
 });
 
 function renderLanguage(language) {
-  var languageTemplate =
+  const languageTemplate =
     ' <div class="form-check col-12">' +
-    //Operador ternario
-    '<input class="form-check-input check-lang" type="checkbox" value="' +
+    '<input class="form-check-input check-lang check" type="checkbox" value="' +
     language._id +
     '" id="' +
     language._id +
@@ -208,33 +268,43 @@ function deleteBadge(e) {
   switch (inputTarget){
     case 'name' :
       inputName.value = '';
-      console.log(inputName)
       break;
     case 'username' :
       inputUsername.value = '';
-      console.log(inputUsername)
       break;
     case 'city' :
       inputCity.value = '';
-      console.log(inputCity)
       break;
     case 'country' :
       inputCountry.value = '';
-      console.log(inputCountry)
     case 'jobTitle' :
       inputJobTitle.value = '';
-      console.log(inputJobTitle)
       break;
     case 'company' :
       inputCompany.value = '';
-      console.log(inputCompany)
       break;
     case 'experience' :
       inputExperience.value = '';
-      console.log(inputExperience)
+      break;
+    case 'skills' :
+    let skillsCopy = [...inputSkills];
+    skillsCopy.forEach(function(skill){
+      if (skill.id == e.target.dataset.id){
+        skill.checked = false;
+      }
+        
+      });
+      break;
+    case  'langs' :
+    let langsCopy = [...inputLangs];
+      langsCopy.forEach(function(lang){
+        if (lang.id == e.target.dataset.id ){
+          lang.checked = false;
+        }
+      });
   }
     cardsContainer.innerHTML = '';
-      $( "#searchbtn" ).trigger( "click")
+    $( "#searchbtn" ).trigger( "click")
     };
 //}
 
@@ -268,9 +338,23 @@ function renderBadgets() {
   if( inputExperience.value !== '' && inputExperience.value !== 'Choose an option' ) {
     badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + inputExperience.value + '<i class="material-icons cancelIcon" data-input="experience">cancel</i></span>') ;
   }
+  // Esto copia los contenidos de inputSkill dentro de un array nuevecito mi hermano.
+  // Y por eso no se puede hacer un forEach en un NodeList
+  let skillsCopy = [...inputSkills];
+  skillsCopy.forEach(function(skill){
+    if (skill.checked) {
+      badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + skill.nextSibling.textContent + '<i class="material-icons cancelIcon" data-input="skills" data-id="' + skill.id + '">cancel</i></span>') ;
+    }
+  });
+
+  let langsCopy = [...inputLangs];
+  langsCopy.forEach(function(lang){
+    if (lang.checked) {
+      badgetTemplate.push('<span class="badge badge-pill badge-info justify-content-center">' + lang.nextSibling.textContent + '<i class="material-icons cancelIcon" data-input="langs" data-id="' + lang.id + '">cancel</i></span>') ;
+    }
+  });
+
 
   var userBadget = badgetTemplate.join('')
   $('#badgetContainer').html(userBadget);
 }
-
-
