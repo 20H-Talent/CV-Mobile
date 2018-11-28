@@ -14,9 +14,9 @@ function checkAuthentication() {
   const token = sessionStorage.getItem('token') || false;
   const activeSession = sessionStorage.getItem('newSession') || false;
 
-  if (token && activeSession) {
+  if (token !== 'undefined' && activeSession) {
     return fetchUsersData();
-  } else if (!activeSession) {
+  } else if (token == 'undefined' || !activeSession) {
     setTimeout(() => renderLogInPage(), 3000);
   }
 
