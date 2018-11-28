@@ -3,12 +3,27 @@ const searchInput = document.getElementById('nav-input');
 let stars;
 
 // Request the users data at page loading
-window.onload = fetchUsersData;
+window.onload = checkAuthentication;
 
 // State variables to control activation of infinite scroll, page of users to request and store of all users requested
 let isFetchAllowed = true;
 let currentUsersPage = 1;
 const loadedUsers = [];
+
+function checkAuthentication() {
+  const token = localStorage.getItem('token') || false;
+  const activeSession = sessionStorage.getItem('newSession') || false;
+
+  if (token) fetchUsersData();
+
+  if (activeSession) renderLogInPage();
+
+  setTimeout(renderLogInPage, 3000);
+}
+
+function renderLogInPage() {
+  window.location.replace('html/login.html');
+}
 
 // Initial content load from API
 function fetchUsersData() {
