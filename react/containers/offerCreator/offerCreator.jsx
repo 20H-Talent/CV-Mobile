@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, FormControl, FormGroup, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
+import {
+  Grid,
+  Row,
+  Col,
+  FormControl,
+  FormGroup,
+  ControlLabel,
+  HelpBlock,
+  Button
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Icon from '../icons/icon.jsx';
 
@@ -18,16 +27,51 @@ class OfferCreator extends Component {
       whatWeOffer: [],
       validEmails: [],
       loadError: false,
-      errorMessage: '',
-    }
+      errorMessage: ''
+    };
   }
 
   handleFormSubmit(e) {
     e.preventDefault();
-    let { company, companyEmail, title, contractType, location, description, responsabilities, whatWeLookFor, whatWeOffer } = this.state;
+    let getToken = new Promise((resolve, reject) => {
+      const token = sessionStorage.getItem('token') || false;
+      token !== false ? resolve(token) : reject();
+    });
 
-    if (company && companyEmail && title && contractType && location && description && responsabilities && whatWeLookFor && whatWeOffer) {
+    getToken
+      .then(token => this.sendFormData(JSON.parse(token)))
+      .catch(() =>
+        this.setState({
+          loadError: true,
+          errorMessage: 'You are not logged in'
+        })
+      );
+  }
 
+  sendFormData(token) {
+    let {
+      company,
+      companyEmail,
+      title,
+      contractType,
+      location,
+      description,
+      responsabilities,
+      whatWeLookFor,
+      whatWeOffer
+    } = this.state;
+
+    if (
+      company &&
+      companyEmail &&
+      title &&
+      contractType &&
+      location &&
+      description &&
+      responsabilities &&
+      whatWeLookFor &&
+      whatWeOffer
+    ) {
     }
 
     fetch('https://cv-mobile-api.herokuapp.com/api/offers', {
@@ -43,13 +87,18 @@ class OfferCreator extends Component {
         whatWeLookFor,
         whatWeOffer
       }),
-      headers: { "Content-Type": "application/json; charset=utf-8" }
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Bearer ${token}`
+      }
     })
       .then(res => res.json())
       .then(() => {
         this.props.history.push('/html/offers.html');
       })
-      .catch(err => this.setState({ loadError: true, errorMessage: err.message }));
+      .catch(err =>
+        this.setState({ loadError: true, errorMessage: err.message })
+      );
   }
 
   handleEmailValidation() {
@@ -62,17 +111,25 @@ class OfferCreator extends Component {
       });
 
       if (validationMapping.includes(true)) {
-        return 'success'
+        return 'success';
       } else {
-        return 'error'
+        return 'error';
       }
     }
-    return null
+    return null;
   }
 
   handleInputChange(e) {
     const inputName = e.target.name;
-    let { company, companyEmail, title, contractType, location, description, responsabilities } = this.state;
+    let {
+      company,
+      companyEmail,
+      title,
+      contractType,
+      location,
+      description,
+      responsabilities
+    } = this.state;
     this.setState({ [inputName]: e.target.value });
   }
 
@@ -97,12 +154,12 @@ class OfferCreator extends Component {
   addListItem(list) {
     const newList = this.state[list].slice(0);
     newList.push({ title: '', description: '' });
-    this.setState({ [list]: newList })
+    this.setState({ [list]: newList });
   }
   removeListItem(list) {
     const newList = this.state[list].slice(0);
     newList.pop();
-    this.setState({ [list]: newList })
+    this.setState({ [list]: newList });
   }
 
   componentDidMount() {
@@ -110,10 +167,18 @@ class OfferCreator extends Component {
       .then(res => res.json())
       .then(res => {
         res.length < 1
-          ? this.setState({ loadError: true, errorMessage: 'Sorry there are no companies to add offers to.' })
-          : this.setState({ validEmails: res.map(company => company.email) })
+          ? this.setState({
+            loadError: true,
+            errorMessage: 'Sorry there are no companies to add offers to.'
+          })
+          : this.setState({ validEmails: res.map(company => company.email) });
       })
-      .catch(() => this.setState({ loadError: true, errorMessage: 'There was a connection error.' }))
+      .catch(() =>
+        this.setState({
+          loadError: true,
+          errorMessage: 'There was a connection error.'
+        })
+      );
   }
 
   render() {
@@ -122,13 +187,21 @@ class OfferCreator extends Component {
       fontWeight: '500',
       fontFamily: 'Google Sans',
       marginBottom: '10px'
-    }
+    };
 
     return (
       <Grid>
         <Row style={{ marginTop: '20px', marginBottom: '25px' }}>
           <Col xs={12} md={10}>
-            <Link to="/html/offers.html" style={{ display: 'flex', alignItems: 'center', fontSize: '1.5rem', color: '#333' }}>
+            <Link
+              to="/html/offers.html"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '1.5rem',
+                color: '#333'
+              }}
+            >
               <Icon icon="arrow_back" size="2.5rem" />
               <span style={{ marginLeft: '15px' }}>Go Back</span>
             </Link>
@@ -161,7 +234,9 @@ class OfferCreator extends Component {
                 onChange={this.handleInputChange.bind(this)}
               />
               <FormControl.Feedback />
-              <HelpBlock >You must enter the email registered with your company profile.</HelpBlock>
+              <HelpBlock>
+                You must enter the email registered with your company profile.
+              </HelpBlock>
             </FormGroup>
             <FormGroup style={{ marginBottom: '20px' }}>
               <ControlLabel style={labelStyle}>Title</ControlLabel>
@@ -207,7 +282,7 @@ class OfferCreator extends Component {
                 value={this.state.description}
                 onChange={this.handleInputChange.bind(this)}
               />
-              <HelpBlock >Enter a brief description of your company.</HelpBlock>
+              <HelpBlock>Enter a brief description of your company.</HelpBlock>
             </FormGroup>
             <FormGroup style={{ marginBottom: '20px' }}>
               <ControlLabel style={labelStyle}>Responsabilities</ControlLabel>
@@ -218,84 +293,112 @@ class OfferCreator extends Component {
                 value={this.state.responsabilities}
                 onChange={this.handleInputChange.bind(this)}
               />
-              <HelpBlock >Enter a brief description of the job goal.</HelpBlock>
+              <HelpBlock>Enter a brief description of the job goal.</HelpBlock>
             </FormGroup>
             <FormGroup style={{ marginBottom: '20px' }}>
-              <ControlLabel style={
-                { marginBottom: '20px', display: 'block', fontSize: '1.8rem', fontWeight: '500', fontFamily: 'Google Sans' }
-              }>What We Look For</ControlLabel>
-              {
-                this.state.whatWeLookFor.map((item, index) => (
-                  <React.Fragment key={`whatWeLook-input-${index}`}>
-                    <ControlLabel>Skill</ControlLabel>
-                    <FormControl
-                      type="text"
-                      name={`${index}.title`}
-                      value={this.state.whatWeLookFor[index].title}
-                      onChange={this.handleWhatWeLookFor.bind(this)}
-                      style={{ marginBottom: '15px' }}
-                    />
-                    <ControlLabel>Description</ControlLabel>
-                    <FormControl
-                      componentClass="textarea"
-                      name={`${index}.description`}
-                      value={this.state.whatWeLookFor[index].description}
-                      onChange={this.handleWhatWeLookFor.bind(this)}
-                      style={{ marginBottom: '15px' }}
-                    />
-
-                  </React.Fragment>
-                ))
-              }
-              <Button bsStyle="success" onClick={() => this.addListItem('whatWeLookFor')} style={{ marginRight: '20px' }}>
+              <ControlLabel
+                style={{
+                  marginBottom: '20px',
+                  display: 'block',
+                  fontSize: '1.8rem',
+                  fontWeight: '500',
+                  fontFamily: 'Google Sans'
+                }}
+              >
+                What We Look For
+              </ControlLabel>
+              {this.state.whatWeLookFor.map((item, index) => (
+                <React.Fragment key={`whatWeLook-input-${index}`}>
+                  <ControlLabel>Skill</ControlLabel>
+                  <FormControl
+                    type="text"
+                    name={`${index}.title`}
+                    value={this.state.whatWeLookFor[index].title}
+                    onChange={this.handleWhatWeLookFor.bind(this)}
+                    style={{ marginBottom: '15px' }}
+                  />
+                  <ControlLabel>Description</ControlLabel>
+                  <FormControl
+                    componentClass="textarea"
+                    name={`${index}.description`}
+                    value={this.state.whatWeLookFor[index].description}
+                    onChange={this.handleWhatWeLookFor.bind(this)}
+                    style={{ marginBottom: '15px' }}
+                  />
+                </React.Fragment>
+              ))}
+              <Button
+                bsStyle="success"
+                onClick={() => this.addListItem('whatWeLookFor')}
+                style={{ marginRight: '20px' }}
+              >
                 Add
               </Button>
-              <Button bsStyle="danger" onClick={() => this.removeListItem('whatWeLookFor')}>
+              <Button
+                bsStyle="danger"
+                onClick={() => this.removeListItem('whatWeLookFor')}
+              >
                 Remove
               </Button>
             </FormGroup>
             <FormGroup style={{ marginBottom: '20px' }}>
-              <ControlLabel style={
-                { marginBottom: '20px', display: 'block', fontSize: '1.8rem', fontWeight: '500', fontFamily: 'Google Sans' }
-              }>What We Offer</ControlLabel>
-              {
-                this.state.whatWeOffer.map((item, index) => (
-                  <React.Fragment key={`whatWeOffer-input-${index}`}>
-                    <ControlLabel>Benefit</ControlLabel>
-                    <FormControl
-                      type="text"
-                      name={`${index}.title`}
-                      value={this.state.whatWeOffer[index].title}
-                      onChange={this.handleWhatWeOffer.bind(this)}
-                      style={{ marginBottom: '15px' }}
-                    />
-                    <ControlLabel>Description</ControlLabel>
-                    <FormControl
-                      componentClass="textarea"
-                      name={`${index}.description`}
-                      value={this.state.whatWeOffer[index].description}
-                      onChange={this.handleWhatWeOffer.bind(this)}
-                      style={{ marginBottom: '15px' }}
-                    />
-
-                  </React.Fragment>
-                ))
-              }
-              <Button bsStyle="success" onClick={() => this.addListItem('whatWeOffer')} style={{ marginRight: '20px' }}>
+              <ControlLabel
+                style={{
+                  marginBottom: '20px',
+                  display: 'block',
+                  fontSize: '1.8rem',
+                  fontWeight: '500',
+                  fontFamily: 'Google Sans'
+                }}
+              >
+                What We Offer
+              </ControlLabel>
+              {this.state.whatWeOffer.map((item, index) => (
+                <React.Fragment key={`whatWeOffer-input-${index}`}>
+                  <ControlLabel>Benefit</ControlLabel>
+                  <FormControl
+                    type="text"
+                    name={`${index}.title`}
+                    value={this.state.whatWeOffer[index].title}
+                    onChange={this.handleWhatWeOffer.bind(this)}
+                    style={{ marginBottom: '15px' }}
+                  />
+                  <ControlLabel>Description</ControlLabel>
+                  <FormControl
+                    componentClass="textarea"
+                    name={`${index}.description`}
+                    value={this.state.whatWeOffer[index].description}
+                    onChange={this.handleWhatWeOffer.bind(this)}
+                    style={{ marginBottom: '15px' }}
+                  />
+                </React.Fragment>
+              ))}
+              <Button
+                bsStyle="success"
+                onClick={() => this.addListItem('whatWeOffer')}
+                style={{ marginRight: '20px' }}
+              >
                 Add
               </Button>
-              <Button bsStyle="danger" onClick={() => this.removeListItem('whatWeOffer')}>
+              <Button
+                bsStyle="danger"
+                onClick={() => this.removeListItem('whatWeOffer')}
+              >
                 Remove
               </Button>
             </FormGroup>
-            <Button type="submit" bsStyle="primary" style={{ margin: '35px 0' }}>
+            <Button
+              type="submit"
+              bsStyle="primary"
+              style={{ margin: '35px 0' }}
+            >
               Submit
             </Button>
           </form>
         </Col>
       </Grid>
-    )
+    );
   }
 }
 
-export default OfferCreator
+export default OfferCreator;
