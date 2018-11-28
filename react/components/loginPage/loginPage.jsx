@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { Grid, Row, Col, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import Navbar from '../../containers/navbar/navbar.jsx';
 
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'oscarbb',
-      email: 'oscarbb@mail.co'
+      username: '',
+      email: ''
     };
   }
 
@@ -23,21 +24,54 @@ class LoginPage extends Component {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
-        localStorage.setItem('token', JSON.stringify(res.token));
+        sessionStorage.setItem('token', JSON.stringify(res.token));
+        sessionStorage.setItem('id', JSON.stringify(res.id));
       })
+      .then(() => window.location.replace('/index.html'))
       .catch(err => console.log(err));
+  }
+
+  handleInputChange(e) {
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+    this.setState({ [inputName]: inputValue });
   }
 
   render() {
     return (
       <React.Fragment>
         <Navbar />
-        <form onSubmit={this.handleLogIn.bind(this)}>
-          <input type="text" name="username" placeholder="Username" />
-          <input type="email" name="email" placeholder="Email" />
-          <input type="submit" value="Log in" />
-        </form>
+        <Grid>
+          <Row>
+            <Col xs={12} md={10}>
+              <form onSubmit={this.handleLogIn.bind(this)}>
+                <ControlLabel>Username</ControlLabel>
+                <FormControl
+                  type="text"
+                  name="username"
+                  required
+                  value={this.state.username}
+                  onChange={this.handleInputChange.bind(this)}
+                />
+                <ControlLabel style={{ marginTop: '20px' }}>Email</ControlLabel>
+                <FormControl
+                  type="email"
+                  name="email"
+                  required
+                  value={this.state.email}
+                  onChange={this.handleInputChange.bind(this)}
+                />
+                <Button
+                  type="submit"
+                  bsStyle="primary"
+                  style={{ marginTop: '30px' }}
+                >
+                  Log in
+                </Button>
+              </form>
+            </Col>
+          </Row>
+        </Grid>
       </React.Fragment>
     );
   }

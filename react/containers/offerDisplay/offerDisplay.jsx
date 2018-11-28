@@ -31,7 +31,7 @@ class OfferDisplay extends Component {
 
   componentDidMount() {
     let getToken = new Promise((resolve, reject) => {
-      const token = localStorage.getItem('token') || false;
+      const token = sessionStorage.getItem('token') || false;
       token !== false ? resolve(token) : reject();
     });
 
@@ -48,7 +48,7 @@ class OfferDisplay extends Component {
   getOfferFromAPI(token) {
     fetch(
       `https://cv-mobile-api.herokuapp.com/api/offers/${
-        this.props.match.params.id
+      this.props.match.params.id
       }`,
       {
         method: 'GET',

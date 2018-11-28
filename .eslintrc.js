@@ -9,6 +9,7 @@ module.exports = {
         jquery: true
     },
     "plugins": [
-        "prettier"
+        "prettier",
+        "react"
     ]
 };
