@@ -34,7 +34,7 @@ class OfferCreator extends Component {
   handleFormSubmit(e) {
     e.preventDefault();
     let getToken = new Promise((resolve, reject) => {
-      const token = localStorage.getItem('token') || false;
+      const token = sessionStorage.getItem('token') || false;
       token !== false ? resolve(token) : reject();
     });
 
@@ -168,9 +168,9 @@ class OfferCreator extends Component {
       .then(res => {
         res.length < 1
           ? this.setState({
-              loadError: true,
-              errorMessage: 'Sorry there are no companies to add offers to.'
-            })
+            loadError: true,
+            errorMessage: 'Sorry there are no companies to add offers to.'
+          })
           : this.setState({ validEmails: res.map(company => company.email) });
       })
       .catch(() =>

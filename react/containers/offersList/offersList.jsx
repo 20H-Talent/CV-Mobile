@@ -17,7 +17,7 @@ class OffersList extends Component {
 
   componentDidMount() {
     let getToken = new Promise((resolve, reject) => {
-      const token = localStorage.getItem('token') || false;
+      const token = sessionStorage.getItem('token') || false;
       token !== false ? resolve(token) : reject();
     });
 
@@ -41,6 +41,7 @@ class OffersList extends Component {
       })
         .then(res => res.json())
         .then(res => {
+          console.log(res)
           if (!res.message) {
             this.setState({ offers: res });
           } else {
@@ -56,20 +57,25 @@ class OffersList extends Component {
   }
 
   render() {
-    let offers = this.state.offers.map((offer, index) => (
-      <Col xs={12} md={10} key={`offer-col-${index}`}>
-        <Link
-          to={`/html/offers.html/offer/${offer._id}`}
-          style={{ color: '#000', textDecoration: 'none' }}
-        >
-          <OfferCard
-            offer={offer}
-            icons={['insert_invitation', 'location_on']}
-            iconsText={[offer.contractType, offer.location]}
-          />
-        </Link>
-      </Col>
-    ));
+    let offers = '';
+
+    this.state.offers.length > 0
+      ? offers = (
+        this.state.offers.map((offer, index) => (
+          <Col xs={12} md={10} key={`offer-col-${index}`}>
+            <Link
+              to={`/html/offers.html/offer/${offer._id}`}
+              style={{ color: '#000', textDecoration: 'none' }}
+            >
+              <OfferCard
+                offer={offer}
+                icons={['insert_invitation', 'location_on']}
+                iconsText={[offer.contractType, offer.location]}
+              />
+            </Link>
+          </Col>
+        )))
+      : offers = '';
 
     if (this.state.loadError) {
       return (
@@ -87,7 +93,7 @@ class OffersList extends Component {
             Open positions
           </h3>
         </Col>
-        <Grid>{this.state.offers ? offers : null}</Grid>
+        <Grid>{offers ? offers : null}</Grid>
         <FloatingButton onClick={this.handleFloatingButton.bind(this)}>
           <Icon icon="add" size="3.5rem" />
         </FloatingButton>

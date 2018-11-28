@@ -24,7 +24,8 @@ class LoginPage extends Component {
     })
       .then(res => res.json())
       .then(res => {
-        localStorage.setItem('token', JSON.stringify(res.token));
+        sessionStorage.setItem('token', JSON.stringify(res.token));
+        sessionStorage.setItem('id', JSON.stringify(res.id));
       })
       .then(() => window.location.replace('/index.html'))
       .catch(err => console.log(err));

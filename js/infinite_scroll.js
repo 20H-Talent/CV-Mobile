@@ -11,14 +11,15 @@ let currentUsersPage = 1;
 const loadedUsers = [];
 
 function checkAuthentication() {
-  const token = localStorage.getItem('token') || false;
+  const token = sessionStorage.getItem('token') || false;
   const activeSession = sessionStorage.getItem('newSession') || false;
 
-  if (token) fetchUsersData();
+  if (token && activeSession) {
+    return fetchUsersData();
+  } else if (!activeSession) {
+    setTimeout(() => renderLogInPage(), 3000);
+  }
 
-  if (activeSession) renderLogInPage();
-
-  setTimeout(renderLogInPage, 3000);
 }
 
 function renderLogInPage() {
