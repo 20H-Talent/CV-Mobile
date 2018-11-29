@@ -13,6 +13,13 @@ import Navbar from '../../containers/navbar/navbar.jsx';
 import OfferTitle from '../../containers/offerDisplay/offerTitle/offerTitle.jsx';
 import OfferParagrahp from '../../containers/offerDisplay/offerParagraph/offerParagraph.jsx';
 
+const labelStyle = {
+  marginTop: '20px',
+  marginBottom: '10px',
+  fontSize: '1.6rem',
+  fontFamily: 'Google Sans',
+};
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +60,6 @@ class LoginPage extends Component {
     })
       .then(res => res.json())
       .then((res) => {
-        console.log(res);
         sessionStorage.setItem('token', JSON.stringify(res.token));
         sessionStorage.setItem('id', JSON.stringify(res.id));
         sessionStorage.setItem('profile', JSON.stringify(res.profile));
@@ -73,32 +79,50 @@ class LoginPage extends Component {
 
     const { loginType, username, password } = this.state;
 
-    if (loginType === 'user') {
+    switch (loginType) {
+    case 'user':
       dynamicInput = (
         <React.Fragment>
-          <ControlLabel>Username</ControlLabel>
+          <ControlLabel style={labelStyle}>Password</ControlLabel>
           <FormControl
-            type="text"
+            type="password"
             name="username"
+            placeholder="Enter your username"
             required
             value={username}
             onChange={this.handleInputChange}
           />
         </React.Fragment>
       );
-    } else if (loginType === 'company') {
+      break;
+    case 'company':
       dynamicInput = (
         <React.Fragment>
-          <ControlLabel>Password</ControlLabel>
+          <ControlLabel style={labelStyle}>Password</ControlLabel>
           <FormControl
-            type="text"
+            type="password"
             name="password"
+            placeholder="Enter your docNumber"
             required
             value={password}
             onChange={this.handleInputChange}
           />
         </React.Fragment>
       );
+      break;
+    default:
+      dynamicInput = (
+        <React.Fragment>
+          <ControlLabel style={labelStyle}>Password</ControlLabel>
+          <FormControl
+            type="password"
+            required
+            value={username}
+            onChange={this.handleInputChange}
+          />
+        </React.Fragment>
+      );
+      break;
     }
 
     return dynamicInput;
@@ -121,30 +145,35 @@ class LoginPage extends Component {
           <Row>
             <Col xs={12} md={10}>
               <form onSubmit={this.handleLogIn.bind(this)}>
-                <FormGroup>
-                  <ControlLabel style={{ marginTop: '20px' }}>
-                    What's your type of profile?
-                  </ControlLabel>
-                  <Radio
-                    name="loginType"
-                    value="user"
-                    required
-                    onClick={this.handleInputChange}
-                  >
-                    User
-                  </Radio>
-                  <Radio
-                    name="loginType"
-                    value="company"
-                    onClick={this.handleInputChange}
-                  >
-                    Company
-                  </Radio>
+                <FormGroup style={{ margin: 0 }}>
+                  <ControlLabel style={labelStyle}>Choose your profile type</ControlLabel>
+                  <div>
+                    <Radio
+                      name="loginType"
+                      value="user"
+                      required
+                      inline
+                      onClick={this.handleInputChange}
+                      style={{ fontSize: '1.6rem', marginRight: '15px' }}
+                    >
+                      User
+                    </Radio>
+                    <Radio
+                      name="loginType"
+                      value="company"
+                      inline
+                      onClick={this.handleInputChange}
+                      style={{ fontSize: '1.6rem' }}
+                    >
+                      Company
+                    </Radio>
+                  </div>
                 </FormGroup>
-                <ControlLabel style={{ marginTop: '20px' }}>Email</ControlLabel>
+                <ControlLabel style={labelStyle}>Email</ControlLabel>
                 <FormControl
                   type="email"
                   name="email"
+                  placeholder="Enter your email"
                   required
                   value={email}
                   onChange={this.handleInputChange}
@@ -165,8 +194,8 @@ class LoginPage extends Component {
                     Log in
                   </Button>
                   <OfferParagrahp style={{ margin: 0 }}>
-                    Don't have an account?
-                    <a href="/html/adduser.html">Sign up</a>
+                    Don&#39;t have an account?&#32;
+                    <a href="/html/adduser.html">&#32;Sign up</a>
                   </OfferParagrahp>
                 </div>
               </form>

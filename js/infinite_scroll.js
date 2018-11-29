@@ -16,8 +16,12 @@ function checkAuthentication() {
 
   if (token && token !== 'undefined' && activeSession) {
     return fetchUsersData();
-  } if (token === 'undefined' || !activeSession) {
+  }
+  if (!activeSession) {
     setTimeout(() => renderLogInPage(), 3000);
+  }
+  if (!token && activeSession) {
+    renderLogInPage();
   }
 }
 
