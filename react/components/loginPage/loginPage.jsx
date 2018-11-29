@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, FormGroup, FormControl, ControlLabel, Button, Radio } from 'react-bootstrap';
+import {
+  Grid,
+  Row,
+  Col,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Button,
+  Radio,
+} from 'react-bootstrap';
 import Navbar from '../../containers/navbar/navbar.jsx';
-import OfferTitle from '../../containers/offerDisplay/offerTitle/offerTitle.jsx'
-import OfferParagrahp from '../../containers/offerDisplay/offerParagraph/offerParagraph.jsx'
+import OfferTitle from '../../containers/offerDisplay/offerTitle/offerTitle.jsx';
+import OfferParagrahp from '../../containers/offerDisplay/offerParagraph/offerParagraph.jsx';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -11,24 +20,40 @@ class LoginPage extends Component {
       loginType: '',
       username: '',
       email: '',
-      password: ''
+      password: '',
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleLogIn(e) {
     e.preventDefault();
+    const {
+      loginType, username, email, password,
+    } = this.state;
+    let loginData = {};
+
+    if (loginType === 'user') {
+      loginData = {
+        username,
+        email,
+        type: loginType,
+      };
+    } else if (loginType === 'company') {
+      loginData = {
+        email,
+        password,
+        type: loginType,
+      };
+    }
 
     fetch('https://cv-mobile-api.herokuapp.com/api/login', {
       method: 'POST',
-      body: JSON.stringify({
-        username: this.state.username,
-        email: this.state.email,
-        type: this.state.loginType
-      }),
-      headers: { 'Content-Type': 'application/json; charset=utf-8' }
+      body: JSON.stringify(loginData),
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
     })
       .then(res => res.json())
-      .then(res => {
+      .then((res) => {
+        console.log(res);
         sessionStorage.setItem('token', JSON.stringify(res.token));
         sessionStorage.setItem('id', JSON.stringify(res.id));
         sessionStorage.setItem('profile', JSON.stringify(res.profile));
@@ -43,37 +68,44 @@ class LoginPage extends Component {
     this.setState({ [inputName]: inputValue });
   }
 
-  render() {
+  checkDynamicInput() {
     let dynamicInput = '';
 
-    {
-      this.state.loginType === 'user'
-        ? dynamicInput = (
-          <React.Fragment>
-            <ControlLabel>Username</ControlLabel>
-            <FormControl
-              type="text"
-              name="username"
-              required
-              value={this.state.username}
-              onChange={this.handleInputChange.bind(this)}
-            />
-          </React.Fragment>
-        )
-        : dynamicInput = (
-          <React.Fragment>
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              type="text"
-              name="password"
-              required
-              value={this.state.password}
-              onChange={this.handleInputChange.bind(this)}
-            />
-          </React.Fragment>
-        )
+    const { loginType, username, password } = this.state;
+
+    if (loginType === 'user') {
+      dynamicInput = (
+        <React.Fragment>
+          <ControlLabel>Username</ControlLabel>
+          <FormControl
+            type="text"
+            name="username"
+            required
+            value={username}
+            onChange={this.handleInputChange}
+          />
+        </React.Fragment>
+      );
+    } else if (loginType === 'company') {
+      dynamicInput = (
+        <React.Fragment>
+          <ControlLabel>Password</ControlLabel>
+          <FormControl
+            type="text"
+            name="password"
+            required
+            value={password}
+            onChange={this.handleInputChange}
+          />
+        </React.Fragment>
+      );
     }
 
+    return dynamicInput;
+  }
+
+  render() {
+    const { email } = this.state;
     return (
       <React.Fragment>
         <Navbar />
@@ -81,35 +113,61 @@ class LoginPage extends Component {
           <Row style={{ marginBottom: '40px' }}>
             <Col xs={12} md={10}>
               <OfferTitle>Welcome to 20H CV App</OfferTitle>
-              <OfferParagrahp>Please login to start using the app</OfferParagrahp>
+              <OfferParagrahp>
+                Please login to start using the app
+              </OfferParagrahp>
             </Col>
           </Row>
           <Row>
             <Col xs={12} md={10}>
               <form onSubmit={this.handleLogIn.bind(this)}>
                 <FormGroup>
-                  <ControlLabel style={{ marginTop: '20px' }}>What's your type of profile?</ControlLabel>
-                  <Radio name="loginType" value="user" required onClick={this.handleInputChange.bind(this)}>User</Radio>
-                  <Radio name="loginType" value="company" onClick={this.handleInputChange.bind(this)}>Company</Radio>
+                  <ControlLabel style={{ marginTop: '20px' }}>
+                    What's your type of profile?
+                  </ControlLabel>
+                  <Radio
+                    name="loginType"
+                    value="user"
+                    required
+                    onClick={this.handleInputChange}
+                  >
+                    User
+                  </Radio>
+                  <Radio
+                    name="loginType"
+                    value="company"
+                    onClick={this.handleInputChange}
+                  >
+                    Company
+                  </Radio>
                 </FormGroup>
                 <ControlLabel style={{ marginTop: '20px' }}>Email</ControlLabel>
                 <FormControl
                   type="email"
                   name="email"
                   required
-                  value={this.state.email}
-                  onChange={this.handleInputChange.bind(this)}
+                  value={email}
+                  onChange={this.handleInputChange}
                 />
-                {dynamicInput}
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '40px' }}>
+                {this.checkDynamicInput()}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginTop: '40px',
+                  }}
+                >
                   <Button
                     type="submit"
                     bsStyle="primary"
                     style={{ marginRight: '30px' }}
                   >
                     Log in
-                </Button>
-                  <OfferParagrahp style={{ margin: 0 }}>Don't have an account? <a href="/html/adduser.html">Sign up</a></OfferParagrahp>
+                  </Button>
+                  <OfferParagrahp style={{ margin: 0 }}>
+                    Don't have an account?
+                    <a href="/html/adduser.html">Sign up</a>
+                  </OfferParagrahp>
                 </div>
               </form>
             </Col>

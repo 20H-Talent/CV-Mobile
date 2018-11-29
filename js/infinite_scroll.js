@@ -11,15 +11,14 @@ let currentUsersPage = 1;
 const loadedUsers = [];
 
 function checkAuthentication() {
-  const token = sessionStorage.getItem('token') || false;
+  const token = JSON.parse(sessionStorage.getItem('token')) || false;
   const activeSession = sessionStorage.getItem('newSession') || false;
 
-  if (token !== 'undefined' && activeSession) {
+  if (token && token !== 'undefined' && activeSession) {
     return fetchUsersData();
-  } else if (token == 'undefined' || !activeSession) {
+  } if (token === 'undefined' || !activeSession) {
     setTimeout(() => renderLogInPage(), 3000);
   }
-
 }
 
 function renderLogInPage() {
@@ -103,21 +102,21 @@ function renderCard(user) {
 
   const templateCards = (
     `${`${'<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">'
-    + '<i class="material-icons" style="width: 24px;" id="star-icon" data-id="'}${_id }">star_border</i>`
-    + `<img class="card-img-top m-auto" src="${avatar }" alt="${ name} Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">`
+    + '<i class="material-icons" style="width: 24px;" id="star-icon" data-id="'}${_id}">star_border</i>`
+    + `<img class="card-img-top m-auto" src="${avatar}" alt="${name} Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">`
     + '<div class="card-body p-0 mt-2">'
     + '<h2 class="card-title text-center mb-2">'
-      + `<span${  highlight.includes('name') ? ' class="bg-warning d-flex justify-content-center"' : ' class="d-flex justify-content-center"' }>${name }</span>${
+      + `<span${highlight.includes('name') ? ' class="bg-warning d-flex justify-content-center"' : ' class="d-flex justify-content-center"'}>${name}</span>${
         newUser ? ' <span class="badge badge-success px-2 py-1 ml-3 my-auto position-absolute" style="font-size:0.8rem; top:10px; right: 10px;">NEW</span>' : ''
       }</h2>`}${
-     jobTitle ? `<h6 class="card-title text-center text-muted mb-4"><span${ highlight.includes('jobTitle') ? ' class="bg-warning"' : ''}>${jobTitle}</span></h6>` : ``
-     }<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span${ highlight.includes('username') ? ' class="bg-warning"' : '' }>${ username}</span></p>`
-    + `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span${ highlight.includes('email') ? ' class="bg-warning"' : '' }>${ email}</span></p>${
-     company ? `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span${ highlight.includes('company') ? ' class="bg-warning"' : '' }>${company}</span></p>` : ` `
-     }<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span${ highlight.includes('address') ? ' class="bg-warning"' : '' }>${(address.city ? `${address.city},` : '')} ${address.country}</span></p>`
-    + `<a href="./html/profile.html?id=${_id }" class="btn btn-primary mt-3">View Profile</a>`
-    + `</div>`
-    + `</div>`
+      jobTitle ? `<h6 class="card-title text-center text-muted mb-4"><span${highlight.includes('jobTitle') ? ' class="bg-warning"' : ''}>${jobTitle}</span></h6>` : ''
+    }<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">person</i> <span${highlight.includes('username') ? ' class="bg-warning"' : ''}>${username}</span></p>`
+    + `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">email</i> <span${highlight.includes('email') ? ' class="bg-warning"' : ''}>${email}</span></p>${
+      company ? `<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">work</i> <span${highlight.includes('company') ? ' class="bg-warning"' : ''}>${company}</span></p>` : ' '
+    }<p class="card-text d-flex align-items-center"><i class="material-icons mr-3">public</i> <span${highlight.includes('address') ? ' class="bg-warning"' : ''}>${(address.city ? `${address.city},` : '')} ${address.country}</span></p>`
+    + `<a href="./html/profile.html?id=${_id}" class="btn btn-primary mt-3">View Profile</a>`
+    + '</div>'
+    + '</div>'
   );
 
   return templateCards;
