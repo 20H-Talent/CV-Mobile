@@ -55,6 +55,7 @@ class SplashScreen {
 
   hideSplashScreen() {
     setTimeout( () => {
+      sessionStorage.setItem('newSession', 'true');
       document.querySelector('#splash').remove();
     }, this._time);
   }
@@ -67,4 +68,5 @@ class SplashScreen {
 }
 
 // Create an instance of the SplashScreen and call init on declare to make its properties unavailable through the console
-const splash = new SplashScreen('Trust. Passion. Talent.', 10000).init();
+const splash = new SplashScreen('Trust. Passion. Talent.', 3000).init();
+

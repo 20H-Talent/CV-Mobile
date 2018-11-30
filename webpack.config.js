@@ -2,10 +2,15 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: "./react/index.jsx",
+  entry: {
+    chart: "./react/indexChart.jsx",
+    survey: "./react/indexSurvey.jsx",
+    offers: "./react/indexOffers.jsx",
+    login: "./react/indexLogin.jsx"
+  },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: path.join(__dirname, "dist"),
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [
