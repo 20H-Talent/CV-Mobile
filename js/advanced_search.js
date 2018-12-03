@@ -125,7 +125,6 @@ document.getElementById("searchbtn").addEventListener("click", (e) => {
         } else {
           return true;
         }
-        console.log(checkArray);
 
 
     });

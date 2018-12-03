@@ -1,4 +1,5 @@
 cardsContainer = document.getElementById("renderCard");
+const idUserInterested = sessionStorage.getItem('interestedStorage')
 var example = [{
     id: "5bfa6563f6d397001b0650f6",
     star: 1
@@ -16,15 +17,18 @@ function exportCards() {
             if(i<example.length){
                 renderStarSave(example[i]);
             }
-            
-          
         }
-        
-
-
+        data.forEach(user => {
+            if (idUserInterested.includes(user._id)) {
+                const interestedInput = document.querySelectorAll('#interestedCheck');
+                interestedInput.forEach(function(check){
+                    check.addEventListener("click", checkInterested);
+                });
+            }
+        });
     });
-
 }
+
 function renderStarSave(json) {
         let star = "";
         for (let i = 0; i < json.star; i++) {
@@ -51,7 +55,10 @@ function renderCard(data) {
         '</h5>' +
         `<div class="text-center" id="${data._id}">` +
         '</div>' +
-        '<div class="d-flex justify-content-center">' +
+        '<div class="d-flex flex-column justify-content-center">' +
+        '<div class="d-flex flex-row justify-content-center">' +
+        '<input type="checkbox" class="mgc-switch mgc-sm" id="interestedCheck" data-id="' + data._id + '" /><p>I\'m interested</p>' +
+        '</div >' +
         '<textarea name="editor1"></textarea>' +
         '</div >' +
         '</div >' +
@@ -116,5 +123,23 @@ function star(id) {
             `<i class="material-icons" id="${idStar} 3"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 5"  onclick="star(id)">star</i>`;
+    }
+}
+
+function checkInterested(e){
+    console.log('hello');
+    console.log(e);
+    let interestedUserChecks = JSON.parse(sessionStorage.getItem('interestedStorage')) || []
+    const interestedChecks = document.querySelector('#interestedCheck');
+    const selectedInterestedUserId = e.target.dataset.id
+    for (let i = 0; i < interestedChecks.length; i++) {
+        if (interestedChecks[i].checked == true) {
+            let userIndex = favUsers.indexOf(selectedInterestedUserId);
+            interestedCheck = interestedChecks.splice(userIndex, 1);
+            sessionStorage.setItem('interestedStorage', JSON.stringify(interestedUserChecks))
+        } else {
+            interestedUserChecks.push(selectedInterestedUserId);
+            sessionStorage.setItem('interestedStorage', JSON.stringify(interestedUserChecks));
+        }
     }
 }
