@@ -17,7 +17,7 @@ const inputImg = document.getElementById('picture-input');
 const bio = document.getElementById('bio');
 
 const docType = document.getElementById('docType');
-const jobOffers = document.getElementById('jobOffers');
+const offersContainer = document.getElementById('jobOffers');
 const socialUrls = document.getElementById('socialUrl');
 
 const docNumber = document.getElementById('docNumber');
@@ -32,17 +32,19 @@ const liCountry = document.getElementById('li-location-country');
 const liCity = document.getElementById('li-location-city');
 const liStreet = document.getElementById('li-location-street');
 const liZipcode = document.getElementById('li-zipcode');
-let dataf = '';
+const dataf = '';
 
 
 function dataCompany(companyID) {
+  const companyToken = sessionStorage.getItem('token') || false;
+
   $.ajax({
-    url: `https://cv-mobile-api.herokuapp.com/api/companies/${  companyID}`,
+    url: `https://cv-mobile-api.herokuapp.com/api/companies/${companyID}`,
   }).done((data) => {
     fillData(data);
     socialRed(data);
-    dataf = data;
-    console.log(dataf);
+
+    if (companyToken) getOffersFromApi(data, JSON.parse(companyToken));
   });
 }
 
@@ -58,7 +60,7 @@ function fillData(data) {
   phone.innerHTML = data.phone;
   document.getElementById('userImg').src = data.logo;
 
-  locatiFull.innerHTML = `${data.address.country} . ${ data.address.city } . ${ data.address.street}`;
+  locatiFull.innerHTML = `${data.address.country} . ${data.address.city} . ${data.address.street}`;
   country.innerHTML = data.address.country;
   city.innerHTML = data.address.city;
   street.innerHTML = data.address.street;
@@ -67,7 +69,6 @@ function fillData(data) {
   bio.innerHTML = data.bio;
 
   docType.innerHTML = data.docType;
-  jobOffers.innerHTML = data.jobOffers;
   docNumber.innerHTML = data.docNumber;
 }
 
@@ -75,19 +76,19 @@ function socialRed(data) {
   for (let i = 0; i < data.socialUrls.length; i++) {
     switch (data.socialUrls[i].platform) {
     case 'twitter':
-      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url}" class=" mr-2 ml-2 mt-2" style="font-size:18px" ><i class="fab fa-twitter"></i></a>`;
+      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url}" class=" mx-2 mt-2" style="font-size:24px" ><i class="fab fa-twitter"></i></a>`;
       break;
     case 'instagram':
-      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url}" class=" mr-2 ml-2 mt-2" style="font-size:18px" ><i class="fab fa-instagram"></i></a>`;
+      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url}" class=" mx-2 mt-2" style="font-size:24px" ><i class="fab fa-instagram"></i></a>`;
       break;
     case 'linkedin':
-      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url} "class=" mr-2 ml-2 mt-2" style="font-size:18px" ><i class="fab fa-linkedin-in"></i></a>`;
+      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url} "class=" mx-2 mt-2" style="font-size:24px" ><i class="fab fa-linkedin-in"></i></a>`;
       break;
     case 'youtube':
-      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url}" class=" mr-2 ml-2 mt-2" style="font-size:18px" ><i class="fab fa-youtube"></i></a>`;
+      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url}" class=" mx-2 mt-2" style="font-size:24px" ><i class="fab fa-youtube"></i></a>`;
       break;
     case 'facebook':
-      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url} "class=" mr-2 ml-2 mt-2" style="font-size:18px" ><i class="fab fa-facebook"></i></a>`;
+      socialUrls.innerHTML += `<a href="${data.socialUrls[i].url} "class=" mx-2 mt-2" style="font-size:24px" ><i class="fab fa-facebook"></i></a>`;
       break;
     }
   }
@@ -195,10 +196,10 @@ $('#save').click(() => {
       liCity.classList.add('d-none');
       liCountry.classList.add('d-none');
 
-      locatiFull.innerHTML = `${country.innerText  } . ${  city.innerText  } . ${  street.innerText}`;
+      locatiFull.innerHTML = `${country.innerText} . ${city.innerText} . ${street.innerText}`;
 
 
-      let companynew = createRequestBody();
+      const companynew = createRequestBody();
       console.log(companynew);
       fetch(`https://cv-mobile-api.herokuapp.com/api/companies/${companyID}`, {
         method: 'put',
@@ -255,8 +256,8 @@ $('#cancel').click(() => {
   inputImg.classList.add('d-none');
 
   let i;
-  let edited = document.getElementsByClassName('edited');
-  let editedall = edited;
+  const edited = document.getElementsByClassName('edited');
+  const editedall = edited;
   for (i = 0; i <= editedall.length; i++) {
     edited[i].classList.remove('edited');
   }
@@ -385,4 +386,32 @@ function createRequestBody() {
     website: website.innerText,
   };
   return formData;
+}
+
+function renderJobOffer(offer) {
+  const { title } = offer;
+
+  const offerTemplate = (`
+  <li>${title}</li>
+  `);
+
+  offersContainer.innerHTML += offerTemplate;
+}
+
+function getOffersFromApi(company, token) {
+  const currentEmail = company.email;
+  console.log(currentEmail);
+
+  fetch('https://cv-mobile-api.herokuapp.com/api/offers', {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then(res => res.json())
+    .then((res) => {
+      const currentCompanyOffers = res.filter(offer => offer.companyEmail === currentEmail);
+      if (currentCompanyOffers.length) {
+        document.querySelector('#offers-container').classList.remove('d-none');
+        currentCompanyOffers.forEach(offer => renderJobOffer(offer));
+      }
+    });
 }
