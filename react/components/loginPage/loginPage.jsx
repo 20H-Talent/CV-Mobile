@@ -8,6 +8,7 @@ import {
   ControlLabel,
   Button,
   Radio,
+  Alert,
 } from 'react-bootstrap';
 import Navbar from '../../containers/navbar/navbar.jsx';
 import OfferTitle from '../../containers/offerDisplay/offerTitle/offerTitle.jsx';
@@ -28,6 +29,8 @@ class LoginPage extends Component {
       username: '',
       email: '',
       password: '',
+      loadError: false,
+      errorMessage: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -60,12 +63,15 @@ class LoginPage extends Component {
     })
       .then(res => res.json())
       .then((res) => {
-        sessionStorage.setItem('token', JSON.stringify(res.token));
-        sessionStorage.setItem('id', JSON.stringify(res.id));
-        sessionStorage.setItem('profile', JSON.stringify(res.profile));
-      })
-      .then(() => window.location.replace('/index.html'))
-      .catch(err => console.log(err));
+        if (res.message !== 'username or email not valid') {
+          sessionStorage.setItem('token', JSON.stringify(res.token));
+          sessionStorage.setItem('id', JSON.stringify(res.id));
+          sessionStorage.setItem('profile', JSON.stringify(res.profile));
+          window.location.replace('/index.html');
+        } else {
+          this.renderErrorMessage(res.message).bind(this);
+        }
+      });
   }
 
   handleInputChange(e) {
@@ -128,11 +134,21 @@ class LoginPage extends Component {
     return dynamicInput;
   }
 
+  renderErrorMessage(msg) {
+    this.setState({ loadError: true, errorMessage: msg });
+    setTimeout(() => {
+      this.setState({ loadError: false, errorMessage: '' });
+    }, 5000);
+  }
+
   render() {
-    const { email } = this.state;
+    const { email, errorMessage, loadError } = this.state;
     return (
       <React.Fragment>
         <Navbar />
+        <Col xs={12} md={10}>
+          {loadError ? <Alert bsStyle="danger">{errorMessage}</Alert> : null}
+        </Col>
         <Grid>
           <Row style={{ marginBottom: '40px' }}>
             <Col xs={12} md={10}>
