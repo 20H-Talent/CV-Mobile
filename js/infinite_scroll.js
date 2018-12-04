@@ -11,11 +11,16 @@ let currentUsersPage = 1;
 const loadedUsers = [];
 
 function checkAuthentication() {
-  const token = JSON.parse(sessionStorage.getItem('token')) || false;
+  const token = sessionStorage.getItem('token') || false;
   const activeSession = sessionStorage.getItem('newSession') || false;
 
   if (token && token !== 'undefined' && activeSession) {
     return fetchUsersData();
+  } if (token === 'undefined') {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('profile');
+    renderLogInPage();
   }
   if (!activeSession) {
     setTimeout(() => renderLogInPage(), 3000);

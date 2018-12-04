@@ -1,48 +1,52 @@
-var cardsContainer = document.getElementById("cards-container");
-function exportCards() {
-    $.ajax({
-        url: "https://cv-mobile-api.herokuapp.com/api/companies"
-    }).done(function (data) {
-        console.log(data);
-        var i;
-        for(i=0;i<=data.length;i++){
-            const card = renderCard(data[i]);
-            cardsContainer.innerHTML += card;
-        }
-        
-    });
+const cardsContainer = document.getElementById('cards-container');
 
-}
-exportCards();
+function renderCard(company) {
+  const {
+    logo, name, jobOffers, _id, address, website, email,
+  } = company;
 
-function renderCard(data) {
-    var social =   "";
-    for (let i = 0; i < data.socialUrls.length; i++) {
-        social+=
-            `<p class="m-0 w-100 user-info platform" id="">${data.socialUrls[i].platform}</p>` +
-            `<p class="m-0 w-100 user-info url" id="">${data.socialUrls[i].url}</p>`
-    };
-    var card = (
-        '<div class="card shadow m-3 p-4"  style="width: 90%; height: auto;">'+
-        '<img class="card-img-top m-auto" src="' + data.logo + '" alt="'+data.name +'" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;object-fit:cover;" onerror="imgError(this)">' +
-        '<div class="card-body p-0 mt-2">' +
-        '<h5 class="card-title text-center mb-2">' +
-        data.name +
-     //   `<div class="" id="Socialurl">${social}</div>`+
-        '<div class="alert alert-primary" role="alert">' +
-        data.jobOffers +
-        '</div>' +
-        '<div class="d-flex justify-content-center">' +
-        '<button type="button" class="btn btn-primary "><a class="text-light" href="../html/company-profile.html?id='+data._id+'">More Info</a></button>' +
-        '</div >' +
-        '</div >'  +
-        '</div >' 
-    );
-    return card;
+  const offersTemplate = (`
+  <div class="alert alert-primary mt-4 mb-0 text-center" role="alert">
+  ${jobOffers.length} open position${jobOffers.length > 1 ? 's' : ''}
+  </div>
+  `);
+
+  const cardTemplate = (`
+  <div class="card shadow m-3 p-4"  style="width: 90%; height: auto;">
+  <img class="card-img-top m-auto" src="'}${logo}" alt="${name}" style="height:150px; width:150px; border-radius:50%;object-fit:cover;" />
+  <div class="card-body p-0 mt-2">
+  <h5 class="card-title text-center mt-2 mb-2">${name}</h5>
+  <div class="mt-4">
+  <p class="card-text  d-flex align-items-center"><i class="material-icons mr-3">location_city</i>${address.city}, ${address.country}</p>
+  <p class="card-text  d-flex align-items-center"><i class="material-icons mr-3">public</i>${website}</p>
+  <p class="card-text  d-flex align-items-center"><i class="material-icons mr-3">mail</i>${email}</p>
+  </div>
+  ${jobOffers.length ? offersTemplate : ''}
+  <button type="button" class="btn btn-primary mt-4"><a class="text-light" href="../html/company-profile.html?id=${_id}">More Info</a></button>
+  `);
+
+  cardsContainer.innerHTML += cardTemplate;
 }
-function imgError(image) {
-    image.onerror = "";
-    image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
-    console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
-    return true;
-  }
+
+function renderErrorMessage() {
+  cardsContainer.innerHTML += 'Ups algo ha fallado en el servidor';
+}
+
+function handleImgError(image) {
+  image.src = 'http://cv-mobile-api.herokuapp.com/uploads/default_avatar.png';
+}
+
+function addImagesListener() {
+  const images = document.querySelectorAll('img');
+  images.forEach(image => image.addEventListener('error', handleImgError(image)));
+}
+
+function fetchCompanies() {
+  fetch('https://cv-mobile-api.herokuapp.com/api/companies')
+    .then(res => res.json())
+    .then(res => res.map(company => renderCard(company)))
+    .then(() => addImagesListener())
+    .catch(() => renderErrorMessage());
+}
+
+window.onload = fetchCompanies();
