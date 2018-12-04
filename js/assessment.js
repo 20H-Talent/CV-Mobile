@@ -1,5 +1,7 @@
 cardsContainer = document.getElementById("renderCard");
-const idUserInterested = sessionStorage.getItem('interestedStorage')
+const currentUser = sessionStorage.getItem('id');
+checkIfUserHasFavorite(currentUser);
+
 var example = [{
     id: "5bfa6563f6d397001b0650f6",
     star: 1
@@ -8,35 +10,25 @@ function exportCards() {
     $.ajax({
         url: "https://cv-mobile-api.herokuapp.com/api/users"
     }).done(function (data) {
-        console.log(data);
-        var i;
-        for (i = 0; i <= data.length; i++) {
-            const card = renderCard(data[i]);
+        for (let i = 0; i < data.length; i++) {
+            const userIsChecked = checkIfUserIsMarked(data[i]);
+            const card = renderCard(data[i], userIsChecked);
             cardsContainer.innerHTML += card;
             renderstar(data[i])
             if(i<example.length){
                 renderStarSave(example[i]);
             }
         }
-        data.forEach(user => {
-            if (idUserInterested.includes(user._id)) {
-                const interestedInput = document.querySelectorAll('#interestedCheck');
-                interestedInput.forEach(function(check){
-                    check.addEventListener("click", checkInterested);
-                });
-            }
-        });
+        
     });
 }
 
 function renderStarSave(json) {
         let star = "";
         for (let i = 0; i < json.star; i++) {
-            console.log(i+ " estella");
             star += `<i class="material-icons" id="${json.id} ${i + 1}"  onclick="star(id)">star</i>`
         }
         for (let i = 0; i < 5 - json.star; i++) {
-            console.log(i+ " no estella");
             star += `<i class="material-icons" id="${json.id} ${json.star + i+1}"  onclick="star(id)">star_border</i>`
         }
         document.getElementById(json.id).innerHTML = star
@@ -45,7 +37,7 @@ function renderStarSave(json) {
 
 exportCards();
 
-function renderCard(data) {
+function renderCard(data, checked) {
     var card = (
         '<div class="card shadow m-3 p-4"  style="width: 90%; height: auto;">' +
         '<img class="card-img-top m-auto" src="' + data.logo + '" alt="' + data.name + '" onError="imgError(this)"style="height:150px; width:150px; border-radius:50%;object-fit:cover;" onerror="imgError(this)">' +
@@ -56,8 +48,8 @@ function renderCard(data) {
         `<div class="text-center" id="${data._id}">` +
         '</div>' +
         '<div class="d-flex flex-column justify-content-center">' +
-        '<div class="d-flex flex-row justify-content-center">' +
-        '<input type="checkbox" class="mgc-switch mgc-sm" id="interestedCheck" data-id="' + data._id + '" /><p>I\'m interested</p>' +
+        '<div class="d-flex flex-row justify-content-center" style="margin-top:5px">' +
+        `<input type="checkbox" class="mgc-switch mgc-sm interestedCheck" data-id="${data._id}"  ${checked ? 'checked' : ''} onclick="checkInterested(this)" style="margin-right: 5px;"/><p>I\'m interested</p>` +
         '</div >' +
         '<textarea name="editor1"></textarea>' +
         '</div >' +
@@ -69,7 +61,6 @@ function renderCard(data) {
 function imgError(image) {
     image.onerror = "";
     image.src = "https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png";
-    console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
     return true;
 }
 function renderstar(data) {
@@ -84,10 +75,8 @@ function renderstar(data) {
 
 
 function star(id) {
-    console.log(id)
     var siteStar = id.split(" ")[1];
     let idStar = id.split(" ")[0]
-    console.log(id.split(" "))
     if (siteStar == 1) {
         document.getElementById(idStar).innerHTML =
             `<i class="material-icons" id="${idStar} 1"  onclick="star(id)">star</i>` +
@@ -126,20 +115,31 @@ function star(id) {
     }
 }
 
-function checkInterested(e){
-    console.log('hello');
-    console.log(e);
-    let interestedUserChecks = JSON.parse(sessionStorage.getItem('interestedStorage')) || []
-    const interestedChecks = document.querySelector('#interestedCheck');
-    const selectedInterestedUserId = e.target.dataset.id
-    for (let i = 0; i < interestedChecks.length; i++) {
-        if (interestedChecks[i].checked == true) {
-            let userIndex = favUsers.indexOf(selectedInterestedUserId);
-            interestedCheck = interestedChecks.splice(userIndex, 1);
-            sessionStorage.setItem('interestedStorage', JSON.stringify(interestedUserChecks))
-        } else {
-            interestedUserChecks.push(selectedInterestedUserId);
-            sessionStorage.setItem('interestedStorage', JSON.stringify(interestedUserChecks));
-        }
+function checkIfUserHasFavorite(id){
+    if(!localStorage.getItem(currentUser)) {
+        localStorage.setItem(id, JSON.stringify([]))
     }
+}
+
+function checkIfUserIsMarked(user){
+    //Leemos el local storage y ver si el id del usuario está guardado dentro de ese array
+    const localData = JSON.parse(localStorage.getItem(currentUser));
+    if(localData.includes(user._id)){
+        return true;
+    }
+    return false;
+}
+
+function checkInterested(target){
+    const action = target.checked ? 'add' : 'remove';
+    const clickedUser = target.dataset.id;
+    const currentLocalState = JSON.parse(localStorage.getItem(currentUser));
+    if (action == 'add'){
+        currentLocalState.push(clickedUser);
+    } else {
+        const userIndex = currentLocalState.indexOf(clickedUser);
+        currentLocalState.splice(userIndex, 1);
+    }
+
+    localStorage.setItem(currentUser, JSON.stringify(currentLocalState));
 }

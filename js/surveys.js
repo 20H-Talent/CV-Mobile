@@ -18,12 +18,12 @@ class SurveysPage {
 
   getDataFromApi(url) {
     fetch(url)
-      .then( res => res.json())
-      .then( data => {
+      .then(res => res.json())
+      .then((data) => {
         this.surveys = data;
         this.renderPage();
       })
-      .catch( err => console.log(err.message));
+      .catch(err => console.log(err.message));
   }
 
   generatePageStructure() {
@@ -42,18 +42,18 @@ class SurveysPage {
 
   generateAccordion(surveysArr) {
     const formCards = [];
-    const orderedSurveys = surveysArr.sort( (a, b) => {
+    const orderedSurveys = surveysArr.sort((a, b) => {
       if (a.header.endDate > b.header.endDate) return 1;
       if (a.header.endDate < b.header.endDate) return -1;
       return 0;
     });
 
-    orderedSurveys.forEach( (survey, index) => {
-      const surveyDate = new Date(survey.header.endDate).getTime()
+    orderedSurveys.forEach((survey, index) => {
+      const surveyDate = new Date(survey.header.endDate).getTime();
       if (surveyDate > Date.now()) {
         formCards.push(this.generateFormCard(survey, index));
       }
-    })
+    });
 
     const accordionTemplate = `<div class="accordion mb-4" id="accordion-surveys">${formCards.join('')}</div>`;
 
@@ -62,7 +62,7 @@ class SurveysPage {
 
   generateFormCard(survey) {
     const inputArray = [];
-    survey.elements.forEach( element => inputArray.push(this.generateInput(element)));
+    survey.elements.forEach(element => inputArray.push(this.generateInput(element)));
 
     const randomId = Math.floor(Math.random() * 5000);
 
@@ -105,11 +105,11 @@ class SurveysPage {
     const randomSelectID = this.generateRandomId();
 
     switch (input.type) {
-      case 'select':
+    case 'select':
 
-        input.values.forEach( value => selectOptions.push(`<option value="${value.value}">${value.label}</option>`));
+      input.values.forEach(value => selectOptions.push(`<option value="${value.value}">${value.label}</option>`));
 
-        inputTemplate = (`
+      inputTemplate = (`
         <div class="form-group">
           <label for="input-select-${randomSelectID}">${input.label}</label>
           <select class="form-control" name="${input.name}" id="input-select-${randomSelectID}">
@@ -117,48 +117,48 @@ class SurveysPage {
           </select>
         </div>
       `);
-        break;
-      case 'checkbox':
-        input.values.forEach( (value) => {
-          const randomID = this.generateRandomId();
+      break;
+    case 'checkbox':
+      input.values.forEach((value) => {
+        const randomID = this.generateRandomId();
 
-          checkboxOptions.push((`
+        checkboxOptions.push((`
           <div class="form-check" id="group-checkbox-${randomID}">
             <input class="form-check-input" type="checkbox" name="${input.name}" value="${value.value}" id="input-checkbox-${randomID}">
             <label class="form-check-label" for="input-checkbox-${randomID}">${value.label}</label>
           </div>
-          `))
-        });
+          `));
+      });
 
-        inputTemplate = (`
+      inputTemplate = (`
           <div class="form-group">
             <label>${input.label}</label>
             ${checkboxOptions.join('')}
           </div>
         `);
-        break;
-      case 'radio':
-        input.values.forEach( value => {
-          const randomID = this.generateRandomId();
+      break;
+    case 'radio':
+      input.values.forEach((value) => {
+        const randomID = this.generateRandomId();
 
-          radioOptions.push((`
+        radioOptions.push((`
           <div class="form-check" id="group-radio-${randomID}">
             <input class="form-radio-input" type="radio" name="${input.name}" value="${value.value}" id="input-radio-${randomID}">
             <label class="form-radio-label" for="input-radio-${randomID}">${value.label}</label>
           </div>
-          `))
-        });
+          `));
+      });
 
-        inputTemplate = (`
+      inputTemplate = (`
           <div class="form-group">
             <label>${input.label}</label>
             ${radioOptions.join('')}
           </div>
         `);
-        break;
+      break;
 
-      default:
-        break;
+    default:
+      break;
     }
 
     return inputTemplate;
@@ -174,7 +174,7 @@ class SurveysPage {
     if (date - Date.now() < timeLimit) {
       return true;
     }
-      return false;
+    return false;
   }
 
   static convertTimestampToDate(timestamp) {
@@ -201,61 +201,60 @@ class SurveysPage {
     const inputsList = {
       select: [],
       checkbox: [],
-      radio: []
+      radio: [],
     };
 
-    Object.keys(inputsList).forEach(key => {
+    Object.keys(inputsList).forEach((key) => {
       switch (key) {
-        case 'select':
-          form.querySelectorAll(key).forEach( input => {
-            const question = document.querySelector(`label[for="${input.id}"]`).textContent;
-            inputsList[key].push({question, answer: input.value});
-          });
-          break;
-        case 'checkbox':
-          form.querySelectorAll(`[type="${key}"]`).forEach( input => {
-            const inputParent = input.parentNode.parentNode;
-            const question = inputParent.querySelector('label').textContent;
-            if (input.checked) inputsList[key].push({question, answer: input.value});
-          });
-          break;
-        case 'radio':
-          form.querySelectorAll(`[type="${key}"]`).forEach( input => {
-            const inputParent = input.parentNode.parentNode;
-            const question = inputParent.querySelector('label').textContent;
-            if (input.checked) inputsList[key].push({question, answer: input.value});
-          });
-          break;
-        default:
-          break;
+      case 'select':
+        form.querySelectorAll(key).forEach((input) => {
+          const question = document.querySelector(`label[for="${input.id}"]`).textContent;
+          inputsList[key].push({ question, answer: input.value });
+        });
+        break;
+      case 'checkbox':
+        form.querySelectorAll(`[type="${key}"]`).forEach((input) => {
+          const inputParent = input.parentNode.parentNode;
+          const question = inputParent.querySelector('label').textContent;
+          if (input.checked) inputsList[key].push({ question, answer: input.value });
+        });
+        break;
+      case 'radio':
+        form.querySelectorAll(`[type="${key}"]`).forEach((input) => {
+          const inputParent = input.parentNode.parentNode;
+          const question = inputParent.querySelector('label').textContent;
+          if (input.checked) inputsList[key].push({ question, answer: input.value });
+        });
+        break;
+      default:
+        break;
       }
-    })
-
+    });
 
 
     const { select, checkbox, radio } = inputsList;
-    const allAnswers = [ ...select, ...checkbox, ...radio];
+    const allAnswers = [...select, ...checkbox, ...radio];
 
     const formData = {
-      questions: allAnswers.map( answer => answer.question),
-      answers: allAnswers.map( answer => answer.answer)
-    }
+      questions: allAnswers.map(answer => answer.question),
+      answers: allAnswers.map(answer => answer.answer),
+    };
 
     fetch(`https://cv-mobile-api.herokuapp.com/api/summaries/${form.id}`, {
       body: JSON.stringify(formData),
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then( () => {
+        'Content-Type': 'application/json',
+      },
+    }).then(() => {
       // Success message
-      window.location.reload()
-    }).catch( err => console.log(err));
+      window.location.reload();
+    }).catch(err => console.log(err));
   }
 
   renderPage() {
     document.querySelector('.main-container').innerHTML = this.generatePageStructure();
-    document.querySelectorAll('form').forEach( form => form.addEventListener('submit', this.sendFormData));
+    document.querySelectorAll('form').forEach(form => form.addEventListener('submit', this.sendFormData));
   }
 
   init() {
