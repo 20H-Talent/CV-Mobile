@@ -7,7 +7,7 @@ const navStyle = {
 };
 
 const cvLinks = [
-  './profile.html',
+  './my-profile.html',
   './favourite.html',
   './assessment.html',
   './search.html',
