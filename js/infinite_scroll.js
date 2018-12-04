@@ -135,7 +135,6 @@ function renderCard(user) {
 function imgError(image) {
   image.onerror = '';
   image.src = 'https://cv-mobile-api.herokuapp.com/uploads/default_avatar.png';
-  console.warn('User avatar has been deleted from the server. We have changed it for the default avatar image');
   return true;
 }
 

@@ -6,8 +6,10 @@ function fetchUserAPIData() {
     url: 'https://cv-mobile-api.herokuapp.com/api/users',
   }).done((data) => {
     data.forEach((user) => {
+      // eslint-disable-next-line
       if (idUserFav.includes(user._id)) {
-        favContainer.innerHTML += renderCards(user);
+        // eslint-disable-next-line
+        if (window.location.pathname !== '/index.html') favContainer.innerHTML += renderCards(user);
         const starIcons = document.querySelectorAll('#star-icon');
         starIcons.forEach((star) => {
           star.addEventListener('click', showStar);
