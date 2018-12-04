@@ -15,7 +15,7 @@ const cvLinks = [
   './offers.html',
   './surveys.html',
   './reports.html',
-  '#',
+  './logout.html',
 ];
 const cvTexts = [
   'My Profile',
@@ -26,7 +26,7 @@ const cvTexts = [
   'Job Offers',
   'Surveys',
   'Reports',
-  'Log In',
+  'Log out',
 ];
 
 const navItems = cvLinks.map((link, index) => (
