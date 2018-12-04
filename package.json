@@ -1,56 +1,54 @@
 {
-	"name": "cv-mobile",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"build": "webpack",
-		"watch": "webpack --watch",
-		"start": "npm run watch & webpack-dev-server --open"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/20H-Talent/CV-Mobile.git"
-	},
-	"keywords": [
-		"cv",
-		"react",
-		"js",
-		"bootcamp",
-		"20htalent"
-	],
-	"author": "manuhdez",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/20H-Talent/CV-Mobile/issues"
-	},
-	"homepage": "https://github.com/20H-Talent/CV-Mobile#readme",
-	"dependencies": {
-		"chart.js": "^2.7.3",
-		"material-design-icons": "^3.0.1",
-		"react": "^16.6.3",
-		"react-bootstrap": "^0.32.4",
-		"react-chartjs-2": "^2.7.4",
-		"react-dom": "^16.6.3",
-		"react-router-dom": "^4.3.1",
-		"styled-components": "^4.1.1"
-	},
-	"devDependencies": {
-		"acorn": "^6.0.4",
-		"babel-core": "^6.26.3",
-		"babel-loader": "^7.1.5",
-		"babel-preset-env": "^1.7.0",
-		"babel-preset-react": "^6.24.1",
-		"eslint": "^5.9.0",
-		"eslint-config-airbnb": "^17.1.0",
-		"eslint-config-prettier": "^3.3.0",
-		"eslint-plugin-import": "^2.14.0",
-		"eslint-plugin-jsx-a11y": "^6.1.2",
-		"eslint-plugin-prettier": "^3.0.0",
-		"eslint-plugin-react": "^7.11.1",
-		"prettier": "^1.15.2",
-		"webpack": "^4.25.1",
-		"webpack-cli": "^3.1.2",
-		"webpack-dev-server": "^3.1.10"
-	}
+  "name": "cv-mobile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "npm run watch & webpack-dev-server --open",
+    "lint": "node_modules/.bin/eslint ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/20H-Talent/CV-Mobile.git"
+  },
+  "keywords": [
+    "cv",
+    "react",
+    "js",
+    "bootcamp",
+    "20htalent"
+  ],
+  "author": "manuhdez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/20H-Talent/CV-Mobile/issues"
+  },
+  "homepage": "https://github.com/20H-Talent/CV-Mobile#readme",
+  "dependencies": {
+    "chart.js": "^2.7.3",
+    "froala-editor": "^2.9.1",
+    "react": "^16.6.3",
+    "react-bootstrap": "^0.32.4",
+    "react-chartjs-2": "^2.7.4",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "styled-components": "^4.1.1"
+  },
+  "devDependencies": {
+    "acorn": "^6.0.4",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  }
 }

@@ -2,6 +2,17 @@ cardsContainer = document.getElementById("renderCard");
 var example = [{
     id: "5bfa6563f6d397001b0650f6",
     star: 1
+}, {
+    id: "5bf9d85cd9a69e001bc24d9c",
+    star: 2
+}];
+var exampleText = [{
+    id: "5bfa6563f6d397001b0650f6-textarea",
+    textarea: '',
+},
+{
+    id: "5bf9d85cd9a69e001bc24d9c-textarea",
+    textarea: "me gusta",
 }]
 function exportCards() {
     $.ajax({
@@ -13,30 +24,46 @@ function exportCards() {
             const card = renderCard(data[i]);
             cardsContainer.innerHTML += card;
             renderstar(data[i])
-            if(i<example.length){
+            if (i < example.length) {
                 renderStarSave(example[i]);
             }
-            
-          
+            if (i < exampleText.length) {
+                renderTextareaSave(exampleText[i]);
+            }
+            if (i == data.length - 1) {
+                textarea()
+            }
         }
-        
-
-
     });
 
 }
 function renderStarSave(json) {
-        let star = "";
-        for (let i = 0; i < json.star; i++) {
-            console.log(i+ " estella");
+    let star = "";
+    for (let i = 0; i < json.star; i++) {
+        console.log(json.star +" "+i)
+       if(i == json.star-1){
+          star += `<i class="material-icons activeStar" id="${json.id} ${i + 1}"  onclick="star(id)">star</i>`
+      }else{
             star += `<i class="material-icons" id="${json.id} ${i + 1}"  onclick="star(id)">star</i>`
-        }
-        for (let i = 0; i < 5 - json.star; i++) {
-            console.log(i+ " no estella");
-            star += `<i class="material-icons" id="${json.id} ${json.star + i+1}"  onclick="star(id)">star_border</i>`
-        }
-        document.getElementById(json.id).innerHTML = star
- 
+     }
+        
+    }
+    for (let i = 0; i < 5 - json.star; i++) {
+       
+        star += `<i class="material-icons" id="${json.id} ${json.star + i + 1}"  onclick="star(id)">star_border</i>`
+    }
+    document.getElementById(json.id).innerHTML = star
+   
+}
+function renderTextareaSave(json) {
+    console.log("algo")
+    document.getElementById(json.id).innerHTML = json.textarea
+}
+
+function textarea() {
+    $('textarea').froalaEditor();
+    
+  
 }
 
 exportCards();
@@ -49,11 +76,16 @@ function renderCard(data) {
         '<h5 class="card-title text-center mb-2">' +
         data.name +
         '</h5>' +
-        `<div class="text-center" id="${data._id}">` +
+        `<div class="text-center mb-3" id="${data._id}">` +
         '</div>' +
-        '<div class="d-flex justify-content-center">' +
-        '<textarea name="editor1"></textarea>' +
+        `<div class="d-flex justify-content-center"id="" >` +
+        `<textarea id="${data._id}-textarea" name="editor1"></textarea>` +
         '</div >' +
+        '</div >' +
+        `<div class="d-flex justify-content-center mt-3">` +
+        `<button class="btn btn-primary" onclick="save(id)" id="${data._id} save">` +
+        "Save" +
+        `</button>` +
         '</div >' +
         '</div >'
     );
@@ -83,7 +115,7 @@ function star(id) {
     console.log(id.split(" "))
     if (siteStar == 1) {
         document.getElementById(idStar).innerHTML =
-            `<i class="material-icons" id="${idStar} 1"  onclick="star(id)">star</i>` +
+            `<i class="material-icons activeStar" id="${idStar} 1"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 2"  onclick="star(id)">star_border</i>` +
             `<i class="material-icons" id="${idStar} 3"  onclick="star(id)">star_border</i>` +
             `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star_border</i>` +
@@ -91,7 +123,7 @@ function star(id) {
     } else if (siteStar == 2) {
         document.getElementById(idStar).innerHTML =
             `<i class="material-icons" id="${idStar} 1"  onclick="star(id)">star</i>` +
-            `<i class="material-icons" id="${idStar} 2"  onclick="star(id)">star</i>` +
+            `<i class="material-icons activeStar" id="${idStar} 2"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 3"  onclick="star(id)">star_border</i>` +
             `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star_border</i>` +
             `<i class="material-icons" id="${idStar} 5"  onclick="star(id)">star_border</i>`;
@@ -99,7 +131,7 @@ function star(id) {
         document.getElementById(idStar).innerHTML =
             `<i class="material-icons" id="${idStar} 1"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 2"  onclick="star(id)">star</i>` +
-            `<i class="material-icons" id="${idStar} 3"  onclick="star(id)">star</i>` +
+            `<i class="material-icons activeStar" id="${idStar} 3"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star_border</i>` +
             `<i class="material-icons" id="${idStar} 5"  onclick="star(id)">star_border</i>`;
     } else if (siteStar == 4) {
@@ -107,7 +139,7 @@ function star(id) {
             `<i class="material-icons" id="${idStar} 1"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 2"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 3"  onclick="star(id)">star</i>` +
-            `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star</i>` +
+            `<i class="material-icons activeStar" id="${idStar} 4"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 5"  onclick="star(id)">star_border</i>`;
     } else if (siteStar == 5) {
         document.getElementById(idStar).innerHTML =
@@ -115,6 +147,22 @@ function star(id) {
             `<i class="material-icons" id="${idStar} 2"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 3"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star</i>` +
-            `<i class="material-icons" id="${idStar} 5"  onclick="star(id)">star</i>`;
+            `<i class="material-icons activeStar" id="${idStar} 5"  onclick="star(id)">star</i>`;
     }
+}
+
+
+function save(idS) {
+    let id = idS.split(" ")[0];
+    var activeStar = document.getElementsByClassName("activeStar")
+    for (let i = 0; i < activeStar.length; i++) {
+        if (activeStar[i].id.split(" ")[0] == id) {
+            var NumerStar = activeStar[i].id.split(" ")[1]
+        }
+    }
+    alert(
+        $(`#${id}-textarea`).froalaEditor('html.get') +" "+
+        NumerStar
+
+    )
 }
