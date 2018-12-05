@@ -51,7 +51,20 @@
               </ul>
             </div>
           </nav>
-          <div id="renderCard">
+          <div id="filterContainer" style="padding-top:70px; z-index: 1;" class="position-fixed">
+            <form>
+              <input type="radio" name="rate" id="rated">
+                <label for="rated" value="rated">Rated</label>
+
+              <input type="radio" name="rate" id="not-rated">
+                <label for="not-rated" value="not-rated">Not Rated</label>
+
+              <input type="radio" name="rate" id="all" checked>
+                <label for="all" value="all">All</label>
+            </form>
+          </div>
+
+          <div id="renderCard" style="padding-top: 100px;">
           </div>
     </main>
     <script>

@@ -143,3 +143,16 @@ function checkInterested(target){
 
     localStorage.setItem(currentUser, JSON.stringify(currentLocalState));
 }
+
+function rateFilter() {
+    const ratedUsers = document.querySelector('#rated');
+    const notRatedUsers = document.querySelector('#not-rated');
+    const allUsers = document.querySelector('#all');
+    if (ratedUsers.checked){
+
+    } else if (notRatedUsers.checked){
+
+    }else if (allUsers.checked){
+        
+    }
+}
