@@ -139,3 +139,18 @@ PROFILE PAGE CUSTOM STYLES
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.radio-inline {
+	border-bottom: 3px solid transparent;
+}
+
+input[name=loginType],
+input[name=loginType] + .bottom-line {
+	display: none;
+}
+
+input[name=loginType]:checked + .bottom-line {
+	display: block;
+	margin-top: 4px;
+	border-bottom: 3px solid black;
+}
