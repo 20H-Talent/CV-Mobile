@@ -101,49 +101,49 @@ class LoginPage extends Component {
     const { loginType, username, password } = this.state;
 
     switch (loginType) {
-    case 'user':
-      dynamicInput = (
-        <React.Fragment>
-          <ControlLabel style={labelStyle}>Password</ControlLabel>
-          <FormControl
-            type="password"
-            name="username"
-            placeholder="Enter your username"
-            required
-            value={username}
-            onChange={this.handleInputChange}
-          />
-        </React.Fragment>
-      );
-      break;
-    case 'company':
-      dynamicInput = (
-        <React.Fragment>
-          <ControlLabel style={labelStyle}>Password</ControlLabel>
-          <FormControl
-            type="password"
-            name="password"
-            placeholder="Enter your docNumber"
-            required
-            value={password}
-            onChange={this.handleInputChange}
-          />
-        </React.Fragment>
-      );
-      break;
-    default:
-      dynamicInput = (
-        <React.Fragment>
-          <ControlLabel style={labelStyle}>Password</ControlLabel>
-          <FormControl
-            type="password"
-            required
-            value={username}
-            onChange={this.handleInputChange}
-          />
-        </React.Fragment>
-      );
-      break;
+      case 'user':
+        dynamicInput = (
+          <React.Fragment>
+            <ControlLabel style={labelStyle}>Password</ControlLabel>
+            <FormControl
+              type="password"
+              name="username"
+              placeholder="Enter your username"
+              required
+              value={username}
+              onChange={this.handleInputChange}
+            />
+          </React.Fragment>
+        );
+        break;
+      case 'company':
+        dynamicInput = (
+          <React.Fragment>
+            <ControlLabel style={labelStyle}>Password</ControlLabel>
+            <FormControl
+              type="password"
+              name="password"
+              placeholder="Enter your docNumber"
+              required
+              value={password}
+              onChange={this.handleInputChange}
+            />
+          </React.Fragment>
+        );
+        break;
+      default:
+        dynamicInput = (
+          <React.Fragment>
+            <ControlLabel style={labelStyle}>Password</ControlLabel>
+            <FormControl
+              type="password"
+              required
+              value={username}
+              onChange={this.handleInputChange}
+            />
+          </React.Fragment>
+        );
+        break;
     }
 
     return dynamicInput;
@@ -230,7 +230,11 @@ class LoginPage extends Component {
                       </Button>
                       <OfferParagrahp style={{ margin: 0 }}>
                         Don&#39;t have an account?&#32;
-                        <a href="/html/adduser.html">&#32;Sign up</a>
+                        {
+                          this.state.loginType === 'user'
+                            ? <a href="/html/adduser.html">&#32;Sign up</a>
+                            : <a href="/html/addcompany.html">&#32;Sign up</a>
+                        }
                       </OfferParagrahp>
                     </div>
                   </div>
