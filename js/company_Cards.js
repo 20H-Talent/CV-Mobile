@@ -12,7 +12,7 @@ function renderCard(company) {
   `);
 
   const cardTemplate = (`
-  <div class="card shadow m-3 p-4"  style="width: 90%; height: auto;">
+  <div class="card shadow m-3 p-4 animated fadeInUp"  style="width: 90%; height: auto;">
   <img class="card-img-top m-auto" src="'}${logo}" alt="${name}" style="height:150px; width:150px; border-radius:50%;object-fit:cover;" />
   <div class="card-body p-0 mt-2">
   <h5 class="card-title text-center mt-2 mb-2">${name}</h5>
