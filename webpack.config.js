@@ -3,10 +3,11 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: {
-    chart: './react/indexChart.jsx',
-    survey: './react/indexSurvey.jsx',
-    offers: './react/indexOffers.jsx',
-    login: './react/indexLogin.jsx',
+    chart: "./react/indexChart.jsx",
+    survey: "./react/indexSurvey.jsx",
+    offers: "./react/indexOffers.jsx",
+    login: "./react/indexLogin.jsx",
+    assessment:"./js/assessment.js"
   },
   output: {
     path: path.join(__dirname, 'dist'),
