@@ -165,7 +165,7 @@ class LoginPage extends Component {
         {/* <Col xs={12} md={10}>
           {loadError ? <Alert bsStyle="danger" style={alertStyle}>{errorMessage}</Alert> : null}
         </Col> */}
-        <Grid style={{ padding: '0 30px' }}>
+        <Grid style={{ padding: '0 30px', marginBottom: '30px' }}>
           <Row style={{ marginBottom: '20px', marginTop: '10px' }}>
             <Col xs={12} md={10}>
               <OfferTitle className="animated fadeInLeft" style={{ fontSize: '3rem', marginTop: '10px' }}>Welcome,</OfferTitle>
