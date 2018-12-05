@@ -110,7 +110,7 @@ function renderCard(user) {
   } = user;
 
   const templateCards = (
-    `${`${'<div class="card shadow m-3 p-4 animated fadeInUp" style="width: 90%; height: auto;">'
+    `${`${'<div class="card shadow m-3 p-4" style="width: 90%; height: auto;">'
     + '<i class="material-icons" style="width: 24px;" id="star-icon" data-id="'}${_id}">star_border</i>`
     + `<img class="card-img-top m-auto" src="${avatar}" alt="${name} Profile picture" onError="imgError(this)" style="height:150px; width:150px; border-radius:50%;">`
     + '<div class="card-body p-0 mt-2">'
