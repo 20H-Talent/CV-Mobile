@@ -29,6 +29,7 @@
   "dependencies": {
     "chart.js": "^2.7.3",
     "magic-input": "^1.0.2",
+    "froala-editor": "^2.9.1",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
     "react-chartjs-2": "^2.7.4",
