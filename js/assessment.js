@@ -1,4 +1,7 @@
-cardsContainer = document.getElementById("renderCard");
+
+
+var cardsContainer = document.getElementById("renderCard");
+/*
 var example = [{
     id: "5bfa6563f6d397001b0650f6",
     star: 1
@@ -14,6 +17,16 @@ var exampleText = [{
     id: "5bf9d85cd9a69e001bc24d9c-textarea",
     textarea: "me gusta",
 }]
+var exampleinterety = [{
+    id:"5bfa6563f6d397001b0650f6-interested",
+    checked:"true"
+}]
+function press(){
+ 
+}
+press()
+
+*/
 function exportCards() {
     $.ajax({
         url: "https://cv-mobile-api.herokuapp.com/api/users"
@@ -24,15 +37,19 @@ function exportCards() {
             const card = renderCard(data[i]);
             cardsContainer.innerHTML += card;
             renderstar(data[i])
+           /*
             if (i < example.length) {
                 renderStarSave(example[i]);
             }
+          
             if (i < exampleText.length) {
                 renderTextareaSave(exampleText[i]);
             }
+            */
             if (i == data.length - 1) {
                 textarea()
             }
+            
         }
     });
 
@@ -40,30 +57,32 @@ function exportCards() {
 function renderStarSave(json) {
     let star = "";
     for (let i = 0; i < json.star; i++) {
-        console.log(json.star +" "+i)
-       if(i == json.star-1){
-          star += `<i class="material-icons activeStar" id="${json.id} ${i + 1}"  onclick="star(id)">star</i>`
-      }else{
+        console.log(json.star + " " + i)
+        if (i == json.star - 1) {
+            star += `<i class="material-icons activeStar" id="${json.id} ${i + 1}"  onclick="star(id)">star</i>`
+        } else {
             star += `<i class="material-icons" id="${json.id} ${i + 1}"  onclick="star(id)">star</i>`
-     }
-        
+        }
     }
     for (let i = 0; i < 5 - json.star; i++) {
-       
+
         star += `<i class="material-icons" id="${json.id} ${json.star + i + 1}"  onclick="star(id)">star_border</i>`
     }
-    document.getElementById(json.id).innerHTML = star
-   
+    document.getElementById(json.id).innerHTML = star;
 }
 function renderTextareaSave(json) {
-    console.log("algo")
     document.getElementById(json.id).innerHTML = json.textarea
 }
+function renderInterety(json) {
+    if (json.checked) {
+        document.getElementById(json.id).innerHTML = `<input type="checkbox" class="mgc-switch mgc-sm interestedCheck" id="${json._id}-interested"  checked  style="margin-right: 5px;"/><p>I\'m interested</p>`
+    }
 
+}
 function textarea() {
     $('textarea').froalaEditor();
-    
-  
+    $(document.querySelector('[title="Insert Image"]')).remove();
+
 }
 
 exportCards();
@@ -77,6 +96,9 @@ function renderCard(data) {
         data.name +
         '</h5>' +
         `<div class="text-center mb-3" id="${data._id}">` +
+        '</div>' +
+        '<div class="d-flex flex-row justify-content-center" style="margin-top:5px">' +
+        `<input type="checkbox" class="mgc-switch mgc-sm interestedCheck" id="${data._id}-interested"    style="margin-right: 5px;"/><p>I\'m interested</p>` +
         '</div>' +
         `<div class="d-flex justify-content-center"id="" >` +
         `<textarea id="${data._id}-textarea" name="editor1"></textarea>` +
@@ -109,10 +131,8 @@ function renderstar(data) {
 
 
 function star(id) {
-    console.log(id)
     var siteStar = id.split(" ")[1];
     let idStar = id.split(" ")[0]
-    console.log(id.split(" "))
     if (siteStar == 1) {
         document.getElementById(idStar).innerHTML =
             `<i class="material-icons activeStar" id="${idStar} 1"  onclick="star(id)">star</i>` +
@@ -161,7 +181,7 @@ function save(idS) {
         }
     }
     alert(
-        $(`#${id}-textarea`).froalaEditor('html.get') +" "+
+        $(`#${id}-textarea`).froalaEditor('html.get') + " " +
         NumerStar
 
     )
