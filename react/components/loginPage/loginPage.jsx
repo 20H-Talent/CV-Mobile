@@ -13,12 +13,22 @@ import {
 import Navbar from '../../containers/navbar/navbar.jsx';
 import OfferTitle from '../../containers/offerDisplay/offerTitle/offerTitle.jsx';
 import OfferParagrahp from '../../containers/offerDisplay/offerParagraph/offerParagraph.jsx';
+import LoginCover from '../../containers/loginCover/loginCover.jsx';
 
 const labelStyle = {
   marginTop: '20px',
   marginBottom: '10px',
-  fontSize: '1.6rem',
-  fontFamily: 'Google Sans',
+  fontSize: '1.8rem',
+  fontFamily: 'Google Sans, Helvetica, sans-serif',
+};
+
+const alertStyle = {
+  position: 'absolute',
+  zIndex: '99',
+  top: '-100px',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  width: '85%',
 };
 
 class LoginPage extends Component {
@@ -26,6 +36,7 @@ class LoginPage extends Component {
     super(props);
     this.state = {
       loginType: '',
+      showInputs: false,
       username: '',
       email: '',
       password: '',
@@ -77,7 +88,11 @@ class LoginPage extends Component {
   handleInputChange(e) {
     const inputName = e.target.name;
     const inputValue = e.target.value;
-    this.setState({ [inputName]: inputValue });
+    if (inputName === 'loginType') {
+      this.setState({ [inputName]: inputValue, showInputs: true });
+    } else {
+      this.setState({ [inputName]: inputValue });
+    }
   }
 
   checkDynamicInput() {
@@ -145,23 +160,24 @@ class LoginPage extends Component {
     const { email, errorMessage, loadError } = this.state;
     return (
       <React.Fragment>
-        <Navbar />
-        <Col xs={12} md={10}>
-          {loadError ? <Alert bsStyle="danger">{errorMessage}</Alert> : null}
-        </Col>
-        <Grid>
-          <Row style={{ marginBottom: '40px' }}>
+        {/* <Navbar /> */}
+        <LoginCover />
+        {/* <Col xs={12} md={10}>
+          {loadError ? <Alert bsStyle="danger" style={alertStyle}>{errorMessage}</Alert> : null}
+        </Col> */}
+        <Grid style={{ padding: '0 30px', marginBottom: '30px' }}>
+          <Row style={{ marginBottom: '20px', marginTop: '10px' }}>
             <Col xs={12} md={10}>
-              <OfferTitle>Welcome to 20H CV App</OfferTitle>
-              <OfferParagrahp>
-                Please login to start using the app
+              <OfferTitle className="animated fadeInLeft" style={{ fontSize: '3rem', marginTop: '10px' }}>Welcome,</OfferTitle>
+              <OfferParagrahp className="animated fadeInLeft" style={{ fontSize: '2rem' }}>
+                Please login to continue
               </OfferParagrahp>
             </Col>
           </Row>
           <Row>
             <Col xs={12} md={10}>
               <form onSubmit={this.handleLogIn.bind(this)}>
-                <FormGroup style={{ margin: 0 }}>
+                <FormGroup style={{ margin: 0 }} className="animated fadeInLeft delay-1s">
                   <ControlLabel style={labelStyle}>Choose your profile type</ControlLabel>
                   <div>
                     <Radio
@@ -173,6 +189,7 @@ class LoginPage extends Component {
                       style={{ fontSize: '1.6rem', marginRight: '15px' }}
                     >
                       User
+                      <div className="bottom-line animated fadeInLeft" />
                     </Radio>
                     <Radio
                       name="loginType"
@@ -182,38 +199,48 @@ class LoginPage extends Component {
                       style={{ fontSize: '1.6rem' }}
                     >
                       Company
+                      <div className="bottom-line animated fadeInLeft" />
                     </Radio>
                   </div>
                 </FormGroup>
-                <ControlLabel style={labelStyle}>Email</ControlLabel>
-                <FormControl
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  required
-                  value={email}
-                  onChange={this.handleInputChange}
-                />
-                {this.checkDynamicInput()}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginTop: '40px',
-                  }}
-                >
-                  <Button
-                    type="submit"
-                    bsStyle="primary"
-                    style={{ marginRight: '30px' }}
-                  >
-                    Log in
-                  </Button>
-                  <OfferParagrahp style={{ margin: 0 }}>
-                    Don&#39;t have an account?&#32;
-                    <a href="/html/adduser.html">&#32;Sign up</a>
-                  </OfferParagrahp>
-                </div>
+                {this.state.showInputs ? (
+                  <div className="animated fadeInUp" style={{ marginTop: '30px' }}>
+                    {loadError ? <Alert bsStyle="danger" style={{ margin: 0 }}>{errorMessage}</Alert> : null}
+                    <ControlLabel style={labelStyle}>Email</ControlLabel>
+                    <FormControl
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      required
+                      value={email}
+                      onChange={this.handleInputChange}
+                    />
+                    {this.checkDynamicInput()}
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginTop: '40px',
+                      }}
+                    >
+                      <Button
+                        type="submit"
+                        bsStyle="primary"
+                        style={{ marginRight: '30px' }}
+                      >
+                        Log in
+                      </Button>
+                      <OfferParagrahp style={{ margin: 0 }}>
+                        Don&#39;t have an account?&#32;
+                        {
+                          this.state.loginType === 'user'
+                            ? <a href="/html/adduser.html">&#32;Sign up</a>
+                            : <a href="/html/addcompany.html">&#32;Sign up</a>
+                        }
+                      </OfferParagrahp>
+                    </div>
+                  </div>
+                ) : null}
               </form>
             </Col>
           </Row>

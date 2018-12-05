@@ -10,23 +10,23 @@ module.exports = {
     assessment:"./js/assessment.js"
   },
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: '[name].bundle.js'
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].bundle.js',
   },
   module: {
     rules: [
       {
         test: /\.jsx$/,
-        use: { loader: 'babel-loader' }
+        use: { loader: 'babel-loader' },
       },
-    ]
+    ],
   },
   devServer: {
     port: 3000,
     historyApiFallback: {
-      index: 'index.html'
+      index: 'index.html',
     },
     compress: true,
-    hot: true
-  }
-}
+    hot: true,
+  },
+};

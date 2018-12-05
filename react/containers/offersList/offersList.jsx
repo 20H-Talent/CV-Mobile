@@ -86,7 +86,7 @@ class OffersList extends Component {
     let floating = '';
     if (profileType === 'company') {
       floating = (
-        <FloatingButton onClick={this.handleFloatingButton}>
+        <FloatingButton onClick={this.handleFloatingButton} className="animated fadeInUpBig">
           <Icon icon="add" size="3.5rem" />
         </FloatingButton>
       );

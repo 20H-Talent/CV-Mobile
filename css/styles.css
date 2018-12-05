@@ -117,3 +117,40 @@ PROFILE PAGE CUSTOM STYLES
 .cancelIcon {
 	font-size: 1.4em;
 }
+
+/* Login styles */
+#cover-container {
+  width: 100vw;
+  height: 210px;
+  background-image: url(../assets/images/splash-img.jpg);
+	background-size: cover;
+	background-position: center;
+	position: relative;
+	-webkit-clip-path: polygon(0 0%, 100% 0%, 100% 100%, 0 85%);
+	clip-path: polygon(0 0%, 100% 0%, 100% 100%, 0 85%);
+}
+
+#cover-logo {
+	position: absolute;
+	width: 90px;
+	border: 1px solid rgba(255,255,255,0.3);
+	border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radio-inline {
+	border-bottom: 3px solid transparent;
+}
+
+input[name=loginType],
+input[name=loginType] + .bottom-line {
+	display: none;
+}
+
+input[name=loginType]:checked + .bottom-line {
+	display: block;
+	margin-top: 4px;
+	border-bottom: 3px solid black;
+}
