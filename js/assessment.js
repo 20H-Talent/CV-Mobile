@@ -2,6 +2,64 @@ const cardsContainer = document.getElementById("renderCard");
 const currentUser = sessionStorage.getItem('id');
 checkIfUserHasFavorite(currentUser);
 
+let ratingsInfo = {}
+
+function getRatedInfo(){
+    let localStorageInfo = localStorage.getItem('ratedUser');
+    if (localStorageInfo){
+        ratingsInfo = localStorageInfo;
+    } else {
+        ratingsInfo = {
+            interested: [],
+            ratings: [],
+        }
+    }
+    return ratingsInfo;
+}
+
+function existsIdUserRating(idUser, localStorageInfo){
+    localStorageInfo.ratings.forEach(function(currentValue, index){
+        if(currentValue.idUser == idUser){
+            return index;
+        }
+    });
+    return false;
+}
+
+
+function setRatedInfo(idUser ,userIdTextarea, userIdStars, checkUserInterested){
+    const ratedInfo = getRatedInfo();
+    if(!ratedInfo.checkUserInterested.includes(idUser) && checkUserInterested){
+        ratingsInfo.interested.push(checkUserInterested)
+    } else if (ratedInfo.checkUserInterested.includes(idUser) && !checkUserInterested){
+        const rateUserIndex = ratingsInfo.interested.indexOf(checkUserInterested);
+        ratingsInfo.interested.splice(rateUserIndex, 1);
+    }
+    let existsUserIndex = existsIdUserRating
+    if (existsUserIndex){
+        localStorageInfo.ratings[existsUserIndex].comments = userIdTextarea;
+        localStorageInfo.ratings[existsUserIndex].stars = userIdStars;
+    } else {
+        ratedUser = {
+        idUser: idUser,
+        comments: userIdTextarea,
+        stars: userIdStars
+        }
+        localStorageInfo.ratings.push(ratedUser);
+    }
+    let localStorageInfo = localStorage.setItem('ratedUser', localStorageInfo);
+}
+
+
+function saveRate(e){
+    const idUser = $(e).attr('id');
+    const userIdTextarea = $(`#${idUser}-textarea`).froalaEditor('html.get');
+    const userIdStars = $(`#${idUser}-stars`).val() ;
+    const checkUserInterested = $(`#${idUser}-interested`).prop('checked') ? true : false ;
+    setRatedInfo(idUser, userIdTextarea, userIdStars, checkUserInterested);
+}
+
+
 function exportCards() {
     $.ajax({
         url: "https://cv-mobile-api.herokuapp.com/api/users"
@@ -14,7 +72,6 @@ function exportCards() {
             if (i == data.length - 1) {
                 textarea()
             }
-            
         }
     });
 }
@@ -70,7 +127,7 @@ function renderCard(data, checked) {
         '</div >' +
         '</div >' +
         `<div class="d-flex justify-content-center mt-3">` +
-        `<button class="btn btn-primary" onclick="save(id)" id="${data._id} save">` +
+        `<button class="btn btn-primary saveRate-btn" onclick="saveRate(this)" id="${data._id}">` +
         "Save" +
         `</button>` +
         '</div >' +
@@ -99,7 +156,7 @@ function star(id) {
     let idStar = id.split(" ")[0]
     if (siteStar == 1) {
         document.getElementById(idStar).innerHTML =
-            `<i class="material-icons activeStar" id="${idStar} 1"  onclick="star(id)">star</i>` +
+            `<i class="material-icons activeStar" id="${idStar} 1" data-stars="1"  onclick="star(id)">star</i>` +
             `<i class="material-icons" id="${idStar} 2"  onclick="star(id)">star_border</i>` +
             `<i class="material-icons" id="${idStar} 3"  onclick="star(id)">star_border</i>` +
             `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star_border</i>` +
@@ -133,10 +190,13 @@ function star(id) {
             `<i class="material-icons" id="${idStar} 4"  onclick="star(id)">star</i>` +
             `<i class="material-icons activeStar" id="${idStar} 5"  onclick="star(id)">star</i>`;
     }
+    document.getElementById(idStar).innerHTML += `<input value="${siteStar}" id="${idStar}-stars" type="hidden"/>`;
+
 }
 
 
 function save(idS) {
+    console.log('oh yeah')
     let id = idS.split(" ")[0];
     var activeStar = document.getElementsByClassName("activeStar")
     for (let i = 0; i < activeStar.length; i++) {
@@ -144,10 +204,6 @@ function save(idS) {
             var NumerStar = activeStar[i].id.split(" ")[1]
         }
     }
-    alert(
-        $(`#${id}-textarea`).froalaEditor('html.get') + " " +
-        NumerStar
-    )
 }
 
 function checkIfUserHasFavorite(id){
