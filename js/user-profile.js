@@ -307,13 +307,12 @@ function addNewSkill(e) {
 }
 
 function removeSkill(element) {
-  const valuetoRemove = element.dataset.skill;
+  const toRemove = element.dataset.skill;
   const { skills } = originalUserInfo;
-  const skillIndex = skills.indexOf(valuetoRemove);
-  skills.splice(skillIndex, 1);
+  const skillFilter = skills.filter(skill => skill._id !== toRemove);
 
-  editedUserInfo.skills = skills;
-  renderSkillsEditMode(skills);
+  editedUserInfo.skills = skillFilter;
+  renderSkillsEditMode(editedUserInfo.skills);
 }
 
 // Close edit mode and return user info to the initial state
@@ -337,18 +336,18 @@ function saveProfileChanges() {
   if (editModeStatus) {
     document.querySelectorAll('.edited').forEach((el) => {
       switch (el.id) {
-        case 'address':
-          editedUserInfo[el.id] = {
-            city: el.textContent.split(', ')[0],
-            country: el.textContent.split(', ')[1],
-            street: originalUserInfo.address.street,
-            zipcode: originalUserInfo.address.zipcode,
-          };
-          break;
+      case 'address':
+        editedUserInfo[el.id] = {
+          city: el.textContent.split(', ')[0],
+          country: el.textContent.split(', ')[1],
+          street: originalUserInfo.address.street,
+          zipcode: originalUserInfo.address.zipcode,
+        };
+        break;
 
-        default:
-          editedUserInfo[el.id] = $(el).val() || $(el).html();
-          break;
+      default:
+        editedUserInfo[el.id] = $(el).val() || $(el).html();
+        break;
       }
     });
 
@@ -409,53 +408,53 @@ function handleTextChange(e) {
     const targetContent = $(this).val() || e.target.textContent;
 
     switch (targetName) {
-      case 'languages':
-        // Comprobar que el array que los idiomas es igual que un array a partir del string actual
-        const checkArr = [];
-        targetContent.forEach(el => (originalUserInfo.languages.includes(el) ? checkArr.push(true) : checkArr.push(false)));
+    case 'languages':
+      // Comprobar que el array que los idiomas es igual que un array a partir del string actual
+      const checkArr = [];
+      targetContent.forEach(el => (originalUserInfo.languages.includes(el) ? checkArr.push(true) : checkArr.push(false)));
 
-        if (checkArr.length !== originalUserInfo.languages.length || checkArr.includes(false)) {
-          e.target.classList.add('edited');
-          e.target.style.color = '#f28202';
-        } else {
-          e.target.classList.remove('edited');
-          e.target.style.color = '#05c643';
-        }
-        break;
+      if (checkArr.length !== originalUserInfo.languages.length || checkArr.includes(false)) {
+        e.target.classList.add('edited');
+        e.target.style.color = '#f28202';
+      } else {
+        e.target.classList.remove('edited');
+        e.target.style.color = '#05c643';
+      }
+      break;
 
-      case 'location':
-        const modifiedLocation = {
-          city: targetContent.split(', ')[0],
-          country: targetContent.split(', ')[1],
-          state: originalUserInfo.location.state,
-        };
-        if (originalUserInfo.location.city === modifiedLocation.city && originalUserInfo.location.country === modifiedLocation.country) {
-          e.target.classList.remove('edited');
-        } else {
-          e.target.classList.add('edited');
-        }
-        break;
+    case 'location':
+      const modifiedLocation = {
+        city: targetContent.split(', ')[0],
+        country: targetContent.split(', ')[1],
+        state: originalUserInfo.location.state,
+      };
+      if (originalUserInfo.location.city === modifiedLocation.city && originalUserInfo.location.country === modifiedLocation.country) {
+        e.target.classList.remove('edited');
+      } else {
+        e.target.classList.add('edited');
+      }
+      break;
 
-      case 'experience':
-        if (originalUserInfo.experience !== this.value) {
-          e.target.classList.add('edited');
-          e.target.style.color = '#f28202';
-        } else {
-          e.target.classList.remove('edited');
-          e.target.style.color = '#05c643';
-        }
+    case 'experience':
+      if (originalUserInfo.experience !== this.value) {
+        e.target.classList.add('edited');
+        e.target.style.color = '#f28202';
+      } else {
+        e.target.classList.remove('edited');
+        e.target.style.color = '#05c643';
+      }
 
-        break;
+      break;
 
-      default:
-        if (originalUserInfo[targetName] !== targetContent) {
-          // Change the text color when the info has changed from the initial data
-          e.target.classList.add('edited');
-        } else {
-          // Change the text color back to green when the info is equal to the initial data
-          e.target.classList.remove('edited');
-        }
-        break;
+    default:
+      if (originalUserInfo[targetName] !== targetContent) {
+        // Change the text color when the info has changed from the initial data
+        e.target.classList.add('edited');
+      } else {
+        // Change the text color back to green when the info is equal to the initial data
+        e.target.classList.remove('edited');
+      }
+      break;
     }
   }
 }
